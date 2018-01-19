@@ -1,5 +1,11 @@
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+"""
+    create_mesh( :: Polygon_pslg; kwd_args...)
+
+Creates a triangulation of a planar straight-line graph (pslg) polygon. 
+Options for the meshing algorithm are provided via key word arguments.
+"""
 function create_mesh(poly :: Polygon_pslg;
                                 info_str :: String = "Triangular mesh of polygon (PSLG)",
                                 verbose :: Bool = false,
@@ -281,6 +287,13 @@ end
 
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+"""
+    create_mesh( :: Polygon_pslg, :: String; kwd_args...)
+
+Creates a triangulation of a planar straight-line graph (pslg) polygon. 
+Options for the meshing algorithm are passed directly by command line switches
+for 'Triangle'.
+"""
 function create_mesh(poly :: Polygon_pslg, switches :: String;
                                 info_str :: String = "Triangular mesh of polygon (PSLG)")
     
