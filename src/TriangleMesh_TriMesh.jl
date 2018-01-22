@@ -61,12 +61,12 @@ end # end struct
 
 # ---------------------------------------------------------------------------------------------
 # Outer constructor for VoronoiDiagram
-function VoronoiDiagram(vor :: Mesh_ptr_C, vor_info :: String)
+function VoronoiDiagram(vor :: Mesh_ptr_C, vor_info :: String, take_ownership :: Bool)
 
     vor_info = vor_info
 
-    # Let julia take ownership of C memory
-    take_ownership = false
+    # # Let julia take ownership of C memory
+    # take_ownership = false
 
     # Read the pointers
     if vor.pointlist != C_NULL
@@ -248,7 +248,26 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
     
 
     # VoronoiDiagram
-    voronoi = VoronoiDiagram(vor, "Voronoi diagram of triangular mesh.")
+    voronoi = VoronoiDiagram(vor, "Voronoi diagram of triangular mesh.", take_ownership)
+
+
+    # clean C
+    if take_ownership
+        mesh.pointlist = C_NULL
+        mesh.pointattributelist = C_NULL
+        mesh.pointmarkerlist = C_NULL
+        mesh.trianglelist = C_NULL
+        mesh.triangleattributelist = C_NULL
+        mesh.trianglearealist = C_NULL
+        mesh.neighborlist = C_NULL
+        mesh.segmentlist = C_NULL
+        mesh.segmentmarkerlist = C_NULL
+        mesh.holelist = C_NULL
+        mesh.regionlist = C_NULL
+        mesh.edgelist = C_NULL
+        mesh.edgemarkerlist = C_NULL
+        mesh.normlist = C_NULL    
+    end
 
     return TriMesh(mesh_info,
                     n_point, point,

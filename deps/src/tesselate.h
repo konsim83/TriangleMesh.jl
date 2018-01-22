@@ -4,22 +4,12 @@
 #include "triangle.h"
 
 
-void tesselate_pslg(struct triangulateio*, struct triangulateio*,
-					int, REAL*, 
-					int, int*,
-					int, REAL*,
-					int, int*, int*,
-					int, REAL*,
-					char*);
+void tesselate_pslg(struct triangulateio*,
+                    struct triangulateio*, struct triangulateio*,
+				char*);
 
-void refine_trimesh(struct triangulateio*, struct triangulateio*,
-                    int, REAL*, 
-                    int, int* ,
-                    int, REAL*,
-                    int, int* , REAL*,
-                    int,  int*, int*,
-                    int, int*, int*,
-                    int, REAL*,
+void refine_trimesh(struct triangulateio*,
+                    struct triangulateio*, struct triangulateio*,
                     char*);
 
 #endif // TESSELATE_H

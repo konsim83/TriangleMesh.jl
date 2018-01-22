@@ -1,4 +1,4 @@
 julia 0.6
-BinDeps
-ProgressMeter
-PyPlot
+BinDeps 0.8.5
+ProgressMeter 0.5.3
+PyPlot 2.3.2
