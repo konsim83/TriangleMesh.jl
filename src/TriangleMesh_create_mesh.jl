@@ -151,6 +151,7 @@ function create_mesh(poly :: Polygon_pslg;
 
     contains(switches, "z") ? error("Triangle switches must not contain 'z'. Zero based indexing is not allowed.") :
 
+    mesh_in = Mesh_ptr_C(poly)
 
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
@@ -159,18 +160,10 @@ function create_mesh(poly :: Polygon_pslg;
                         Void,
                         (Ref{Mesh_ptr_C}, 
                             Ref{Mesh_ptr_C},
-                            Cint, Ptr{Cdouble},
-                            Cint, Ptr{Cint},
-                            Cint, Ptr{Cdouble},
-                            Cint, Ptr{Cint}, Ptr{Cint},
-                            Cint, Ptr{Cdouble},
+                            Ref{Mesh_ptr_C},
                             Cstring),
+                        Ref(mesh_in),
                         Ref(mesh_buffer), Ref(vor_buffer),
-                        poly.n_point, poly.point,
-                        poly.n_point_marker, poly.point_marker,
-                        poly.n_point_attribute, poly.point_attribute,
-                        poly.n_segment, poly.segment, poly.segment_marker,
-                        poly.n_hole, poly.hole,
                         switches)
 
     mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
@@ -191,25 +184,19 @@ function create_mesh(poly :: Polygon_pslg, switches :: String;
     
     contains(switches, "z") ? error("Triangle switches must not contain 'z'. Zero based indexing is not allowed.") :
 
+    mesh_in = Mesh_ptr_C(poly)
+
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
 
     ccall((:tesselate_pslg, "libtesselate"), 
                         Void,
-                        (Ref{Mesh_ptr_C},
+                        (Ref{Mesh_ptr_C}, 
                             Ref{Mesh_ptr_C},
-                            Cint, Ptr{Cdouble},
-                            Cint, Ptr{Cint},
-                            Cint, Ptr{Cdouble},
-                            Cint, Ptr{Cint}, Ptr{Cint},
-                            Cint, Ptr{Cdouble},
+                            Ref{Mesh_ptr_C},
                             Cstring),
+                        Ref(mesh_in),
                         Ref(mesh_buffer), Ref(vor_buffer),
-                        poly.n_point, poly.point,
-                        poly.n_point_marker, poly.point_marker,
-                        poly.n_point_attribute, poly.point_attribute,
-                        poly.n_segment, poly.segment, poly.segment_marker,
-                        poly.n_hole, poly.hole,
                         switches)
 
     mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
@@ -262,7 +249,7 @@ Creates a triangulation of the convex hull of a point set.
 
 """
 function create_mesh(point :: Array{Float64,2}; 
-                            point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),1),
+                            point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),0),
                             point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0),
                             info_str :: String = "Triangular mesh of convex hull of point cloud.",
                             verbose :: Bool = false,
@@ -384,7 +371,7 @@ function create_mesh(point :: Array{Float64,2};
 
     poly = polygon_struct_from_points(point, point_marker, point_attribute)
     
-    mesh = create_mesh(poly, switches, info_str)
+    mesh = create_mesh(poly, switches, info_str = info_str)
 
     return mesh
 end
@@ -407,7 +394,7 @@ for 'Triangle'. Use only if you know what you are doing.
 - 'info_str :: String = "Triangular mesh of convex hull of point cloud."': Some mesh info on the mesh
 """
 function create_mesh(point :: Array{Float64,2}, switches :: String;
-                                    point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),1),
+                                    point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),0),
                                     point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0),
                                     info_str :: String = "Triangular mesh of convex hull of point cloud.")
   
@@ -420,7 +407,7 @@ function create_mesh(point :: Array{Float64,2}, switches :: String;
 
     poly = polygon_struct_from_points(point, point_marker, point_attribute)
     
-    mesh = create_mesh(poly, switches, info_str)
+    mesh = create_mesh(poly, switches, info_str = info_str)
 
     return mesh
 end

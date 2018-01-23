@@ -1,5 +1,7 @@
 using TriangleMesh
 using Base.Test
 
-# write your own tests here
-@test 1 == 2
+include("Test_Polygon.jl")
+
+include("Test_create_mesh.jl")
+include("Test_refine.jl")

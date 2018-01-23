@@ -1,5 +1,10 @@
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+"""
+    refine_rg(m :: TriMesh)
+
+Refine triangular mesh by subdivision of each edge into 2. Very slow for large meshes.
+"""
 function refine_rg(m :: TriMesh)
 
     # Step 1: Set up a new poly structure with points and segements. Ignore
@@ -33,11 +38,13 @@ function refine_rg(m :: TriMesh)
     
     # Step 2: Build a polygon from the above
     poly = Polygon_pslg(size(point,1), 1, 0,
-                        size(segment,1), 0)
+                        size(segment,1), m.n_hole)
     set_polygon_point!(poly, point)
     set_polygon_point_marker!(poly, point_marker)
     set_polygon_segment!(poly, segment)
     set_polygon_segment_marker!(poly, segment_marker)
+    set_polygon_hole!(poly, m.hole)
+
 
     
     # Step 3: Triangulate the new Polygon_pslg with the -YY switch. This
@@ -55,6 +62,11 @@ end
 
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+"""
+    refine_rg(m :: TriMesh)
+
+Refine triangular mesh by subdivision of each edge into 2. Only triangles listed in 'ind_red' are refined. Very slow for large meshes.
+"""
 function refine_rg(m :: TriMesh, 
                     ind_red :: Array{Int,1})
 
@@ -113,11 +125,12 @@ function refine_rg(m :: TriMesh,
     
     # Step 3: Build a polygon from the above
     poly = Polygon_pslg(size(point,1), 1, 0,
-                        size(segment,1), 0)
+                        size(segment,1), m.n_hole)
     set_polygon_point!(poly, point)
     set_polygon_point_marker!(poly, point_marker)
     set_polygon_segment!(poly, segment)
     set_polygon_segment_marker!(poly, segment_marker)
+    set_polygon_hole!(poly, m.hole)
 
     
     # Step 4: Triangulate the new Polygon_pslg with the -YY switch. This
