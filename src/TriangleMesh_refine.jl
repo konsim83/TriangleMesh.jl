@@ -6,22 +6,22 @@
 Refines a triangular mesh according to user set constraints.
 
 # Keyword arguments
-- 'divide_cell_into :: Int = 4': Triangles listed in 'ind_cell' are area constrained
+- `divide_cell_into :: Int = 4`: Triangles listed in `ind_cell` are area constrained
                                     by 1/divide_cell_into * area(triangle[ind_cell]) in refined triangulation.
-- 'ind_cell :: Array{Int,1} = collect(1:m.n_cell)': List of triangles to be refined.
-- 'keep_segments :: Bool = false': Retain segments of input triangulations (although they may be subdivided).
-- 'keep_edges :: Bool = false': Retain edges of input triangulations (although they may be subdivided).
-- 'verbose :: Bool = false': Output triangle's commandline info.
-- 'check_triangulation :: Bool = false': Check refined mesh.
-- 'voronoi :: Bool = false': Output Voronoi diagram.
-- 'output_edges :: Bool = true': Output edges.
-- 'output_cell_neighbors :: Bool = true': Output cell neighbors.
-- 'quality_meshing :: Bool = true': No angle is is smaller than 20 degrees.
-- 'info_str :: String = "Refined mesh"': Some info string.
+- `ind_cell :: Array{Int,1} = collect(1:m.n_cell)`: List of triangles to be refined.
+- `keep_segments :: Bool = false`: Retain segments of input triangulations (although they may be subdivided).
+- `keep_edges :: Bool = false`: Retain edges of input triangulations (although they may be subdivided).
+- `verbose :: Bool = false`: Output triangle's commandline info.
+- `check_triangulation :: Bool = false`: Check refined mesh.
+- `voronoi :: Bool = false`: Output Voronoi diagram.
+- `output_edges :: Bool = true`: Output edges.
+- `output_cell_neighbors :: Bool = true`: Output cell neighbors.
+- `quality_meshing :: Bool = true`: No angle is is smaller than 20 degrees.
+- `info_str :: String = "Refined mesh"`: Some info string.
 
-# Remark
-the switches 'keep_segments' and 'keep_edges' can not be true at the same time. If 'keep_segments=true' area
-constraints on triangles listed in 'ind_cell' are rather local constraints than hard constraints on a triangle since
+## Remark
+the switches `keep_segments` and `keep_edges` can not be true at the same time. If `keep_segments=true` area
+constraints on triangles listed in `ind_cell` are rather local constraints than hard constraints on a triangle since
 the original edges may not be preserved. For details see triangle's documentation. 
 
 """
@@ -38,12 +38,12 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
                                 info_str :: String = "Refined mesh")
     
     # Do some sanity check of inputs
-    divide_cell_into<1 ? error("Option 'divide_cell_into' must be at least 1.") :
+    divide_cell_into<1 ? error("Option `divide_cell_into` must be at least 1.") :
     
     isempty(ind_cell) ? error("List of cells to be refined must not be empty. Leave this option blank to refine globally.") :
 
     if keep_edges && keep_segments
-        error("Options 'keep_edges' and 'keep_segments' can not both be true.")
+        error("Options `keep_edges` and `keep_segments` can not both be true.")
     end
 
 
@@ -84,7 +84,7 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
     
     
     # If the list of triangles to be refined is not empty set up
-    # 'cell_area_constraint' for input and '-a' to switch without a number
+    # `cell_area_constraint` for input and `-a` to switch without a number
     # following.
     cell_area_constraint = -ones(m.n_cell)
     for i in ind_cell
@@ -109,7 +109,7 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
     if keep_segments
         n_segment = Cint(m.n_segment)
         if n_segment==0
-            info("No segments provided by mesh. Option 'keep_segments' disabled.")
+            info("No segments provided by mesh. Option `keep_segments` disabled.")
             keep_segments = false
         elseif n_segment>0
             segment = convert(Array{Cint,2}, m.segment)'
@@ -123,7 +123,7 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
         # If there are edges use them
         n_segment = Cint(m.n_edge)
         if n_segment==0
-            info("No edges provided by mesh. Option 'keep_edges' disabled.")
+            info("No edges provided by mesh. Option `keep_edges` disabled.")
             keep_edges = false
         end
 
@@ -146,7 +146,7 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
     # If there are edges use them (not necessary but does not harm)
     n_edge = Cint(m.n_edge)
     if n_edge==0 && keep_edges
-        info("No edges provided by mesh. Option 'keep_edges' disabled.")
+        info("No edges provided by mesh. Option `keep_edges` disabled.")
         keep_edges = false
     end
 
@@ -224,10 +224,10 @@ Refines a triangular mesh according to user set constraints. Command line switch
 Use this function only if you know what you are doing.
 
 # Keyword arguments
-- 'divide_cell_into :: Int = 4': Triangles listed in 'ind_cell' are area constrained
+- `divide_cell_into :: Int = 4`: Triangles listed in `ind_cell` are area constrained
                                     by 1/divide_cell_into * area(triangle[ind_cell]) in refined triangulation.
-- 'ind_cell :: Array{Int,1} = collect(1:m.n_cell)': List of triangles to be refined.
-- 'info_str :: String = "Refined mesh"': Some info string.
+- `ind_cell :: Array{Int,1} = collect(1:m.n_cell)`: List of triangles to be refined.
+- `info_str :: String = "Refined mesh"`: Some info string.
 """
 function refine(m :: TriMesh, switches :: String;
                                 divide_cell_into :: Int = 4,
@@ -247,7 +247,7 @@ function refine(m :: TriMesh, switches :: String;
     
     
     # If the list of triangles to be refined is not empty set up
-    # 'cell_area_constraint' for input and '-a' to switch without a number
+    # `cell_area_constraint` for input and `-a` to switch without a number
     # following.
     cell_area_constraint = -ones(m.n_cell)
     for i in ind_cell

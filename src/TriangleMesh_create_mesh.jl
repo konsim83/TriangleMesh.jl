@@ -6,30 +6,30 @@
 Creates a triangulation of a planar straight-line graph (pslg) polygon. 
 
 # Keyword arguments
-- 'info_str :: String = "Triangular mesh of polygon (PSLG)"': Some mesh info on the mesh
-- 'verbose :: Bool = false': Print triangle's output
-- 'check_triangulation :: Bool = false': Check triangulation for Delaunay property
+- `info_str :: String = "Triangular mesh of polygon (PSLG)"`: Some mesh info on the mesh
+- `verbose :: Bool = false`: Print triangle's output
+- `check_triangulation :: Bool = false`: Check triangulation for Delaunay property
                                         after it is created
-- 'voronoi :: Bool = false': Output a Voronoi diagram
-- 'delaunay :: Bool = false': If true this option ensures that the mesh is Delaunay
+- `voronoi :: Bool = false`: Output a Voronoi diagram
+- `delaunay :: Bool = false`: If true this option ensures that the mesh is Delaunay
                             instead of only constrained Delaunay. You can also set
                             it true if you want to ensure that all Voronoi vertices
                             are within the triangulation. 
-- 'output_edges :: Bool = true': If true gives an edge list.
-- 'output_cell_neighbors :: Bool = true': If true outputs a list of neighboring triangles
+- `output_edges :: Bool = true`: If true gives an edge list.
+- `output_cell_neighbors :: Bool = true`: If true outputs a list of neighboring triangles
                                         for each triangle
-- 'quality_meshing :: Bool = true': If true avoids triangles with angles smaller that 20 degrees
-- 'prevent_steiner_points_boundary :: Bool = false': If true no Steiner points are added on
+- `quality_meshing :: Bool = true`: If true avoids triangles with angles smaller that 20 degrees
+- `prevent_steiner_points_boundary :: Bool = false`: If true no Steiner points are added on
                                                     boundary segnents.
-- 'prevent_steiner_points :: Bool = false': If true no Steiner points are added on boundary segments 
+- `prevent_steiner_points :: Bool = false`: If true no Steiner points are added on boundary segments 
                                             on inner segments.
-- 'set_max_steiner_points :: Bool = false': If true the user will be asked to enter the maximum number
+- `set_max_steiner_points :: Bool = false`: If true the user will be asked to enter the maximum number
                                              of Steiner points added. If the user inputs 0 this is
-                                             equivalent to 'set_max_steiner_points = true'.
-- 'set_area_max :: Bool = false': If true the user will be asked for the maximum triangle area.
-- 'set_angle_max :: Bool = false': If true the user will be asked for a lower bound for minimum 
+                                             equivalent to `set_max_steiner_points = true`.
+- `set_area_max :: Bool = false`: If true the user will be asked for the maximum triangle area.
+- `set_angle_max :: Bool = false`: If true the user will be asked for a lower bound for minimum 
                                 angles in the triangulation.
-- 'add_switches :: String = ""': The user can pass additional switches as described in triangle's
+- `add_switches :: String = ""`: The user can pass additional switches as described in triangle's
                                 documentation. Only set this option if you know what you are doing.    
 
 """
@@ -149,7 +149,7 @@ function create_mesh(poly :: Polygon_pslg;
     # This enables to use aditional switches and should be used with care
     switches = switches * add_switches
 
-    contains(switches, "z") ? error("Triangle switches must not contain 'z'. Zero based indexing is not allowed.") :
+    contains(switches, "z") ? error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
 
     mesh_in = Mesh_ptr_C(poly)
 
@@ -177,12 +177,12 @@ end
 
 Creates a triangulation of a planar straight-line graph (pslg) polygon. 
 Options for the meshing algorithm are passed directly by command line switches
-for 'Triangle'. Use only if you know what you are doing.
+for Triangle. Use only if you know what you are doing.
 """
 function create_mesh(poly :: Polygon_pslg, switches :: String;
                                 info_str :: String = "Triangular mesh of polygon (PSLG)")
     
-    contains(switches, "z") ? error("Triangle switches must not contain 'z'. Zero based indexing is not allowed.") :
+    contains(switches, "z") ? error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
 
     mesh_in = Mesh_ptr_C(poly)
 
@@ -217,34 +217,34 @@ end
 Creates a triangulation of the convex hull of a point set.
 
 # Keyword arguments
-- 'point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),1)': Points can have a marker.
-- 'point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0)': Points can be 
+- `point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),1)`: Points can have a marker.
+- `point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0)`: Points can be 
                                                                             given a number
                                                                             of attributes.
-- 'info_str :: String = "Triangular mesh of convex hull of point cloud."': Some mesh info on the mesh
-- 'verbose :: Bool = false': Print triangle's output
-- 'check_triangulation :: Bool = false': Check triangulation for Delaunay property
+- `info_str :: String = "Triangular mesh of convex hull of point cloud."`: Some mesh info on the mesh
+- `verbose :: Bool = false`: Print triangle's output
+- `check_triangulation :: Bool = false`: Check triangulation for Delaunay property
                                         after it is created
-- 'voronoi :: Bool = false': Output a Voronoi diagram
-- 'delaunay :: Bool = false': If true this option ensures that the mesh is Delaunay
+- `voronoi :: Bool = false`: Output a Voronoi diagram
+- `delaunay :: Bool = false`: If true this option ensures that the mesh is Delaunay
                             instead of only constrained Delaunay. You can also set
                             it true if you want to ensure that all Voronoi vertices
                             are within the triangulation. 
-- 'output_edges :: Bool = true': If true gives an edge list.
-- 'output_cell_neighbors :: Bool = true': If true outputs a list of neighboring triangles
+- `output_edges :: Bool = true`: If true gives an edge list.
+- `output_cell_neighbors :: Bool = true`: If true outputs a list of neighboring triangles
                                         for each triangle
-- 'quality_meshing :: Bool = true': If true avoids triangles with angles smaller that 20 degrees
-- 'prevent_steiner_points_boundary :: Bool = false': If true no Steiner points are added on
+- `quality_meshing :: Bool = true`: If true avoids triangles with angles smaller that 20 degrees
+- `prevent_steiner_points_boundary :: Bool = false`: If true no Steiner points are added on
                                                     boundary segnents.
-- 'prevent_steiner_points :: Bool = false': If true no Steiner points are added on boundary segments 
+- `prevent_steiner_points :: Bool = false`: If true no Steiner points are added on boundary segments 
                                             on inner segments.
-- 'set_max_steiner_points :: Bool = false': If true the user will be asked to enter the maximum number
+- `set_max_steiner_points :: Bool = false`: If true the user will be asked to enter the maximum number
                                              of Steiner points added. If the user inputs 0 this is
-                                             equivalent to 'set_max_steiner_points = true'.
-- 'set_area_max :: Bool = false': If true the user will be asked for the maximum triangle area.
-- 'set_angle_max :: Bool = false': If true the user will be asked for a lower bound for minimum 
+                                             equivalent to `set_max_steiner_points = true`.
+- `set_area_max :: Bool = false`: If true the user will be asked for the maximum triangle area.
+- `set_angle_max :: Bool = false`: If true the user will be asked for a lower bound for minimum 
                                 angles in the triangulation.
-- 'add_switches :: String = ""': The user can pass additional switches as described in triangle's
+- `add_switches :: String = ""`: The user can pass additional switches as described in triangle's
                                 documentation. Only set this option if you know what you are doing.    
 
 """
@@ -366,7 +366,7 @@ function create_mesh(point :: Array{Float64,2};
     # This enables to use aditional switches and should be used with care
     switches = switches * add_switches
   
-    contains(switches, "z") ? error("Triangle switches must not contain 'z'. Zero based indexing is not allowed.") :
+    contains(switches, "z") ? error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
 
 
     poly = polygon_struct_from_points(point, point_marker, point_attribute)
@@ -384,24 +384,24 @@ end
 
 Creates a triangulation of a planar straight-line graph (pslg) polygon. 
 Options for the meshing algorithm are passed directly by command line switches
-for 'Triangle'. Use only if you know what you are doing.
+for Triangle. Use only if you know what you are doing.
 
 # Keyword arguments
-- 'point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),1)': Points can have a marker.
-- 'point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0)': Points can be 
+- `point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),1)`: Points can have a marker.
+- `point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0)`: Points can be 
                                                                             given a number
                                                                             of attributes.
-- 'info_str :: String = "Triangular mesh of convex hull of point cloud."': Some mesh info on the mesh
+- `info_str :: String = "Triangular mesh of convex hull of point cloud."`: Some mesh info on the mesh
 """
 function create_mesh(point :: Array{Float64,2}, switches :: String;
                                     point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),0),
                                     point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0),
                                     info_str :: String = "Triangular mesh of convex hull of point cloud.")
   
-    contains(switches, "z") ? error("Triangle switches must not contain 'z'. Zero based indexing is not allowed.") :
+    contains(switches, "z") ? error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
 
     if ~contains(switches, "c") 
-        info("Option '-c' added. Triangle switches must contain the -c option for point clouds.")
+        info("Option `-c` added. Triangle switches must contain the -c option for point clouds.")
         switches = switches * "c"
     end
 

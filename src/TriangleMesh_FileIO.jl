@@ -1,8 +1,18 @@
+"""
+	write_mesh(m :: TriMesh, file_name :: String; <keyword arguments>)
+
+Write mesh to disk.
+
+# Keyword arguments
+- `format :: String = "triangle"`: Specify mesh format. Only option for now is `"triangle"` (Triangle's native mesh format)
+"""
 function write_mesh(m :: TriMesh, file_name :: String;
 									format :: String = "triangle")
 
 	if format == "triangle"
 		write_mesh_triangle(m, file_name)
+	else
+		error("File output format not known.")
 	end
 	
 	return nothing
@@ -32,12 +42,12 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 			write(f, thirdline)
 
 			# zip several arrays of different type
-			cmd = "zip(1:m.n_point, m.point[:,1], m.point[:,2]"
+			cmd = "zip(1:$(m.n_point), $(m.point[:,1]), $(m.point[:,2])"
 			for i in 1:m.n_point_attribute
-       			cmd = cmd * ", m.point_attribute[:,$i]"
+       			cmd = cmd * ", $(m.point_attribute)[:,$(i)]"
        		end
 
-			cmd = cmd * ", m.point_marker)"
+			cmd = cmd * ", $(m.point_marker))"			
 			data = eval(parse(cmd))
 			writedlm(f, data, " ")
 
@@ -59,7 +69,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 			write(f, thirdline)
 
 			# zip several arrays of different type
-			cmd = "zip(1:m.n_cell, m.cell[:,1], m.cell[:,2], m.cell[:,3])"
+			cmd = "zip(1:$(m.n_cell), $(m.cell[:,1]), $(m.cell[:,2]), $(m.cell[:,3]))"
 			data = eval(parse(cmd))
 			writedlm(f, data, " ")
 
@@ -81,7 +91,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 			write(f, thirdline)
 
 			# zip several arrays of different type
-			cmd = "zip(1:m.n_cell, m.cell_neighbor[:,1], m.cell_neighbor[:,2], m.cell_neighbor[:,3])"
+			cmd = "zip(1:$(m.n_cell), $(m.cell_neighbor[:,1]), $(m.cell_neighbor[:,2]), $(m.cell_neighbor[:,3]))"
 			data = eval(parse(cmd))
 			writedlm(f, data, " ")
 
@@ -103,7 +113,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 			write(f, thirdline)
 
 			# zip several arrays of different type
-			cmd = "zip(1:m.n_edge, m.edge[:,1], m.edge[:,2], m.edge_marker)"
+			cmd = "zip(1:$(m.n_edge), $(m.edge[:,1]), $(m.edge[:,2]), $(m.edge_marker))"
 			data = eval(parse(cmd))
 			writedlm(f, data, " ")
 

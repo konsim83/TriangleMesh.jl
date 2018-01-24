@@ -1,5 +1,10 @@
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+"""
+    polygon_unitSimplex()
+
+Create a polygon of the unit simplex (example code).
+"""
 function polygon_unitSimplex()
 
     # Choose the numbers. Everything that is zero does not need to be set.
@@ -32,6 +37,11 @@ function polygon_unitSimplex()
 end
 
 
+"""
+    polygon_unitSquare()
+
+Create a polygon of the unit square (example code).
+"""
 function polygon_unitSquare()
 
     # Choose the numbers. Everything that is zero does not need to be set.
@@ -68,6 +78,11 @@ function polygon_unitSquare()
 end
 
 
+"""
+    polygon_regular(n_corner :: Int)
+
+Create a polygon of a regular polyhedron with `n_corner` corners (example code).
+"""
 function polygon_regular(n_corner :: Int)
 
     # Choose the numbers. Everything that is zero does not need to be set.
@@ -102,6 +117,11 @@ function polygon_regular(n_corner :: Int)
 end
 
 
+"""
+    polygon_unitSquareWithHole()
+
+Create a polygon of the unit square that has a squared hole in the middle (example code).
+"""
 function polygon_unitSquareWithHole()
 
     # Choose the numbers. Everything that is zero does not need to be set.
@@ -145,6 +165,11 @@ function polygon_unitSquareWithHole()
 end
 
 
+"""
+    polygon_Lshape()
+
+Create a polygon of an L-shaped domain (example code).
+"""
 function polygon_Lshape()
 
     # Choose the numbers. Everything that is zero does not need to be set.
@@ -181,7 +206,18 @@ function polygon_Lshape()
 end
 
 
+"""
+    polygon_struct_from_points(point :: Array{Float64,2},
+                                    pm :: Array{Int,2},
+                                    pa :: Array{Float64,2})
 
+Create a polygon from a set of points (example code). No segments or holes are set here.
+
+# Arguments
+- `point :: Array{Float64,2}`: point set (dimension n-by-2)
+- `pm :: Array{Int,2}`: each point can have a marker (dimension either n-by-0 or n-by-1)
+- `pa :: Array{Float64,2}`: each point can have a number of ``k\>=0``real attributes (dimension n-by-k)
+"""
 function polygon_struct_from_points(point :: Array{Float64,2},
                                     pm :: Array{Int,2},
                                     pa :: Array{Float64,2})

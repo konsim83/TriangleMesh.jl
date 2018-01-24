@@ -1,5 +1,8 @@
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+"""
+    Struct containing Voronoi diagram.
+"""
 struct VoronoiDiagram
 
     vor_info :: String
@@ -18,7 +21,9 @@ struct VoronoiDiagram
 end
 
 
-
+"""
+    Struct containing triangular mesh. The voronoi diagram can be empty.
+"""
 struct TriMesh
     
     mesh_info :: String
@@ -60,73 +65,12 @@ end # end struct
 
 
 # ---------------------------------------------------------------------------------------------
-# Outer constructor for VoronoiDiagram
-function VoronoiDiagram(vor :: Mesh_ptr_C, vor_info :: String, take_ownership :: Bool)
+"""
+   TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String) 
 
-    vor_info = vor_info
-
-    # # Let julia take ownership of C memory
-    # take_ownership = false
-
-    # Read the pointers
-    if vor.pointlist != C_NULL
-        # Points
-        n_point = Int(vor.numberofpoints)
-        point = convert(Array{Float64,2},
-                                unsafe_wrap(Array, vor.pointlist, (2,n_point), take_ownership))'
-
-        n_point_attribute = Int(vor.numberofpointattributes)
-        if n_point_attribute>0
-            point_attribute = convert(Array{Float64,2}, 
-                                    unsafe_wrap(Array, vor.pointattributelist, (n_point_attribute, n_point), take_ownership))'
-        else
-            point_attribute = Array{Float64,2}(n_point,0)
-        end
-
-        
-        # Edges
-        n_edge = Int(vor.numberofedges)
-        if n_edge>0
-            edge = convert(Array{Int,2}, 
-                            unsafe_wrap(Array, vor.edgelist, (2, n_edge), take_ownership))'
-            if minimum(edge)==0
-                edge += 1
-            end
-            
-            if vor.normlist != C_NULL
-            normal = convert(Array{Float64,2}, 
-                            unsafe_wrap(Array, vor.edgelist, (2, n_edge), take_ownership))'
-            else
-                normal = Array{Float64,2}(0, 2)
-            end
-        else
-            edge = Array{Int,2}(0,2)
-            normal = Array{Float64,2}(0, 2)
-        end
-    else
-        info("Voronoi diagram is empty.")
-        n_point = 0
-        point = Array{Float64,2}(0,1)
-
-        n_point_attribute = 0
-        point_attribute = Array{Float64,2}(0,1)
-
-        n_edge = 0
-        edge = Array{Int,2}(0,2)
-        normal = Array{Float64,2}(0, 2)
-    end
-
-    return VoronoiDiagram(vor_info, 
-                            n_point, point,
-                            n_point_attribute, point_attribute,
-                            n_edge, edge,
-                            normal)
-end # end constructor
-# ---------------------------------------------------------------------------------------------
-
-
-# ---------------------------------------------------------------------------------------------
-# Outer constructor for TriMesh
+Outer constructor for TriMesh. Read the struct filled by `ccall(...)` and if the pointer is not `C_NULL` then
+wrap a Julia array around the data.
+"""
 function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
 
     mesh_info = mesh_info
@@ -246,10 +190,76 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
         hole = Array{Float64,2}(0, 2)
     end
     
-
+    # ----------------------------------------
     # VoronoiDiagram
-    voronoi = VoronoiDiagram(vor, "Voronoi diagram of triangular mesh.", take_ownership)
+    vor_info = "Voronoi diagram of triangular mesh."
 
+    # Read the pointers
+    if vor.pointlist != C_NULL
+        # Points
+        n_point_v = Int(vor.numberofpoints)
+        point_v = convert(Array{Float64,2},
+                                unsafe_wrap(Array, vor.pointlist, (2,n_point), take_ownership))'
+
+        n_point_attribute_v = Int(vor.numberofpointattributes)
+        if n_point_attribute_v>0
+            point_attribute_v = convert(Array{Float64,2}, 
+                                    unsafe_wrap(Array, vor.pointattributelist, (n_point_attribute_v, n_point_v), take_ownership))'
+        else
+            point_attribute_v = Array{Float64,2}(n_point_v,0)
+        end
+
+        
+        # Edges
+        n_edge_v = Int(vor.numberofedges)
+        if n_edge_v>0
+            edge_v = convert(Array{Int,2}, 
+                            unsafe_wrap(Array, vor.edgelist, (2, n_edge_v), take_ownership))'
+            if minimum(edge_v)==0
+                edge_v += 1
+            end
+            
+            if vor.normlist != C_NULL
+            normal_v = convert(Array{Float64,2}, 
+                            unsafe_wrap(Array, vor.edgelist, (2, n_edge_v), take_ownership))'
+            else
+                normal_v = Array{Float64,2}(0, 2)
+            end
+        else
+            edge_v = Array{Int,2}(0,2)
+            normal_v = Array{Float64,2}(0, 2)
+        end
+    else
+        n_point_v = 0
+        point_v = Array{Float64,2}(0,1)
+
+        n_point_attribute_v = 0
+        point_attribute_v = Array{Float64,2}(0,1)
+
+        n_edge_v = 0
+        edge_v = Array{Int,2}(0,2)
+        normal_v = Array{Float64,2}(0, 2)
+    end
+
+    voronoi = VoronoiDiagram(vor_info, 
+                                n_point_v, point_v,
+                                n_point_attribute_v, point_attribute_v,
+                                n_edge_v, edge_v,
+                                normal_v)
+    # ----------------------------------------
+
+
+    mesh_out =  TriMesh(mesh_info,
+                    n_point, point,
+                    n_point_marker, point_marker,
+                    n_point_attribute, point_attribute,
+                    n_cell, cell, cell_neighbor,
+                    n_edge, edge, 
+                    n_edge_marker, edge_marker,
+                    n_segment, segment,
+                    n_segment_marker, segment_marker,
+                    n_hole, hole,
+                    voronoi)
 
     # clean C
     if take_ownership
@@ -269,16 +279,6 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
         mesh.normlist = C_NULL    
     end
 
-    return TriMesh(mesh_info,
-                    n_point, point,
-                    n_point_marker, point_marker,
-                    n_point_attribute, point_attribute,
-                    n_cell, cell, cell_neighbor,
-                    n_edge, edge, 
-                    n_edge_marker, edge_marker,
-                    n_segment, segment,
-                    n_segment_marker, segment_marker,
-                    n_hole, hole,
-                    voronoi)
+    return mesh_out
 end # end constructor
 # ---------------------------------------------------------------------------------------------
