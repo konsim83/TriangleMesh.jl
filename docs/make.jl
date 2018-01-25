@@ -4,8 +4,14 @@ using Documenter, TriangleMesh
 
 makedocs(
     format = :html,
-    sitename = "TriangleMesh",
-    pages = []
+    sitename = "TriangleMesh.jl",
+    pages = [
+    			"Home" => "index.md",
+    			"Examples" => "examples.md",
+    			"Modules, Types and Methods" => "mtm.md",
+    			"Index" => "mtm_idx.md"
+			],
+	authors = "K. Simon"
 )
 
 deploydocs(

@@ -15,6 +15,8 @@ Creates a triangulation of a planar straight-line graph (pslg) polygon.
                             instead of only constrained Delaunay. You can also set
                             it true if you want to ensure that all Voronoi vertices
                             are within the triangulation. 
+- `mesh_convex_hull :: Bool = false`: Mesh the convex hull of a `poly` (useful if the polygon does
+                                        not enclose a bounded area - its convex hull still does though)
 - `output_edges :: Bool = true`: If true gives an edge list.
 - `output_cell_neighbors :: Bool = true`: If true outputs a list of neighboring triangles
                                         for each triangle
@@ -27,7 +29,7 @@ Creates a triangulation of a planar straight-line graph (pslg) polygon.
                                              of Steiner points added. If the user inputs 0 this is
                                              equivalent to `set_max_steiner_points = true`.
 - `set_area_max :: Bool = false`: If true the user will be asked for the maximum triangle area.
-- `set_angle_max :: Bool = false`: If true the user will be asked for a lower bound for minimum 
+- `set_angle_min :: Bool = false`: If true the user will be asked for a lower bound for minimum 
                                 angles in the triangulation.
 - `add_switches :: String = ""`: The user can pass additional switches as described in triangle's
                                 documentation. Only set this option if you know what you are doing.    
@@ -39,6 +41,7 @@ function create_mesh(poly :: Polygon_pslg;
                                 check_triangulation :: Bool = false,
                                 voronoi :: Bool = false,
                                 delaunay :: Bool = false,
+                                mesh_convex_hull :: Bool = false,
                                 output_edges :: Bool = true,
                                 output_cell_neighbors :: Bool = true,
                                 quality_meshing :: Bool = true,
@@ -46,7 +49,7 @@ function create_mesh(poly :: Polygon_pslg;
                                 prevent_steiner_points :: Bool = false,
                                 set_max_steiner_points :: Bool = false,
                                 set_area_max :: Bool = false,
-                                set_angle_max :: Bool = false,
+                                set_angle_min :: Bool = false,
                                 add_switches :: String = "")
     
     switches = "p"
@@ -57,6 +60,10 @@ function create_mesh(poly :: Polygon_pslg;
 
     if check_triangulation
         switches = switches * "C"
+    end
+
+    if mesh_convex_hull
+        switches = switches * "c"
     end
 
     if voronoi
@@ -122,7 +129,7 @@ function create_mesh(poly :: Polygon_pslg;
     # -------
 
     # -------
-    if set_angle_max
+    if set_angle_min
         quality_meshing = true
         max_angle_str = input("Set angle constraint (choose whith care): ")
         # Check if input makes sense
@@ -242,7 +249,7 @@ Creates a triangulation of the convex hull of a point set.
                                              of Steiner points added. If the user inputs 0 this is
                                              equivalent to `set_max_steiner_points = true`.
 - `set_area_max :: Bool = false`: If true the user will be asked for the maximum triangle area.
-- `set_angle_max :: Bool = false`: If true the user will be asked for a lower bound for minimum 
+- `set_angle_min :: Bool = false`: If true the user will be asked for a lower bound for minimum 
                                 angles in the triangulation.
 - `add_switches :: String = ""`: The user can pass additional switches as described in triangle's
                                 documentation. Only set this option if you know what you are doing.    
@@ -263,7 +270,7 @@ function create_mesh(point :: Array{Float64,2};
                             prevent_steiner_points :: Bool = false,
                             set_max_steiner_points :: Bool = false,
                             set_area_max :: Bool = false,
-                            set_angle_max :: Bool = false,
+                            set_angle_min :: Bool = false,
                             add_switches :: String = "")
     
     switches = "c"
@@ -339,7 +346,7 @@ function create_mesh(point :: Array{Float64,2};
     # -------
 
     # -------
-    if set_angle_max
+    if set_angle_min
         quality_meshing = true
         max_angle_str = input("Set angle constraint (choose whith care): ")
         # Check if input makes sense

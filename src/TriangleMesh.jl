@@ -1,3 +1,9 @@
+"""
+	TriangleMesh
+
+Create and refine 2D unstructured triangular meshes.
+Interfaces [Triangle](https://www.cs.cmu.edu/~quake/triangle.html) written by J.R. Shewchuk.
+"""
 module TriangleMesh
 
 using ProgressMeter
@@ -8,11 +14,11 @@ export TriMesh, Polygon_pslg,
 		polygon_regular, polygon_Lshape, polygon_struct_from_points, 
 		write_mesh
 
-if ~isfile(Pkg.dir() * "/TriangleMesh/deps/usr/lib/libtesselate.so")
-	error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
-else
-	push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
-end
+# if ~isfile(Pkg.dir() * "/TriangleMesh/deps/usr/lib/libtesselate.so")
+# 	error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
+# else
+# 	push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
+# end
 
 # --------------------------------------
 # Contains Polygon struct

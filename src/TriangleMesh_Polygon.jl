@@ -53,7 +53,8 @@ function Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :
 
     n_segment = n_segment
     segment = Array{Cint,2}(2,n_segment)
-    segment_marker = Array{Cint,1}(n_segment)
+    # Set segment marker to 1 by default.
+    segment_marker = ones(Cint,n_segment)
 
     n_hole<0 ? error("Number of point attributes must be a nonnegative integer.") :
     n_hole = n_hole
