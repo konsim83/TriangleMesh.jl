@@ -2,5 +2,4 @@
 
 ```@autodocs
 Modules = [TriangleMesh]
-Private = false
 ```
