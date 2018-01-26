@@ -14,7 +14,15 @@ export TriMesh, Polygon_pslg,
 		set_polygon_segment!, set_polygon_segment_marker!, set_polygon_hole!,
 		write_mesh
 
-if ~isfile(Pkg.dir() * "/TriangleMesh/deps/usr/lib/libtesselate.so")
+if is_linux
+	ending = "so"
+elseif is_apple
+	ending = "dylib"
+else
+	error("OS not supported yet.")
+end
+
+if ~isfile(Pkg.dir() * "/TriangleMesh/deps/usr/lib/libtesselate." * ending)
 	error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
 else
 	push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
