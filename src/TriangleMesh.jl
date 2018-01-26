@@ -14,9 +14,9 @@ export TriMesh, Polygon_pslg,
 		set_polygon_segment!, set_polygon_segment_marker!, set_polygon_hole!,
 		write_mesh
 
-if is_linux
+if is_linux()
 	ending = "so"
-elseif is_apple
+elseif is_apple()
 	ending = "dylib"
 else
 	error("OS not supported yet.")
