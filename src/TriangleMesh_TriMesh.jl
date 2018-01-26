@@ -194,7 +194,7 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
     
     # ----------------------------------------
     # VoronoiDiagram
-    vor_info = info_str * " - Voronoi diagram"
+    vor_info = mesh_info * " - Voronoi diagram"
 
     # Read the pointers
     if vor.pointlist != C_NULL

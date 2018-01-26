@@ -14,7 +14,7 @@
                             prevent_steiner_points = false,
                             set_max_steiner_points = false,
                             set_area_max = false,
-                            set_angle_max = false,
+                            set_angle_min = false,
                             add_switches = "")
 	    
 	    m = refine(m0, divide_cell_into = 4,
@@ -48,7 +48,7 @@
                             prevent_steiner_points = false,
                             set_max_steiner_points = false,
                             set_area_max = false,
-                            set_angle_max = false,
+                            set_angle_min = false,
                             add_switches = "")
 
 	    m = refine(m0, divide_cell_into = 4,

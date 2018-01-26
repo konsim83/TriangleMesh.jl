@@ -14,7 +14,7 @@
                             prevent_steiner_points = false,
                             set_max_steiner_points = false,
                             set_area_max = false,
-                            set_angle_max = false,
+                            set_angle_min = false,
                             add_switches = "")
 
 	    @test isapprox(m.point, p.point')
@@ -37,7 +37,7 @@
                             prevent_steiner_points = false,
                             set_max_steiner_points = false,
                             set_area_max = false,
-                            set_angle_max = false,
+                            set_angle_min = false,
                             add_switches = "")
 
 	    @test m.n_point > 1
@@ -81,7 +81,7 @@
                             prevent_steiner_points = true,
                             set_max_steiner_points = false,
                             set_area_max = false,
-                            set_angle_max = false,
+                            set_angle_min = false,
                             add_switches = "")
 
 	    @test m.n_point == 5
