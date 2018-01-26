@@ -17,9 +17,7 @@ using TriangleMesh
 to use the package.
 
 # Build Status
-[![Build Status][travis-img]][travis-url]
-
-[![Coverage Status][codcov-img]][codecov-url]
+[![Build Status][travis-img]][travis-url][![Code Coverage][codcov-img]][codecov-url]
 
 
 [codecov-img]: https://codecov.io/gh/konsim83/TriangleMesh.jl/branch/master/graph/badge.svg
