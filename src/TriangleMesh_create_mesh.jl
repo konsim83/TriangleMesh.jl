@@ -3,7 +3,7 @@
 """
     create_mesh(poly :: Polygon_pslg; <keyword arguments>)
 
-Creates a triangulation of a planar straight-line graph (pslg) polygon. 
+Creates a triangulation of a planar straight-line graph (PSLG) polygon. 
 
 # Keyword arguments
 - `info_str :: String = "Triangular mesh of polygon (PSLG)"`: Some mesh info on the mesh
@@ -182,7 +182,7 @@ end
 """
     create_mesh(poly :: Polygon_pslg, switches :: String; info_str :: String = "Triangular mesh of polygon (PSLG)")
 
-Creates a triangulation of a planar straight-line graph (pslg) polygon. 
+Creates a triangulation of a planar straight-line graph (PSLG) polygon. 
 Options for the meshing algorithm are passed directly by command line switches
 for Triangle. Use only if you know what you are doing.
 """
@@ -221,7 +221,7 @@ end
 """
     create_mesh(point :: Array{Float64,2}; <keyword arguments>)
 
-Creates a triangulation of the convex hull of a point set.
+Creates a triangulation of the convex hull of a point cloud.
 
 # Keyword arguments
 - `point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),1)`: Points can have a marker.
@@ -389,7 +389,7 @@ end
 
     create_mesh(point :: Array{Float64,2}, switches :: String; <keyword arguments>)
 
-Creates a triangulation of a planar straight-line graph (pslg) polygon. 
+Creates a triangulation of a planar straight-line graph (PSLG) polygon. 
 Options for the meshing algorithm are passed directly by command line switches
 for Triangle. Use only if you know what you are doing.
 

@@ -1,7 +1,7 @@
 # -----------------------------------------------------------
 # -----------------------------------------------------------
 """
-   refine(m :: TriMesh ; <keyword arguments>)
+    refine(m :: TriMesh ; <keyword arguments>)
 
 Refines a triangular mesh according to user set constraints.
 
@@ -19,10 +19,10 @@ Refines a triangular mesh according to user set constraints.
 - `quality_meshing :: Bool = true`: No angle is is smaller than 20 degrees.
 - `info_str :: String = "Refined mesh"`: Some info string.
 
-## Remark
-the switches `keep_segments` and `keep_edges` can not be true at the same time. If `keep_segments=true` area
+# Remark
+The switches `keep_segments` and `keep_edges` can not be true at the same time. If `keep_segments=true` area
 constraints on triangles listed in `ind_cell` are rather local constraints than hard constraints on a triangle since
-the original edges may not be preserved. For details see triangle's documentation. 
+the original edges may not be preserved. For details see Triangle's documentation. 
 
 """
 function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
@@ -218,7 +218,7 @@ end
 # -----------------------------------------------------------
 # -----------------------------------------------------------
 """
-   refine(m :: TriMesh, switches :: String; <keyword arguments>)
+    refine(m :: TriMesh, switches :: String; <keyword arguments>)
 
 Refines a triangular mesh according to user set constraints. Command line switches are passed directly.
 Use this function only if you know what you are doing.

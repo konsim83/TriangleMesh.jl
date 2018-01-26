@@ -36,8 +36,8 @@ CurrentModule = TriangleMesh
 ```@contents
 	Pages = [
 			"index.md",
-			"examples.md",
-			"mtm.md",
-			"mtm_idx.md" 
+			"man/examples.md",
+			"man/mtm.md",
+			"man/mtm_idx.md" 
 			]
 ```

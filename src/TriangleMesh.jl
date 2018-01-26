@@ -1,8 +1,6 @@
 """
-	TriangleMesh
-
-Create and refine 2D unstructured triangular meshes.
-Interfaces [Triangle](https://www.cs.cmu.edu/~quake/triangle.html) written by J.R. Shewchuk.
+Create and refine 2D unstructured triangular meshes. Interfaces 
+[Triangle](https://www.cs.cmu.edu/~quake/triangle.html) written by J.R. Shewchuk.
 """
 module TriangleMesh
 
@@ -36,7 +34,6 @@ include("TriangleMesh_TriMesh.jl")
 # Write the triangulation in files (to be extended to different formats)
 include("TriangleMesh_FileIO.jl")
 # --------------------------------------
-
 
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

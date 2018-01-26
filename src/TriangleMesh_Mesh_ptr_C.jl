@@ -1,6 +1,8 @@
 # -----------------------------------------------------------
 # -----------------------------------------------------------
-# Julia struct for that corresponds to C struct
+"""
+Julia struct for that corresponds to C struct. Only for internal use.
+"""
 mutable struct Mesh_ptr_C
 
     # Triangulation part
@@ -36,7 +38,11 @@ mutable struct Mesh_ptr_C
 end # end struct
 
 
-# Initialize from Polygon struct
+"""
+    Mesh_ptr_C(p :: Polygon_pslg)
+
+Constructor for `Mesh_ptr_C` from polygon. Only for internal use.
+"""
 function Mesh_ptr_C(p :: Polygon_pslg)
 
     numberofpoints = Cint(p.n_point)
@@ -121,7 +127,17 @@ function Mesh_ptr_C(p :: Polygon_pslg)
 end
 
 
-# initialize from input for refinement
+"""
+    Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
+                    n_point_marker :: Cint, point_marker :: Array{Cint,2},
+                    n_point_attribute :: Cint, point_attribute :: Array{Float64,2},
+                    n_cell :: Cint, cell :: Array{Cint,2}, cell_area_constraint :: Array{Float64,1},
+                    n_edge :: Cint, edge :: Array{Cint,2}, edge_marker :: Array{Cint,1},
+                    n_segment :: Cint, segment :: Array{Cint,2}, segment_marker :: Array{Cint,1},
+                    n_hole :: Cint, hole :: Array{Float64,2})
+
+Constructor for `Mesh_ptr_C` from mesh data. Only for internal use.
+"""
 function Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
                     n_point_marker :: Cint, point_marker :: Array{Cint,2},
                     n_point_attribute :: Cint, point_attribute :: Array{Float64,2},
@@ -217,7 +233,11 @@ function Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
 end
 
 
-# initialize as empty
+"""
+    Mesh_ptr_C()
+    
+Constructor for `Mesh_ptr_C`. Initialize everything as `NULL`. Only for internal use.
+"""
 function Mesh_ptr_C()
 
     return Mesh_ptr_C(C_NULL, C_NULL, C_NULL, 0, 0,

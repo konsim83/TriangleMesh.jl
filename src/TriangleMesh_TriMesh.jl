@@ -1,7 +1,8 @@
 # -----------------------------------------------------------
 # -----------------------------------------------------------
 """
-    Struct containing Voronoi diagram.
+Struct containing Voronoi diagram. If arrays do not contain 
+data their length is zero.
 """
 struct VoronoiDiagram
 
@@ -21,8 +22,9 @@ struct VoronoiDiagram
 end
 
 
-"""
-    Struct containing triangular mesh. The voronoi diagram can be empty.
+"""    
+Struct containing triangular mesh and a Voronoi diagram. If arrays do not contain 
+data their length is zero.
 """
 struct TriMesh
     
@@ -68,8 +70,8 @@ end # end struct
 """
    TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String) 
 
-Outer constructor for TriMesh. Read the struct filled by `ccall(...)` and if the pointer is not `C_NULL` then
-wrap a Julia array around the data.
+Outer constructor for TriMesh. Read the struct returned by `ccall(...)` to Triangle library.
+Wrap a Julia arrays around mesh data if their pointer is not `C_NULL`.
 """
 function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
 
@@ -108,7 +110,7 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
     end
 
     
-    #Triangles
+    # Triangles
     n_cell = Int(mesh.numberoftriangles)
     n_cell==0 ? error("Number of triangles in mesh output is zero...") : 
 
@@ -192,7 +194,7 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
     
     # ----------------------------------------
     # VoronoiDiagram
-    vor_info = "Voronoi diagram of triangular mesh."
+    vor_info = info_str * " - Voronoi diagram"
 
     # Read the pointers
     if vor.pointlist != C_NULL

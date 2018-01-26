@@ -6,6 +6,9 @@
 Refine triangular mesh by subdivision of each edge into 2. Very slow for large meshes.
 """
 function refine_rg(m :: TriMesh)
+    ####################################################
+    # This needs an improvement because it is very slow.
+    ####################################################
 
     # Step 1: Set up a new poly structure with points and segements. Ignore
     # point attributes for now (could be taken care of by interpolation,
@@ -16,7 +19,7 @@ function refine_rg(m :: TriMesh)
     point_marker = copy(m.point_marker)
 
     N = m.n_edge
-    progress = Progress(N, 0.01, "Refining edges...", 10)
+    progress = Progress(N, 0.01, "Subdividing all edges...", 10)
     for i in 1:m.n_edge
         # New point from edge subdivision
         p = (point[segment[i,1],:] + point[segment[i,2],:]) / 2
@@ -49,7 +52,7 @@ function refine_rg(m :: TriMesh)
     # Step 3: Triangulate the new Polygon_pslg with the -YY switch. This
     # forces the divided edges into the triangulation.
     switches = "pYYQenv"
-    info_str = "Red refined complete triangular mesh"
+    info_str = "Red refined triangular mesh"
     mesh = create_mesh(poly, switches)
 
     return mesh
@@ -66,9 +69,11 @@ end
 
 Refine triangular mesh by subdivision of each edge into 2. Only triangles listed in `ind_red` are refined. Very slow for large meshes.
 """
-function refine_rg(m :: TriMesh, 
-                    ind_red :: Array{Int,1})
-
+function refine_rg(m :: TriMesh, ind_red :: Array{Int,1})
+    ####################################################
+    # This needs an improvement because it is very slow.
+    ####################################################
+    
     # Step 1: For all cells to be refined mark the edges that are to be
     # divided
     refinement_marker = zeros(Bool, m.n_edge)
@@ -100,7 +105,7 @@ function refine_rg(m :: TriMesh,
     point_marker = copy(m.point_marker)
 
     N = length(ind_refine_edge)
-    progress = Progress(N, 0.01, "Refining marked edges...", 10)
+    progress = Progress(N, 0.01, "Subdividing marked edges...", 10)
     for i in ind_refine_edge
         # New point from edge subdivision
         p = (point[segment[i,1],:] + point[segment[i,2],:]) / 2

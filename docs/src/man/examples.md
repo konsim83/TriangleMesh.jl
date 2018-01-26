@@ -1,6 +1,6 @@
-# Examples
+# Workflow
 
-This section is intended to give the user an idea of the workflow.
+This section is intended to give you an idea of how to use `TriangleMesh`. The workflow is actually very simple and we demonstrate it here using a few simple examples. 
 
 
 ## Create a Polygon 
@@ -124,7 +124,7 @@ The define the switches:
 ```julia
 switches = "penvVa0.01D"
 ```
-Now create the mesh with the command
+The `p` switch tells Triangle to read a polygon, `e` outputs the edges, `n` the cell neighbors, `v` a Voronoi diagram and so on. For details see the [documentation of Triangle](https://www.cs.cmu.edu/~quake/triangle.html). Now create the mesh with the command
 ```julia
 mesh = create_mesh(poly, switches)
 ```
@@ -149,6 +149,7 @@ We could also pass Triangle's command line switches. Suppose we would like to re
 switches = "rpenva0.0001q"
 mesh_refined = refine(mesh, switches)
 ```
+The `r` switch stands for refinement. For proper use of the switches we again refer to [Triangle](https://www.cs.cmu.edu/~quake/triangle.html).
 
 `TriangleMesh` also offers a simple method to divide a list of triangle into 4 triangles. This will create for each triangle to be refined 4 similar triangles and will hence preserve the Delaunay property of a mesh.
 ```julia
@@ -157,3 +158,37 @@ mesh_refined = refine_rg(mesh, ind_cell=[1;4;9])
 Omitting the second argument will simply refine the entire mesh. 
 !!! note
     The [`refine_rg`](@ref) method is very slow for large meshes (>100000 triangles) and should be avoided. For smaller meshes it can be used though to create a simple hierarchy of meshes which can be advantegeous if one wants to compare numerical solutions on sucessively refined meshes.
+
+
+## Visualization
+
+There are of course many ways to visualize a triangular mesh. A very simple way is to run this script:
+```julia
+using TriangleMesh, PyPlot
+
+function plot_TriMesh(m :: TriMesh; 
+                        linewidth :: Real = 1, 
+                        marker :: String = "None",
+                        markersize :: Real = 10,
+                        linestyle :: String = "-",
+                        color :: String = "red")
+
+    fig = matplotlib[:pyplot][:figure]("2D Mesh Plot", figsize = (10,10))
+    
+    ax = matplotlib[:pyplot][:axes]()
+    ax[:set_aspect]("equal")
+    
+    # Connectivity list -1 for Python
+    tri = ax[:triplot](m.point[:,1], m.point[:,2], m.cell-1 )
+    setp(tri,   linestyle = linestyle,
+                linewidth = linewidth,
+                marker = marker,
+                markersize = markersize,
+                color = color)
+    
+    fig[:canvas][:draw]()
+    
+    return fig
+end
+```
+Note that you need to have the `PyPlot` package (well... actually only the `PyCall` package and Python's `matplotlib`) installed. Now you can call the function `plot_TriMesh` and you should see the mesh in a figure window. This file can also be found in the examples folder on GitHub.

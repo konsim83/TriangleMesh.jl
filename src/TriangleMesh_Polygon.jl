@@ -1,9 +1,7 @@
 # -----------------------------------------------------------
 # -----------------------------------------------------------
 """
-   Polygon_pslg
-
-Struct describes a planar straight-line graph (pslg) of a polygon. Contains points, point markers,
+Struct describes a planar straight-line graph (PSLG) of a polygon. Contains points, point markers,
 attributes, segments, segment markers and holes.
 """
 struct Polygon_pslg
@@ -31,7 +29,7 @@ end
     Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :: Int, n_segment :: Int, n_hole :: Int)
 
 Outer constructor that only reserves space for points, markers, attributes and holes.
-Input data is converted to hold C-data structures (Cint and Cdouble arrays).
+Input data is converted to hold C-data structures (Cint and Cdouble arrays) for internal use.
 """
 function Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :: Int,
                         n_segment :: Int, n_hole :: Int)
@@ -76,7 +74,7 @@ end
 """
     set_polygon_point!(poly :: Polygon_pslg, p :: Array{Float64,2})
 
-Set `poly.point` appropriately.
+Set `poly.point` appropriately. Input must have dimensions `n_point`-by-`2`.
 """
 function set_polygon_point!(poly :: Polygon_pslg, p :: Array{Float64,2})
 
@@ -93,7 +91,7 @@ end
 """
     set_polygon_point_marker!(poly :: Polygon_pslg, pm :: Array{Int,2})
 
-Set `poly.point_marker` appropriately.
+Set `poly.point_marker` appropriately. Input must have dimensions `n_point`-by-`n_point_marker`. `n_point_marker` can be 1 or 0.
 """
 function set_polygon_point_marker!(poly :: Polygon_pslg, pm :: Array{Int,2})
 
@@ -110,7 +108,7 @@ end
 """
     set_polygon_point_attribute!(poly :: Polygon_pslg, pa :: Array{Float64,2})
 
-Set `poly.point_attribute` appropriately.
+Set `poly.point_attribute` appropriately. Input must have dimensions `n_point`-by-`n_point_attribute`.
 """
 function set_polygon_point_attribute!(poly :: Polygon_pslg, pa :: Array{Float64,2})
 
@@ -127,7 +125,7 @@ end
 """
     set_polygon_segment!(poly :: Polygon_pslg, s :: Array{Int,2})
 
-Set `poly.segment` appropriately.
+Set `poly.segment` appropriately. Input must have dimensions `n_segment`-by-`2`.
 """
 function set_polygon_segment!(poly :: Polygon_pslg, s :: Array{Int,2})
 
@@ -144,7 +142,7 @@ end
 """
     set_polygon_segment_marker!(poly :: Polygon_pslg, sm :: Array{Int,1})
 
-Set `poly.segment_marker` appropriately.
+Set `poly.segment_marker` appropriately. Input must have dimensions `n_segment`-by-`1`. If not set every segemnt will have marker equal to 1.
 """
 function set_polygon_segment_marker!(poly :: Polygon_pslg, sm :: Array{Int,1})
 
@@ -161,7 +159,10 @@ end
 """
     set_polygon_hole!(poly :: Polygon_pslg, h :: Array{Float64,2})
 
-Set `poly.hole` appropriately. A hole is a represented by a point enclosed by a set of segments.
+Set `poly.hole` appropriately. Input must have dimensions `n_hole`-by-`2`.
+
+!!!
+    Each hole must be enclosed by segments. Do not place holes on segments.
 """
 function set_polygon_hole!(poly :: Polygon_pslg, h :: Array{Float64,2})
 

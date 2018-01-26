@@ -3,13 +3,17 @@ push!(LOAD_PATH,"../src/")
 using Documenter, TriangleMesh
 
 makedocs(
+	#modules = [TriangleMesh],
+	doctest=false,
+	clean=true,
     format = :html,
+	assets = ["assets/logo.png"],
     sitename = "TriangleMesh.jl",
     pages = [
     			"Home" => "index.md",
-    			"Examples" => "examples.md",
-    			"Modules, Types and Methods" => "mtm.md",
-    			"Index" => "mtm_idx.md"
+    			"Workflow" => "man/examples.md",
+    			"Modules, Types and Methods" => "man/mtm.md",
+    			"Index" => "man/mtm_idx.md"
 			],
 	authors = "K. Simon"
 )
