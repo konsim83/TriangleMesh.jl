@@ -20,3 +20,6 @@ The TriangleMesh.jl package is licensed under the MIT "Expat" License:
 > OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 > SOFTWARE.
 >
+
+!!! note
+    *TriangleMesh* interfaces Triangle (distributed with this package) - a Delaunay meshing and refinement library written by J.R. Shewchuk. Note that although *TriangleMesh* falls under the MIT "Expat" License Triangle does not. Any commercial use of Triangle needs permission by the [author](https://www.cs.cmu.edu/~quake/triangle.html)
