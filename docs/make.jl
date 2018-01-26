@@ -3,7 +3,7 @@ push!(LOAD_PATH,"../src/")
 using Documenter, TriangleMesh
 
 makedocs(
-	#modules = [TriangleMesh],
+	modules = [TriangleMesh],
 	doctest=false,
 	clean=true,
     format = :html,

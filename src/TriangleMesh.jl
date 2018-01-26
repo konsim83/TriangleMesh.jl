@@ -9,7 +9,9 @@ using ProgressMeter
 export TriMesh, Polygon_pslg, 
 		create_mesh, refine, refine_rg, 
 		polygon_unitSimplex, polygon_unitSquare, polygon_unitSquareWithHole, 
-		polygon_regular, polygon_Lshape, polygon_struct_from_points, 
+		polygon_regular, polygon_Lshape, polygon_struct_from_points,
+		set_polygon_point!, set_polygon_point_marker!, set_polygon_point_attribute!,
+		set_polygon_segment!, set_polygon_segment_marker!, set_polygon_hole!,
 		write_mesh
 
 # if ~isfile(Pkg.dir() * "/TriangleMesh/deps/usr/lib/libtesselate.so")

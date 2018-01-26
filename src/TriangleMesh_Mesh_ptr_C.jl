@@ -1,7 +1,7 @@
 # -----------------------------------------------------------
 # -----------------------------------------------------------
 """
-Julia struct for that corresponds to C struct. Only for internal use.
+Julia struct for that corresponds to C struct of Triangle. Only for internal use.
 """
 mutable struct Mesh_ptr_C
 
