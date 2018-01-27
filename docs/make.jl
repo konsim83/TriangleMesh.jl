@@ -19,12 +19,12 @@ makedocs(
 )
 
 deploydocs(
-    deps   = Deps.pip("mkdocs", "python-markdown-math"),
+    # deps   = Deps.pip("mkdocs", "python-markdown-math"),
     repo   = "github.com/konsim83/TriangleMesh.jl.git",
     target = "build",
-    branch = "gh-pages",
-    # deps   = nothing,
-    # make   = nothing,
-    julia  = "0.6",
-    osname = "linux"
+    # branch = "gh-pages",
+    deps   = nothing,
+    make   = nothing,
+    # julia  = "0.6",
+    # osname = "linux"
 )
