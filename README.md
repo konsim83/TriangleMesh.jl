@@ -17,17 +17,4 @@ using TriangleMesh
 to use the package.
 
 # Build Status
-[![Build Status][travis-img]][travis-url][![codecov](https://codecov.io/gh/konsim83/TriangleMesh.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/konsim83/TriangleMesh.jl)
-
-
-
-<!-- [![codecov][codcov-img]][codecov-url] -->
-
-
-[codecov-img]: https://codecov.io/gh/konsim83/TriangleMesh.jl/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/konsim83/TriangleMesh.jl
-
-[travis-img]: https://travis-ci.org/konsim83/TriangleMesh.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/konsim83/TriangleMesh.jl
-
-
+[![Build Status](https://travis-ci.org/konsim83/TriangleMesh.jl.svg?branch=master)](https://travis-ci.org/konsim83/TriangleMesh.jl) [![codecov](https://codecov.io/gh/konsim83/TriangleMesh.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/konsim83/TriangleMesh.jl)
