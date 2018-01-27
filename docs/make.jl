@@ -5,7 +5,7 @@ using Documenter, TriangleMesh
 makedocs(
 	modules = [TriangleMesh],
 	doctest=false,
-	# clean=true,
+	clean=true,
     format = :html,
 	assets = ["assets/logo.png"],
     sitename = "TriangleMesh.jl",
@@ -19,11 +19,11 @@ makedocs(
 )
 
 deploydocs(
-    # deps   = Deps.pip("mkdocs", "python-markdown-math"),
+    deps   = Deps.pip("mkdocs", "python-markdown-math"),
     repo   = "github.com/konsim83/TriangleMesh.jl.git",
     target = "build",
     branch = "gh-pages",
-    deps   = nothing,
+    # deps   = nothing,
     # make   = nothing,
     julia  = "0.6",
     osname = "linux"
