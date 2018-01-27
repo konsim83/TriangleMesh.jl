@@ -15,11 +15,11 @@ Plot a mesh.
 - `color :: String = "red"`: Edge color (see `lineplot` options in Python's matplotlib)
 """
 function plot_TriMesh(m :: TriMesh; 
-                        linewidth :: Real = 1, 
+                        linewidth :: Real = 1.5, 
                         marker :: String = "None",
-                        markersize :: Real = 10,
+                        markersize :: Real = 5,
                         linestyle :: String = "-",
-                        color :: String = "red")
+                        color :: String = "blue")
 
     fig = matplotlib[:pyplot][:figure]("2D Mesh Plot", figsize = (10,10))
     
