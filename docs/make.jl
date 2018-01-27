@@ -5,7 +5,7 @@ using Documenter, TriangleMesh
 makedocs(
 	modules = [TriangleMesh],
 	doctest=false,
-	clean=true,
+	clean=false,
     format = :html,
 	assets = ["assets/logo.png"],
     sitename = "TriangleMesh.jl",
