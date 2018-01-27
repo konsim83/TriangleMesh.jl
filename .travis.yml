@@ -34,6 +34,5 @@ after_success:
   # push coverage results to Codecov
   - julia -e 'cd(Pkg.dir("TriangleMesh")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'
   # Add the documentation
-  #- julia -e 'Pkg.add("Documenter")'
-  #- julia -e 'cd(Pkg.dir("TriangleMesh")); include(joinpath("docs", "make.jl"))'
-  - julia -e 'cd(Pkg.dir("TriangleMesh")); Pkg.clone("https://github.com/konsim83/TriangleMesh.jl"); include(joinpath("docs", "make.jl"))'
+  - julia -e 'Pkg.add("Documenter")'
+  - julia -e 'cd(Pkg.dir("TriangleMesh")); include(joinpath("docs", "make.jl"))'
