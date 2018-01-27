@@ -2,12 +2,12 @@
 
 *TriangleMesh* is written to provide a convenient mesh generation and refinement tool for Delaunay and constraint Delaunay meshes in Julia. Please see the documentation.
 
-
-| **Documentation**                                                               | **Build Status**                                                                            | **Code Coverage**                                                                                |
+<center>| **Documentation**                                                               | **Build Status**                                                                            | **Code Coverage**                                                                                |
 |:-------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
-| [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] | [![][travis-img]][travis-url] |  [![][codecov-img]][codecov-url] |
+| [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] | [![][travis-img]][travis-url] |  [![][codecov-img]][codecov-url] |</center>
 
 
+## Installation
 
 *TriangleMesh* is not officialy registered yet. To install run
 ```julia
