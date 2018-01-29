@@ -23,6 +23,8 @@ notifications:
     on_build_failure: false
     on_build_status_changed: false
 
+# - msiexec.exe /i C:\projects\VCForPython27.msi /QN /L*V "C:\Temp\VC_msilog.log"
+
 install:
   - ps: "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12"
 # If there's a newer build queued for the same PR, cancel this one
@@ -36,16 +38,13 @@ install:
         "C:\projects\julia-binary.exe")
 # Run installer silently, output to C:\projects\julia
   - C:\projects\julia-binary.exe /S /D=C:\projects\julia
-# Download and install VC++ for Python silently  
-  $VC_source = 'https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi'
-  $VC_destination = 'C:\projects\VCForPython27.msi'
-#  - ps: (new-object net.webclient).DownloadFile(
-#        $VC_source,
-#        $VC_destination)
-Invoke-WebRequest $source -OutFile $destination
+# Download and install VC++ for Python silently
+  $env:VC_SOURCE="https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi"
+  $env:VC_DESTINATION="C:\projects\VCForPython27.msi"
+  - ps: (new-object net.webclient).DownloadFile(
+        $env:VC_SOURCE,
+        $env:VC_DESTINATION)
   - msiexec /i C:\projects\VCForPython27.msi /quiet /qn /norestart /log "C:\project\VC_install.log"
-# - msiexec.exe /i C:\projects\VCForPython27.msi /QN /L*V "C:\Temp\VC_msilog.log"
-
 
 build_script:
 # Need to convert from shallow to complete for Pkg.clone to work
