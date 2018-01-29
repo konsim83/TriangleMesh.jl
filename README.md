@@ -2,9 +2,9 @@
 
 *TriangleMesh* is written to provide a convenient mesh generation and refinement tool for Delaunay and constraint Delaunay meshes in Julia. Please see the documentation.
 
-| **Documentation**                                                               | **Build Status**                                                                            | **Code Coverage**                                                                                |
-|:-------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
-| [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] | [![][travis-img]][travis-url] |  [![][codecov-img]][codecov-url] |
+| **Documentation** | **Build Status** | **Code Coverage**| **Windows Build** | 
+|:-----------------:|:----------------:|:----------------:|:-----------------:|
+| [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] | [![][travis-img]][travis-url] |  [![][codecov-img]][codecov-url] | [![AppVeyor Build status][appveyor-img]][appveyor] |
 
 ### Installation
 
@@ -37,3 +37,6 @@ To build TriangleMesh you need [VC++ for Python](https://www.microsoft.com/en-us
 
 [codecov-img]: https://codecov.io/gh/konsim83/TriangleMesh.jl/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/konsim83/TriangleMesh.jl
+
+[appveyor]: https://ci.appveyor.com/project/konsim83/TriangleMesh.jl
+[appveyor-img]: https://ci.appveyor.com/api/projects/status/qumgv56ma7dg07qg/branch/master?svg=true
