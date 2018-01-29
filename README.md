@@ -6,7 +6,7 @@
 |:-------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|:-----------------------------------------------------------------------------------------------:|
 | [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] | [![][travis-img]][travis-url] |  [![][codecov-img]][codecov-url] |
 
-## Installation
+### Installation
 
 *TriangleMesh* is not officialy registered yet. To install run
 ```julia
@@ -22,6 +22,9 @@ using TriangleMesh
 ```
 to use the package. If you are having trouble please open an [issue](https://github.com/konsim83/TriangleMesh.jl/issues).
 
+### TriangleMesh on Windows
+
+To build TriangleMesh you need [VC++ for Python](https://www.microsoft.com/en-us/download/details.aspx?id=44266). It is for free and easy to install.
 
 [docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg
 [docs-latest-url]: https://konsim83.github.io/TriangleMesh.jl/latest
