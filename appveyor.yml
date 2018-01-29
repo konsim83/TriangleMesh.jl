@@ -39,9 +39,10 @@ install:
 # Download and install VC++ for Python silently  
   $VC_source = 'https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi'
   $VC_destination = 'C:\projects\VCForPython27.msi'
-  - ps: (new-object net.webclient).DownloadFile(
-        $VC_source,
-        $VC_destination)
+#  - ps: (new-object net.webclient).DownloadFile(
+#        $VC_source,
+#        $VC_destination)
+Invoke-WebRequest $source -OutFile $destination
   - msiexec /i C:\projects\VCForPython27.msi /quiet /qn /norestart /log "C:\project\VC_install.log"
 # - msiexec.exe /i C:\projects\VCForPython27.msi /QN /L*V "C:\Temp\VC_msilog.log"
 
