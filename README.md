@@ -38,5 +38,5 @@ To build TriangleMesh you need [VC++ for Python](https://www.microsoft.com/en-us
 [codecov-img]: https://codecov.io/gh/konsim83/TriangleMesh.jl/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/konsim83/TriangleMesh.jl
 
-[appveyor]: https://ci.appveyor.com/project/konsim83/TriangleMesh.jl
-[appveyor-img]: https://ci.appveyor.com/api/projects/status/qumgv56ma7dg07qg/branch/master?svg=true
+[appveyor-url]: https://ci.appveyor.com/project/konsim83/trianglemesh-jl
+[appveyor-img]: https://ci.appveyor.com/api/projects/status/79ww082lilsp21re?svg=true
