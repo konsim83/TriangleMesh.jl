@@ -23,8 +23,6 @@ notifications:
     on_build_failure: false
     on_build_status_changed: false
 
-# - msiexec.exe /i C:\projects\VCForPython27.msi /QN /L*V "C:\Temp\VC_msilog.log"
-
 install:
   - ps: "[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Tls12"
 # If there's a newer build queued for the same PR, cancel this one
@@ -44,7 +42,8 @@ install:
   - ps: (new-object net.webclient).DownloadFile(
         $env:VC_SOURCE,
         $env:VC_DESTINATION)
-  - msiexec /i C:\projects\VCForPython27.msi /quiet /qn /norestart /log "C:\project\VC_install.log"
+  - msiexec.exe /i C:\projects\VCForPython27.msi /QN /L*V "C:\Temp\VC_msilog.log"        
+#  - msiexec /i C:\projects\VCForPython27.msi /quiet /qn /norestart /log "C:\project\VC_install.log"
 
 build_script:
 # Need to convert from shallow to complete for Pkg.clone to work
