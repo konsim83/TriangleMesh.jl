@@ -2,7 +2,7 @@
 CC=gcc
 LINK=gcc
 # C flags
-CFLAGS=-fPIC -Wall -O
+CFLAGS=-fPIC -O
 # linking flags
 LDFLAGS=-shared
 # rm command
