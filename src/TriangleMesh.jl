@@ -14,10 +14,14 @@ export TriMesh, Polygon_pslg,
 		set_polygon_segment!, set_polygon_segment_marker!, set_polygon_hole!,
 		write_mesh
 
+# ----------------------------------------
+# The library must be compiled and found by julia. (Check can be done in a nicer way though.)
 if is_linux()
 	ending = "so"
 elseif is_apple()
 	ending = "dylib"
+elseif is_windows()
+	ending = "dll"
 else
 	error("OS not supported yet.")
 end
@@ -27,6 +31,7 @@ if ~isfile(Pkg.dir() * "/TriangleMesh/deps/usr/lib/libtesselate." * ending)
 else
 	push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
 end
+# ----------------------------------------
 
 # --------------------------------------
 # Contains Polygon struct
