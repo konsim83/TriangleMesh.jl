@@ -2,6 +2,7 @@
 *.jl.*.cov
 *.jl.mem
 
+deps.jl
 
 # Libraries 
 *.o
