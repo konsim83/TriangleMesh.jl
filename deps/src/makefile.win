@@ -1,0 +1,23 @@
+# C compiler
+CC=cl.exe
+LINK=link.exe
+# C flags
+CFLAGS=/DCPU86 /DTRILIBRARY /DNO_TIMER /GL
+# linking flags
+LDFLAGS=/LTCG /DLL
+# target lib
+TARGET_LIB=libtesselate.dll
+
+.PHONY: all
+all: libtesselate
+
+libtesselate : tesselate.obj triangle.obj
+	$(LINK) $(LDFLAGS) /OUT:$(TARGET_LIB) tesselate.obj triangle.obj
+
+triangle.obj : triangle.c
+	$(CC) $(CFLAGS) -c triangle.c
+tesselate.obj : tesselate.c
+	$(CC) $(CFLAGS) -c tesselate.c
+
+clean:
+	-del $(TARGET_LIB) tesselate.obj triangle.obj libtesselate.lib libtesselate.exp

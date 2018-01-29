@@ -1,0 +1,26 @@
+CC = cl.exe
+LINKER = link.exe
+
+CSWITCHES = /DCPU86 /DNO_TIMER /GL
+TRILIBDEFS = /DTRILIBRARY
+
+
+LDSWITCHES = /LTCG /DLL
+
+TARGET_LIB = libtesselate.dll
+
+.PHONY: all
+all: libtesselate
+
+libtesselate : triangle.obj allocate.obj tesselate.obj
+	$(LINKER) $(LDSWITCHES) /OUT:$(TARGET_LIB) triangle.obj allocate.obj tesselate.obj
+
+triangle.obj : triangle.c
+	$(CC) $(CSWITCHES) $(TRILIBDEFS) -c triangle.c
+allocate.obj : allocate.c
+	$(CC) $(CSWITCHES) $(TRILIBDEFS) -c allocate.c
+tesselate.obj : tesselate.c
+	$(CC) $(CSWITCHES) $(TRILIBDEFS) -c tesselate.c
+
+clean:
+	-del $(TARGET_LIB) tricall.obj triangle.obj libtriangle.lib libtriangle.exp

@@ -1,54 +1,41 @@
-CC = gcc
-LINKER=gcc
+# C compiler
+CC=gcc
+LINK=gcc
+# C flags
+CFLAGS=-fPIC -Wall -O
+# linking flags
+LDFLAGS=-shared
+# rm command
+RM=rm -f
+# target lib
+TARGET_LIB=libtesselate.so
+# Tridef
+CFLAGS+=-DTRILIBRARY -DNO_TIMER
 
-CSWITCHES = -fPIC -O2 -g 
-LDSWITCHES = -shared
-
-#CSWITCHES = -DLINUX -DSELF_CHECK -I/usr/X11R6/include -L/usr/X11R6/lib 
-TRILIBDEFS = -DTRILIBRARY
-
-RM = rm -f
+# source files
+SRCS=tesselate.c triangle.c
+OBJS=$(SRCS:.c=.o)
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-    CSWITCHES += -DLINUX
+    CFLAGS+=-DLINUX
 endif
 
 ifeq ($(UNAME_S),Darwin)
-    LDSWITCHES = -dynamiclib -undefined suppress -flat_namespace
+    LDFLAGS=-dynamiclib -undefined suppress -flat_namespace
 endif
 
-# +---------------------------------------+
-# | Make rules for julia library on linux |
-# +---------------------------------------+
-libtesselate: triangle.o allocate.o tesselate.o
-				@echo "Linking object files into   $@.so"
-				@$(LINKER) $(LDSWITCHES) -shared $(CSWITCHES) -o \
-					libtesselate.so \
-					tesselate.o \
-					allocate.o \
-					triangle.o -lm
+.PHONY: all
+all: ${TARGET_LIB}
 
+$(TARGET_LIB): $(OBJS)
+	$(LINK) ${LDFLAGS} -o $@ $^
 
-tesselate.o: tesselate.c allocate.o triangle.o
-				@echo "Building object file   $@"
-				@$(CC) -fpic $(OPT) $(CSWITCHES) -c -o \
-					tesselate.o \
-					tesselate.c
+$(SRCS:.c=.d):%.d:%.c
+	$(CC) $(CFLAGS) -MM $< >$@
 
+include $(SRCS:.c=.d)
 
-triangle.o: triangle.c triangle.h
-				@echo "Building object file   $@"
-				@$(CC) -fpic $(OPT) $(CSWITCHES) $(TRILIBDEFS) -c -o \
-					triangle.o \
-					triangle.c
-
-allocate.o: allocate.c allocate.h
-				@echo "Building object file   $@"
-				@$(CC) -fpic $(OPT) $(CSWITCHES) $(TRILIBDEFS) -c -o \
-					allocate.o \
-					allocate.c
-
+.PHONY: clean
 clean:
-	@echo "Clearing obj and lib directory..."
-	@$(RM) *.so *.o
+	-${RM} ${TARGET_LIB} ${OBJS} $(SRCS:.c=.d)
