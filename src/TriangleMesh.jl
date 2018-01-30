@@ -16,20 +16,26 @@ export TriMesh, Polygon_pslg,
 
 # ----------------------------------------
 # The library must be compiled and found by julia. (Check can be done in a nicer way though.)
-if is_linux()
-	ending = "so"
-elseif is_apple()
-	ending = "dylib"
-elseif is_windows()
-	ending = "dll"
-else
-	error("OS not supported yet.")
-end
+# The library must be compiled and found by julia. (Check can be done in a nicer way though.)
+# if is_linux()
+# 	ending = "so"
+# elseif is_apple()
+# 	ending = "dylib"
+# elseif is_windows()
+# 	ending = "dll"
+# else
+# 	error("OS not supported.")
+# end
 
-if ~isfile(Pkg.dir() * "/TriangleMesh/deps/usr/lib/libtesselate." * ending)
-	error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
+# if ~isfile(Pkg.dir() * "/TriangleMesh/deps/usr/lib/libtesselate." * ending)
+# 	error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
+# else
+#	push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
+# end
+if ~isfile(Pkg.dir() * "/TriangleMesh/deps/deps.jl")
+   error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
 else
-	push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
+   push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
 end
 # ----------------------------------------
 
