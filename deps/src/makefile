@@ -1,41 +1,46 @@
-# C compiler
-CC=gcc
-LINK=gcc
-# C flags
-CFLAGS=-fPIC -O
-# linking flags
-LDFLAGS=-shared
-# rm command
-RM=rm -f
-# target lib
-TARGET_LIB=libtesselate.so
-# Tridef
-CFLAGS+=-DTRILIBRARY -DNO_TIMER
+# C compiler and linker
+CC = gcc
+LINKER = gcc
 
-# source files
-SRCS=tesselate.c triangle.c
-OBJS=$(SRCS:.c=.o)
+# rm command
+RM = rm -f
+
+CSWITCHES = -fpic -O2
+TRILIBDEFS = -DTRILIBRARY -DNO_TIMER -DNDEBUG
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-    CFLAGS+=-DLINUX
+    CFLAGS += -DLINUX
 endif
 
+
+# linking flags
+LDFLAGS = -shared
 ifeq ($(UNAME_S),Darwin)
-    LDFLAGS=-dynamiclib -undefined suppress -flat_namespace
+    LDFLAGS = -dynamiclib -undefined suppress -flat_namespace
 endif
 
-.PHONY: all
-all: ${TARGET_LIB}
+libtesselate: triangle.o tesselate.o
+				@echo "Linking object files into   $@"
+				@$(LINKER) $(LDFLAGS) -o \
+					libtesselate.so \
+					tesselate.o \
+					triangle.o -lm
 
-$(TARGET_LIB): $(OBJS)
-	$(LINK) ${LDFLAGS} -o $@ $^
+tesselate.o: tesselate.c tesselate.h
+				@echo "Building object file   $@"
+				@$(CC) $(CSWITCHES) -c -o \
+					tesselate.o \
+					tesselate.c
 
-$(SRCS:.c=.d):%.d:%.c
-	$(CC) $(CFLAGS) -MM $< >$@
 
-include $(SRCS:.c=.d)
+triangle.o: triangle.c triangle.h
+				@echo "Building object file   $@"
+				@$(CC) $(CSWITCHES) $(TRILIBDEFS) -c -o \
+					triangle.o \
+					triangle.c
 
-.PHONY: clean
+
 clean:
-	-${RM} ${TARGET_LIB} ${OBJS} $(SRCS:.c=.d)
+	@echo "Clearing obj and lib directory..."
+	@$(RM) *.so *.o

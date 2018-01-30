@@ -36,7 +36,7 @@ isfile("deps.jl") && rm("deps.jl")
                     FileRule(libfile, @build_steps begin
                         BinDeps.ChangeDirectory(srcdir)
                         `make clean`
-                        `make`
+                        `make libtesselate`
                         `cp libtesselate.so $libfile`
                         `cp triangle.h $headerdir/`
                         `cp tesselate.h $headerdir/`
