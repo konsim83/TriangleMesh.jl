@@ -36,7 +36,7 @@ node_attr = rand(8,2)
 We now have to specify that the segemnts 5``\rightarrow``6, 6``\rightarrow``7, 7``\rightarrow``8 and 8``\rightarrow``5 enclose a hole. This is done by providing a point that is in the interior of the hole:
 ```julia
 # size is number_holes x 2
-hole = [0.0 0.0] 
+hole = [0.5 0.5] 
 ```
 
 !!! tip
