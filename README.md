@@ -4,7 +4,7 @@
 
 | **Documentation** | **Build Status** | **Code Coverage**| **Windows Build** | 
 |:-----------------:|:----------------:|:----------------:|:-----------------:|
-| [![][docs-stable-img]][docs-stable-url] [![][docs-latest-img]][docs-latest-url] | [![][travis-img]][travis-url] |  [![][codecov-img]][codecov-url] | [![Build status][appveyor-img]][appveyor-url] |
+| [![][docs-latest-img]][docs-latest-url] | [![][travis-img]][travis-url] |  [![][codecov-img]][codecov-url] | [![Build status][appveyor-img]][appveyor-url] |
 
 ### Installation
 
