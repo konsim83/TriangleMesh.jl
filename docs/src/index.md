@@ -13,7 +13,7 @@
 
 This tool covers large parts of the full functionality of Triangle but not all
 of it. If you have the impression that there is important functionality missing
-or if you found bugs or have any suggestions and criticism  please open an issue on [GitHub](https://github.com/konsim83/TriangleMesh.jl) or contact me.
+or if you found bugs, have any suggestions or criticism  please open an issue on [GitHub](https://github.com/konsim83/TriangleMesh.jl) or [contact me](https://www.clisap.de/de/forschung/a:-dynamik-und-variabilitaet-des-klimasystems/crg-numerische-methoden-in-den-geowissenschaften/gruppenmitglieder/konrad-simon/).
 
 The convenience methods can be used without knowledge of Triangle but the interface also provides more advanced methods that allow to pass Triangle's command line switches. For their use the user is referred to [Triangle's documentation](https://www.cs.cmu.edu/~quake/triangle.html).
 
