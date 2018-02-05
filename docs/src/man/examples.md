@@ -7,7 +7,7 @@ This section is intended to give you an idea of how to use `TriangleMesh`. The w
 
 *Create a polygon to be meshed manually.*
 
-First we need to create a polygon - a planar straight-line graph (PSLG) - that desribes a bounded area in the plane. A PSLG consists of nodes and (optional) segments. Each node can (but does not need to) have a marker indicating that it belongs to a certain set and a number of real attributes. Each segement can have a marker as well. If the set of segemnts (and the set of segement markers) is empty the polygon is simply a set of unconnected points.
+First we need to create a polygon - a planar straight-line graph (PSLG) - that desribes a bounded area in the plane. A PSLG consists of nodes and (optional) segments. Each node can (but does not need to) have a marker indicating that it belongs to a certain set and a number of real attributes. Each segment can have a marker as well. If the set of segments (and the set of segment markers) is empty the polygon is simply a set of unconnected points.
 
 
 We will create a polygon that desribes a rhombus with a squared hole in the middle from the node set
