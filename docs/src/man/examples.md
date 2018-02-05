@@ -7,10 +7,10 @@ This section is intended to give you an idea of how to use `TriangleMesh`. The w
 
 *Create a polygon to be meshed manually.*
 
-First we need to create a polygon - a planar straight-line graph (PSLG) - that desribes a bounded area in the plane. A PSLG consists of nodes and (optional) segments. Each node can (but does not need to) have a marker indicating that it belongs to a certain set and a number of real attributes. Each segment can have a marker as well. If the set of segments (and the set of segment markers) is empty the polygon is simply a set of unconnected points.
+First we need to create a polygon - a planar straight-line graph (PSLG) - that describes a bounded area in the plane. A PSLG consists of nodes and (optional) segments. Each node can (but does not need to) have a marker indicating that it belongs to a certain set and a number of real attributes. Each segment can have a marker as well. If the set of segments (and the set of segment markers) is empty the polygon is simply a set of unconnected points.
 
 
-We will create a polygon that desribes a rhombus with a squared hole in the middle from the node set
+We will create a polygon that describes a rhombus with a squared hole in the middle from the node set
 ```julia
 # size is number_points x 2
 node = [1.0 0.0 ; 0.0 1.0 ; -1.0 0.0 ; 0.0 -1.0 ;
@@ -28,7 +28,7 @@ node_marker = [ones(Int,4) ; 2*ones(Int,4)]
 # last segment gets a different marker
 seg_marker = [ones(Int,4) ; 2*ones(Int,4)]
 ```
-as well as 2 random attibutes for each point
+as well as 2 random attributes for each point
 ```julia
 # size is number_points x number_attr
 node_attr = rand(8,2) 
@@ -86,7 +86,7 @@ First we create an L-shaped domain using one of the above methods to construct s
 ```julia
 poly = polygon_Lshape()
 ```
-Then we create the mesh by calling `create_mesh` with `poly` as its first argument. The rest of the arguments is optional but usually needed to adust the behavior of the meshing algorithm according to your needs. An example could be:
+Then we create the mesh by calling `create_mesh` with `poly` as its first argument. The rest of the arguments is optional but usually necessary to adust the behavior of the meshing algorithm according to your needs. An example could be:
 ```julia
 mesh = create_mesh(poly, info_str="my mesh", voronoi=true, delaunay=true, set_area_max=true)
 ```
@@ -97,7 +97,7 @@ The argument `set_area_max=true` will make Julia ask the user for a maximum area
 
 *Convenience method for point clouds.*
 
-Meshing a point cloud with `TriangleMesh` is as easy. As an example we will create mesh of the convex hull of a number of random points and tell the algorithm that it is not allowed to add more points to it (which could be done though to improve the mesh quality).
+Meshing a point cloud with `TriangleMesh` is easy. As an example we will create mesh of the convex hull of a number of random points and tell the algorithm that it is not allowed to add more points to it (which could be done though to improve the mesh quality).
 
 Let's create a point cloud:
 ```julia
