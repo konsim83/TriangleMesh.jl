@@ -8,13 +8,9 @@
 
 ### Installation
 
-*TriangleMesh* is not officialy registered yet. To install run
+*TriangleMesh* is now officialy registered To install run
 ```julia
-Pkg.clone("https://github.com/konsim83/TriangleMesh.jl.git")
-```
-and then run
-```julia
-Pkg.build("TriangleMesh")
+Pkg.add("TriangleMesh")
 ```
 After the build passed successfully type
 ```julia
