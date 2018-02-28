@@ -32,11 +32,11 @@ export TriMesh, Polygon_pslg,
 # else
 #	push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
 # end
-# if ~isfile(Pkg.dir() * "/TriangleMesh/deps/deps.jl")
-#    error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
-# else
-#    push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
-# end
+if ~isfile(Pkg.dir() * "/TriangleMesh/deps/deps.jl")
+   error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
+else
+   push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
+end
 # ----------------------------------------
 
 # --------------------------------------
