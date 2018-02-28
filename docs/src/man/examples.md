@@ -105,7 +105,7 @@ p = rand(10,2)
 ```
 And now the mesh:
 ```julia
-mesh = create_mesh(poly, info_str="my mesh", prevent_steiner_points=true)
+mesh = create_mesh(p, info_str="my mesh", prevent_steiner_points=true)
 ```
 For details of what the optional arguments are see [`create_mesh`](@ref).
 
@@ -179,7 +179,7 @@ function plot_TriMesh(m :: TriMesh;
     ax[:set_aspect]("equal")
     
     # Connectivity list -1 for Python
-    tri = ax[:triplot](m.point[:,1], m.point[:,2], m.cell-1 )
+    tri = ax[:triplot](m.point[1,:], m.point[2,:], m.cell'-1 )
     setp(tri,   linestyle = linestyle,
                 linewidth = linewidth,
                 marker = marker,

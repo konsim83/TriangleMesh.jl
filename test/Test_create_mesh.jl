@@ -17,7 +17,7 @@
                             set_angle_min = false,
                             add_switches = "")
 
-	    @test isapprox(m.point, p.point')
+	    @test isapprox(m.point, p.point)
 	    @test m.n_cell == 1
 	    @test m.n_edge == 3
 	    @test m.n_segment == 3

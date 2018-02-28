@@ -11,6 +11,7 @@ deps.jl
 *.dll
 *.dylib
 
+startrc.jl
 
 docs/build/
 docs/site/

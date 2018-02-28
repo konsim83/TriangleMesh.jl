@@ -88,25 +88,25 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
 
     if mesh.pointlist != C_NULL
         point = convert(Array{Float64,2}, 
-                        unsafe_wrap(Array, mesh.pointlist, (2,n_point), take_ownership))'
+                        unsafe_wrap(Array, mesh.pointlist, (2,n_point), take_ownership))
     else
         error("Points could not be read from triangulation structure.")
     end
     
     if mesh.pointmarkerlist != C_NULL
         n_point_marker = 1     
-        point_marker = convert(Array{Int,2}, unsafe_wrap(Array, mesh.pointmarkerlist, (n_point,1), take_ownership))
+        point_marker = convert(Array{Int,2}, unsafe_wrap(Array, mesh.pointmarkerlist, (1,n_point), take_ownership))
     else
         n_point_marker = 0
-        point_marker = Array{Int,2}(n_point,0)
+        point_marker = Array{Int,2}(0,n_point)
     end
 
     n_point_attribute = Int(mesh.numberofpointattributes)
     if n_point_attribute>0
         point_attribute = convert(Array{Float64,2}, 
-                                unsafe_wrap(Array, mesh.pointattributelist, (n_point_attribute, n_point), take_ownership))'
+                                unsafe_wrap(Array, mesh.pointattributelist, (n_point_attribute, n_point), take_ownership))
     else
-        point_attribute = Array{Float64,2}(n_point,0)
+        point_attribute = Array{Float64,2}(0,n_point)
     end
 
     
@@ -116,7 +116,7 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
 
     if mesh.trianglelist != C_NULL
         cell = convert(Array{Int,2}, 
-                        unsafe_wrap(Array, mesh.trianglelist, (3, n_cell), take_ownership))'
+                        unsafe_wrap(Array, mesh.trianglelist, (3, n_cell), take_ownership))
         if minimum(cell)==0
             cell += 1
         end
@@ -126,12 +126,12 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
 
     if mesh.neighborlist != C_NULL
         cell_neighbor = convert(Array{Int,2},
-                                unsafe_wrap(Array, mesh.neighborlist, (3,n_cell), take_ownership))'
+                                unsafe_wrap(Array, mesh.neighborlist, (3,n_cell), take_ownership))
         if minimum(cell_neighbor)==-1
             cell_neighbor += 1
         end
     else
-        cell_neighbor = Array{Int,2}(n_cell,0)
+        cell_neighbor = Array{Int,2}(0,n_cell)
     end
 
 
@@ -139,13 +139,13 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
     if mesh.edgelist != C_NULL
         n_edge = Int(mesh.numberofedges)
         edge = convert(Array{Int,2},
-                        unsafe_wrap(Array, mesh.edgelist, (2, n_edge), take_ownership))'
+                        unsafe_wrap(Array, mesh.edgelist, (2, n_edge), take_ownership))
         if minimum(edge)==0
             edge += 1
         end
     else
         n_edge = 0
-        edge = Array{Int,2}(0,3)
+        edge = Array{Int,2}(2,0)
    
     end
 
@@ -163,13 +163,13 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
     if mesh.segmentlist != C_NULL
         n_segment = Int(mesh.numberofsegments)
         segment = convert(Array{Int,2}, 
-                            unsafe_wrap(Array, mesh.segmentlist, (2,n_segment), take_ownership))'
+                            unsafe_wrap(Array, mesh.segmentlist, (2,n_segment), take_ownership))
         if minimum(segment)==0
             segment += 1
         end
     else
         n_segment = 0
-        segment = Array{Int,2}(0,2)
+        segment = Array{Int,2}(2,0)
     end
 
     if mesh.segmentmarkerlist != C_NULL
@@ -186,10 +186,10 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
     if mesh.holelist != C_NULL
         n_hole = Int(mesh.numberofholes)
         hole = convert(Array{Float64,2},
-                        unsafe_wrap(Array, mesh.holelist, (2, n_hole), take_ownership))'
+                        unsafe_wrap(Array, mesh.holelist, (2, n_hole), take_ownership))
     else
         n_hole = 0
-        hole = Array{Float64,2}(0, 2)
+        hole = Array{Float64,2}(2, 0)
     end
     
     # ----------------------------------------
@@ -201,14 +201,14 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
         # Points
         n_point_v = Int(vor.numberofpoints)
         point_v = convert(Array{Float64,2},
-                                unsafe_wrap(Array, vor.pointlist, (2,n_point), take_ownership))'
+                                unsafe_wrap(Array, vor.pointlist, (2,n_point), take_ownership))
 
         n_point_attribute_v = Int(vor.numberofpointattributes)
         if n_point_attribute_v>0
             point_attribute_v = convert(Array{Float64,2}, 
-                                    unsafe_wrap(Array, vor.pointattributelist, (n_point_attribute_v, n_point_v), take_ownership))'
+                                    unsafe_wrap(Array, vor.pointattributelist, (n_point_attribute_v, n_point_v), take_ownership))
         else
-            point_attribute_v = Array{Float64,2}(n_point_v,0)
+            point_attribute_v = Array{Float64,2}(0,n_point_v)
         end
 
         
@@ -216,31 +216,31 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
         n_edge_v = Int(vor.numberofedges)
         if n_edge_v>0
             edge_v = convert(Array{Int,2}, 
-                            unsafe_wrap(Array, vor.edgelist, (2, n_edge_v), take_ownership))'
+                            unsafe_wrap(Array, vor.edgelist, (2, n_edge_v), take_ownership))
             if minimum(edge_v)==0
                 edge_v += 1
             end
             
             if vor.normlist != C_NULL
             normal_v = convert(Array{Float64,2}, 
-                            unsafe_wrap(Array, vor.edgelist, (2, n_edge_v), take_ownership))'
+                            unsafe_wrap(Array, vor.edgelist, (2, n_edge_v), take_ownership))
             else
-                normal_v = Array{Float64,2}(0, 2)
+                normal_v = Array{Float64,2}(2, 0)
             end
         else
             edge_v = Array{Int,2}(0,2)
-            normal_v = Array{Float64,2}(0, 2)
+            normal_v = Array{Float64,2}(2, 0)
         end
     else
         n_point_v = 0
-        point_v = Array{Float64,2}(0,1)
+        point_v = Array{Float64,2}(2,0)
 
         n_point_attribute_v = 0
-        point_attribute_v = Array{Float64,2}(0,1)
+        point_attribute_v = Array{Float64,2}(1,0)
 
         n_edge_v = 0
-        edge_v = Array{Int,2}(0,2)
-        normal_v = Array{Float64,2}(0, 2)
+        edge_v = Array{Int,2}(2, 0)
+        normal_v = Array{Float64,2}(2, 0)
     end
 
     voronoi = VoronoiDiagram(vor_info, 

@@ -224,8 +224,8 @@ end
 Creates a triangulation of the convex hull of a point cloud.
 
 # Keyword arguments
-- `point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),1)`: Points can have a marker.
-- `point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0)`: Points can be 
+- `point_marker :: Array{Int,2} = Array{Int,2}(0,size(point,1))`: Points can have a marker.
+- `point_attribute :: Array{Float64,2} = Array{Float64,2}(0,size(point,1))`: Points can be 
                                                                             given a number
                                                                             of attributes.
 - `info_str :: String = "Triangular mesh of convex hull of point cloud."`: Some mesh info on the mesh
@@ -256,8 +256,8 @@ Creates a triangulation of the convex hull of a point cloud.
 
 """
 function create_mesh(point :: Array{Float64,2}; 
-                            point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),0),
-                            point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0),
+                            point_marker :: Array{Int,2} = Array{Int,2}(0,size(point,1)),
+                            point_attribute :: Array{Float64,2} = Array{Float64,2}(0,size(point,1)),
                             info_str :: String = "Triangular mesh of convex hull of point cloud.",
                             verbose :: Bool = false,
                             check_triangulation :: Bool = false,
@@ -394,15 +394,15 @@ Options for the meshing algorithm are passed directly by command line switches
 for Triangle. Use only if you know what you are doing.
 
 # Keyword arguments
-- `point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),1)`: Points can have a marker.
-- `point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0)`: Points can be 
+- `point_marker :: Array{Int,2} = Array{Int,2}(0,size(point,1))`: Points can have a marker.
+- `point_attribute :: Array{Float64,2} = Array{Float64,2}(0,size(point,1))`: Points can be 
                                                                             given a number
                                                                             of attributes.
 - `info_str :: String = "Triangular mesh of convex hull of point cloud."`: Some mesh info on the mesh
 """
 function create_mesh(point :: Array{Float64,2}, switches :: String;
-                                    point_marker :: Array{Int,2} = Array{Int,2}(size(point,1),0),
-                                    point_attribute :: Array{Float64,2} = Array{Float64,2}(size(point,1),0),
+                                    point_marker :: Array{Int,2} = Array{Int,2}(0,size(point,1)),
+                                    point_attribute :: Array{Float64,2} = Array{Float64,2}(0,size(point,1)),
                                     info_str :: String = "Triangular mesh of convex hull of point cloud.")
   
     contains(switches, "z") ? error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
