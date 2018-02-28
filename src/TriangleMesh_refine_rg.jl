@@ -22,30 +22,30 @@ function refine_rg(m :: TriMesh)
     progress = Progress(N, 0.01, "Subdividing all edges...", 10)
     for i in 1:m.n_edge
         # New point from edge subdivision
-        p = (point[segment[i,1],:] + point[segment[i,2],:]) / 2
+        p = (point[:,segment[1,i]] + point[:,segment[2,i]]) / 2
 
         # Change one end point
-        seg_tmp_2 = segment[i,2]
-        segment[i,2] = size(point,1) + 1
+        seg_tmp_2 = segment[2,i]
+        segment[2,i] = size(point,2) + 1
         
         # Push the new segment and point
-        segment = vcat(segment, [size(point,1) + 1 seg_tmp_2])
-        point = vcat(point, p')
+        segment = hcat(segment, [size(point,2)+1 ; seg_tmp_2])
+        point = hcat(point, p)
 
         # Mark segments and points as before.
-        point_marker = [point_marker ; point_marker[i]]
+        point_marker = [point_marker  point_marker[i]]
         segment_marker = push!(segment_marker, segment_marker[i])
         next!(progress)
     end
     
     # Step 2: Build a polygon from the above
-    poly = Polygon_pslg(size(point,1), 1, 0,
-                        size(segment,1), m.n_hole)
-    set_polygon_point!(poly, point)
-    set_polygon_point_marker!(poly, point_marker)
-    set_polygon_segment!(poly, segment)
+    poly = Polygon_pslg(size(point,2), 1, 0,
+                        size(segment,2), m.n_hole)
+    set_polygon_point!(poly, point')
+    set_polygon_point_marker!(poly, point_marker')
+    set_polygon_segment!(poly, segment')
     set_polygon_segment_marker!(poly, segment_marker)
-    set_polygon_hole!(poly, m.hole)
+    set_polygon_hole!(poly, m.hole')
 
 
     
@@ -81,13 +81,13 @@ function refine_rg(m :: TriMesh, ind_red :: Array{Int,1})
     N = length(ind_red)
     progress = Progress(N, 0.01, "Marking edges to be refined...", 10)
     for i in ind_red
-        e = [m.cell[i,1] m.cell[i,2] ; 
-            m.cell[i,2] m.cell[i,3] ; 
-            m.cell[i,3] m.cell[i,1]]
+        e = [m.cell[1,i] m.cell[2,i] ; 
+            m.cell[2,i] m.cell[3,i] ; 
+            m.cell[3,i] m.cell[1,i]]
         for j in 1:3
-            ind_found = find(all(m.edge.==[e[j,1] e[j,2]],2))
+            ind_found = find(all(m.edge.==[e[j,1] ; e[j,2]],1))
             if isempty(ind_found)
-                ind_found = find(all(m.edge.==[e[j,2] e[j,1]],2))
+                ind_found = find(all(m.edge.==[e[j,2] ; e[j,1]],1))
             end
             refinement_marker[ind_found] = true
         end
@@ -108,31 +108,31 @@ function refine_rg(m :: TriMesh, ind_red :: Array{Int,1})
     progress = Progress(N, 0.01, "Subdividing marked edges...", 10)
     for i in ind_refine_edge
         # New point from edge subdivision
-        p = (point[segment[i,1],:] + point[segment[i,2],:]) / 2
+        p = (point[:,segment[1,i]] + point[:,segment[2,i]]) / 2
 
         # Change one end point
-        seg_tmp_2 = segment[i,2]
-        segment[i,2] = size(point,1) + 1
+        seg_tmp_2 = segment[2,i]
+        segment[2,i] = size(point,2)+1
         
         # Push the new segment and point
-        segment = vcat(segment, [size(point,1) + 1 seg_tmp_2])
-        point = vcat(point, p')
+        segment = hcat(segment, [size(point,2)+1 ; seg_tmp_2])
+        point = hcat(point, p)
 
         # Mark segments and points as before.
-        point_marker = [point_marker ; point_marker[i]]
+        point_marker = [point_marker point_marker[i]]
         segment_marker = push!(segment_marker, segment_marker[i])
         next!(progress)
     end
 
     
     # Step 3: Build a polygon from the above
-    poly = Polygon_pslg(size(point,1), 1, 0,
-                        size(segment,1), m.n_hole)
-    set_polygon_point!(poly, point)
-    set_polygon_point_marker!(poly, point_marker)
-    set_polygon_segment!(poly, segment)
+    poly = Polygon_pslg(size(point,2), 1, 0,
+                        size(segment,2), m.n_hole)
+    set_polygon_point!(poly, point')
+    set_polygon_point_marker!(poly, point_marker')
+    set_polygon_segment!(poly, segment')
     set_polygon_segment_marker!(poly, segment_marker)
-    set_polygon_hole!(poly, m.hole)
+    set_polygon_hole!(poly, m.hole')
 
     
     # Step 4: Triangulate the new Polygon_pslg with the -YY switch. This

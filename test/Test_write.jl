@@ -12,4 +12,5 @@
     @test isfile(pwd() * "/meshfiles/test_mesh_write.edge")
     @test isfile(pwd() * "/meshfiles/test_mesh_write.neigh")
            
+   rm(pwd() * "/meshfiles/", recursive=true)
 end
