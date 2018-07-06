@@ -1,5 +1,5 @@
 using TriangleMesh
-using Compat.Test
+using Test
 
 include("Test_Polygon.jl")
 
