@@ -5,6 +5,9 @@ Create and refine 2D unstructured triangular meshes. Interfaces
 module TriangleMesh
 
 using ProgressMeter
+using Libdl
+using LinearAlgebra
+using DelimitedFiles
 
 export TriMesh, Polygon_pslg, 
 		create_mesh, refine, refine_rg, 
@@ -32,10 +35,10 @@ export TriMesh, Polygon_pslg,
 # else
 #	push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
 # end
-if ~isfile(Pkg.dir() * "/TriangleMesh/deps/deps.jl")
+if !isfile(joinpath(@__DIR__, "..", "deps", "deps.jl"))
    error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
 else
-   push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
+   push!(Libdl.DL_LOAD_PATH, joinpath(@__DIR__, "..", "deps", "usr", "lib"))
 end
 # ----------------------------------------
 

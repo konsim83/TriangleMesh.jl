@@ -44,14 +44,12 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 			thirdline = "# List of nodes, attributes (optional) and markers (optional):\n"
 			write(f, thirdline)
 
-			# zip several arrays of different type
-			cmd = "zip(1:$(m.n_point), $(m.point[1,:]), $(m.point[2,:])"
-			for i in 1:m.n_point_attribute
-       			cmd = cmd * ", $(m.point_attribute)[$(i),:]"
-       		end
-
-			cmd = cmd * ", $(m.point_marker))"
-			data = eval(parse(cmd))
+			data = zip(
+			    1:m.n_point,
+			    m.point[1,:],
+			    m.point[2,:],
+			    [m.point_attribute[i,:] for i in 1:m.n_point_attribute]...,
+			    m.point_marker)
 			writedlm(f, data, " ")
 
 			close(f)
@@ -71,9 +69,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 			thirdline = "# List of triangles and attributes (optional):\n"
 			write(f, thirdline)
 
-			# zip several arrays of different type
-			cmd = "zip(1:$(m.n_cell), $(m.cell[1,:]), $(m.cell[2,:]), $(m.cell[3,:]))"
-			data = eval(parse(cmd))
+			data = zip(1:m.n_cell, m.cell[1,:], m.cell[2,:], m.cell[3,:])
 			writedlm(f, data, " ")
 
 			close(f)
@@ -93,9 +89,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 			thirdline = "# List of triangle neighbors:\n"
 			write(f, thirdline)
 
-			# zip several arrays of different type
-			cmd = "zip(1:$(m.n_cell), $(m.cell_neighbor[1,:]), $(m.cell_neighbor[2,:]), $(m.cell_neighbor[3,:]))"
-			data = eval(parse(cmd))
+			data = zip(1:m.n_cell, m.cell_neighbor[1,:], m.cell_neighbor[2,:], m.cell_neighbor[3,:])
 			writedlm(f, data, " ")
 
 			close(f)
@@ -115,9 +109,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 			thirdline = "# List of edges and boundary markers (optional):\n"
 			write(f, thirdline)
 
-			# zip several arrays of different type
-			cmd = "zip(1:$(m.n_edge), $(m.edge[1,:]), $(m.edge[2,:]), $(m.edge_marker))"
-			data = eval(parse(cmd))
+			data = zip(1:m.n_edge, m.edge[1,:], m.edge[2,:], m.edge_marker)
 			writedlm(f, data, " ")
 
 			close(f)
