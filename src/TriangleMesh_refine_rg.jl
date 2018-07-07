@@ -85,15 +85,15 @@ function refine_rg(m :: TriMesh, ind_red :: Array{Int,1})
             m.cell[2,i] m.cell[3,i] ; 
             m.cell[3,i] m.cell[1,i]]
         for j in 1:3
-            ind_found = find(all(m.edge.==[e[j,1] ; e[j,2]],1))
+            ind_found = findall(all(m.edge.==[e[j,1] ; e[j,2]],dims=1))
             if isempty(ind_found)
-                ind_found = find(all(m.edge.==[e[j,2] ; e[j,1]],1))
+                ind_found = findall(all(m.edge.==[e[j,2] ; e[j,1]],dims=1))
             end
-            refinement_marker[ind_found] = true
+            refinement_marker[LinearIndices(ind_found)] .= true
         end
         next!(progress)
     end
-    ind_refine_edge = find(refinement_marker)
+    ind_refine_edge = findall(refinement_marker)
 
 
     # Step 2: Set up a new poly structure with points and segements. Ignore
