@@ -46,7 +46,7 @@ platform:
 # # Uncomment the following lines to allow failures on nightly julia
 # # (tests will run but not make your overall status red)
 # matrix:
-  allow_failures:
+allow_failures:
   - julia_version: nightly
 
 branches:
@@ -61,7 +61,7 @@ notifications:
     on_build_status_changed: false
 
 install:
-- ps: iex ((new-object net.webclient).DownloadString("https://raw.githubusercontent.com/JuliaCI/Appveyor.jl/version-1/bin/install.ps1"))
+  - ps: iex ((new-object net.webclient).DownloadString("https://raw.githubusercontent.com/JuliaCI/Appveyor.jl/version-1/bin/install.ps1"))
 # Download and install VC++ for Python silently
   - ps: $env:VC_SOURCE="https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi"
   - ps: $env:VC_DESTINATION="C:\projects\VCForPython27.msi"
