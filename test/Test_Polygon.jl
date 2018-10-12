@@ -39,7 +39,7 @@
 			N = rand(5:10, 5)
 			for i in N
 				p = polygon_regular(i)
-				norm_points = sum(p.point.^2,1)[:]
+				norm_points = sum(p.point.^2,dims=1)[:]
 				@test isapprox(norm_points, ones(i))
 				@test size(p.segment) == (2,i)
 				@test p.n_hole == 0

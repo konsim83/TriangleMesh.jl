@@ -38,12 +38,16 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
                                 info_str :: String = "Refined mesh")
     
     # Do some sanity check of inputs
-    divide_cell_into<1 ? error("Option `divide_cell_into` must be at least 1.") :
+    if divide_cell_into<1
+        Base.@error "Option `divide_cell_into` must be at least 1."
+    end
     
-    isempty(ind_cell) ? error("List of cells to be refined must not be empty. Leave this option blank to refine globally.") :
+    if isempty(ind_cell)
+        Base.@error "List of cells to be refined must not be empty. Leave this option blank to refine globally."
+    end
 
     if keep_edges && keep_segments
-        error("Options `keep_edges` and `keep_segments` can not both be true.")
+        Base.@error "Options `keep_edges` and `keep_segments` can not both be true."
     end
 
 
@@ -73,13 +77,17 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
 
     # input points
     n_point = Cint(m.n_point)
-    n_point <1 ? error("No points provided for refinement.") :
+    if n_point <1
+        Base.@error "No points provided for refinement."
+    end
     point = convert(Array{Cdouble,2}, m.point)
 
     
     # input cells
     n_cell = Cint(m.n_cell)
-    n_cell<1 ? error("No cells provided for refinement.") :
+    if n_cell<1
+        Base.@error "No cells provided for refinement."
+    end
     cell = convert(Array{Cint,2}, m.cell)
     
     
@@ -109,21 +117,21 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
     if keep_segments
         n_segment = Cint(m.n_segment)
         if n_segment==0
-            info("No segments provided by mesh. Option `keep_segments` disabled.")
+            Base.@info "No segments provided by mesh. Option `keep_segments` disabled."
             keep_segments = false
         elseif n_segment>0
             segment = convert(Array{Cint,2}, m.segment)
             segment_marker = convert(Array{Cint,1}, m.segment_marker)
             switches = switches * "p"
         else
-            segment = Array{Cint,2}(2,0)
-            segment_marker = Array{Cint,1}(0)
+            segment = Array{Cint,2}(undef,2,0)
+            segment_marker = Array{Cint,1}(undef,0)
         end
     elseif keep_edges
         # If there are edges use them
         n_segment = Cint(m.n_edge)
         if n_segment==0
-            info("No edges provided by mesh. Option `keep_edges` disabled.")
+            Base.@info "No edges provided by mesh. Option `keep_edges` disabled."
             keep_edges = false
         end
 
@@ -132,21 +140,21 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
             segment_marker = convert(Array{Cint,1}, m.edge_marker)
             switches = switches * "p"
         else
-            segment = Array{Cint,2}(2,0)
-            segment_marker = Array{Cint,1}(0)
+            segment = Array{Cint,2}(undef,2,0)
+            segment_marker = Array{Cint,1}(undef,0)
         end
     else
         n_segment = Cint(0)
-        segment = Array{Cint,2}(2,0)
-        segment_marker = Array{Cint,1}(0)
-        info("Neither segments nor edges will be kept during the refinedment.")
+        segment = Array{Cint,2}(undef,2,0)
+        segment_marker = Array{Cint,1}(undef,0)
+        Base.@info "Neither segments nor edges will be kept during the refinedment."
     end
 
 
     # If there are edges use them (not necessary but does not harm)
     n_edge = Cint(m.n_edge)
     if n_edge==0 && keep_edges
-        info("No edges provided by mesh. Option `keep_edges` disabled.")
+        Base.@info "No edges provided by mesh. Option `keep_edges` disabled."
         keep_edges = false
     end
 
@@ -154,8 +162,8 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
         edge = convert(Array{Cint,2}, m.edge)
         edge_marker = convert(Array{Cint,1}, m.edge_marker)
     else
-        edges = Array{Cint,2}(2,0)
-        edge_marker = Array{Cint,1}(0)
+        edges = Array{Cint,2}(undef,2,0)
+        edge_marker = Array{Cint,1}(undef,0)
     end
 
     # If there are point marker then use them
@@ -163,9 +171,9 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
     if n_point_marker==1
         point_marker = convert(Array{Cint,2}, m.point_marker)
     elseif n_point_marker==0
-        point_marker = Array{Cint,2}(0,n_point)
+        point_marker = Array{Cint,2}(undef,0,n_point)
     else
-        error("Number of n_point_marker must either be 0 or 1.")
+        Base.@error "Number of n_point_marker must either be 0 or 1."
     end
 
     
@@ -174,7 +182,7 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
     if n_point_attribute>0
         point_attribute = convert(Array{Cdouble,2}, m.point_attribute)
     else
-        point_attribute = Array{Cdouble,2}(0,n_point)
+        point_attribute = Array{Cdouble,2}(undef,0,n_point)
     end
 
 
@@ -182,7 +190,7 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
     if n_hole>0
         hole = convert(Array{Cdouble,2}, m.hole)
     else
-        hole = Array{Cdouble,2}(2,n_hole)
+        hole = Array{Cdouble,2}(undef,2,n_hole)
     end
 
     mesh_in = Mesh_ptr_C(n_point, point,
@@ -196,15 +204,18 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
 
-    ccall((:refine_trimesh, "libtesselate"), 
-                            Void,
-                            (Ref{Mesh_ptr_C}, 
-                                Ref{Mesh_ptr_C},
-                                Ref{Mesh_ptr_C},
-                                Cstring),
-                            Ref(mesh_in),
-                            Ref(mesh_buffer), Ref(vor_buffer),
-                            switches)
+    lib_ptr = Libdl.dlopen(libtesselate)
+    refine_trimesh_ptr = Libdl.dlsym(lib_ptr, :refine_trimesh)
+    ccall(refine_trimesh_ptr,
+                        Cvoid,
+                        (Ref{Mesh_ptr_C}, 
+                            Ref{Mesh_ptr_C},
+                            Ref{Mesh_ptr_C},
+                            Cstring),
+                        Ref(mesh_in),
+                        Ref(mesh_buffer), Ref(vor_buffer),
+                        switches)
+    Libdl.dlclose(lib_ptr)
 
     mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
 
@@ -235,7 +246,9 @@ function refine(m :: TriMesh, switches :: String;
                                 info_str :: String = "Refined mesh")
     
     # Do some sanity check of inputs    
-    isempty(ind_cell) ? error("List of cells to be refined must not be empty. Leave this option blank to refine globally.") :
+    if isempty(ind_cell)
+        Base.@error("List of cells to be refined must not be empty. Leave this option blank to refine globally.")
+    end
 
     n_point = Cint(m.n_point)
     point = convert(Array{Cdouble,2}, m.point)
@@ -261,8 +274,8 @@ function refine(m :: TriMesh, switches :: String;
         segment = convert(Array{Cint,2}, m.segment)
         segment_marker = convert(Array{Cint,1}, m.segment_marker)
     else
-        segment = Array{Cint,2}(2,0)
-        segment_marker = Array{Cint,1}(0)
+        segment = Array{Cint,2}(undef,2,0)
+        segment_marker = Array{Cint,1}(undef,0)
     end
 
 
@@ -272,8 +285,8 @@ function refine(m :: TriMesh, switches :: String;
         edge = convert(Array{Cint,2}, m.edge)
         edge_marker = convert(Array{Cint,1}, m.edge_marker)
     else
-        edge = Array{Cint,2}(2,0)
-        edge_marker = Array{Cint,1}(0)
+        edge = Array{Cint,2}(undef,2,0)
+        edge_marker = Array{Cint,1}(undef,0)
     end
 
     # If there are point marker then use them
@@ -283,7 +296,7 @@ function refine(m :: TriMesh, switches :: String;
     elseif n_point_marker==0
         point_marker = Array{Cint,2}(n_point_marker,n_point)
     else
-        error("Number of n_point_marker must either be 0 or 1.")
+        Base.@error("Number of n_point_marker must either be 0 or 1.")
     end
 
     
@@ -292,7 +305,7 @@ function refine(m :: TriMesh, switches :: String;
     if n_point_marker>0
         point_attribute = convert(Array{Cdouble,2}, m.point_attribute)
     else
-        point_attribute = Array{Cdouble,2}(n_point_attribute, n_point)
+        point_attribute = Array{Cdouble,2}(undef,n_point_attribute, n_point)
     end
 
 
@@ -300,7 +313,7 @@ function refine(m :: TriMesh, switches :: String;
     if n_hole>0
         hole = convert(Array{Cdouble,2}, m.hole)
     else
-        hole = Array{Cdouble,2}(2,n_hole)
+        hole = Array{Cdouble,2}(undef,2,n_hole)
     end
 
     mesh_in = Mesh_ptr_C(n_point, point,
@@ -314,15 +327,18 @@ function refine(m :: TriMesh, switches :: String;
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
 
-    ccall((:refine_trimesh, "libtesselate"), 
-                            Void,
-                            (Ref{Mesh_ptr_C}, 
-                                Ref{Mesh_ptr_C},
-                                Ref{Mesh_ptr_C},
-                                Cstring),
-                            Ref(mesh_in),
-                            Ref(mesh_buffer), Ref(vor_buffer),
-                            switches)
+    lib_ptr = Libdl.dlopen(libtesselate)
+    refine_trimesh_ptr = Libdl.dlsym(lib_ptr, :refine_trimesh)
+    ccall(refine_trimesh_ptr,
+                        Cvoid,
+                        (Ref{Mesh_ptr_C}, 
+                            Ref{Mesh_ptr_C},
+                            Ref{Mesh_ptr_C},
+                            Cstring),
+                        Ref(mesh_in),
+                        Ref(mesh_buffer), Ref(vor_buffer),
+                        switches)
+    Libdl.dlclose(lib_ptr)
 
     mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
 

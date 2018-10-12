@@ -10,27 +10,13 @@
 
 *TriangleMesh* is now officialy registered To install run
 ```julia
-Pkg.add("TriangleMesh")
+] add TriangleMesh
 ```
 After the build passed successfully type
 ```julia
 using TriangleMesh
 ```
 to use the package. If you are having trouble please open an [issue](https://github.com/konsim83/TriangleMesh.jl/issues).
-
-Alternatively you can install *TriangleMesh* directly from the repository by running
-```julia
-Pkg.clone("https://github.com/konsim83/TriangleMesh.jl.git")
-```
-To build the package run
-```julia
-Pkg.build("TriangleMesh")
-```
-Again to use the package type
-```julia
-using TriangleMesh
-```
-
 
 ### TriangleMesh on Windows
 

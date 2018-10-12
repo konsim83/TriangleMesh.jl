@@ -15,7 +15,7 @@ function write_mesh(m :: TriMesh, file_name :: String;
 	if format == "triangle"
 		write_mesh_triangle(m, file_name)
 	else
-		error("File output format not known.")
+		Base.@error("File output format not known.")
 	end
 	
 	return nothing
@@ -51,7 +51,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
        		end
 
 			cmd = cmd * ", $(m.point_marker))"
-			data = eval(parse(cmd))
+			data = eval(Base.Meta.parse(cmd))
 			writedlm(f, data, " ")
 
 			close(f)
@@ -73,7 +73,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 
 			# zip several arrays of different type
 			cmd = "zip(1:$(m.n_cell), $(m.cell[1,:]), $(m.cell[2,:]), $(m.cell[3,:]))"
-			data = eval(parse(cmd))
+			data = eval(Base.Meta.parse(cmd))
 			writedlm(f, data, " ")
 
 			close(f)
@@ -95,7 +95,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 
 			# zip several arrays of different type
 			cmd = "zip(1:$(m.n_cell), $(m.cell_neighbor[1,:]), $(m.cell_neighbor[2,:]), $(m.cell_neighbor[3,:]))"
-			data = eval(parse(cmd))
+			data = eval(Base.Meta.parse(cmd))
 			writedlm(f, data, " ")
 
 			close(f)
@@ -117,7 +117,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 
 			# zip several arrays of different type
 			cmd = "zip(1:$(m.n_edge), $(m.edge[1,:]), $(m.edge[2,:]), $(m.edge_marker))"
-			data = eval(parse(cmd))
+			data = eval(Base.Meta.parse(cmd))
 			writedlm(f, data, " ")
 
 			close(f)

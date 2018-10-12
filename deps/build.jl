@@ -11,7 +11,7 @@ isfile("deps.jl") && rm("deps.jl")
     libdir = joinpath(prefix, "lib")
     headerdir = joinpath(prefix, "include")
 
-    if is_windows()
+    if Sys.iswindows()
         libfile = joinpath(libdir, "libtesselate.dll")
         @build_steps begin
             FileRule(libfile, @build_steps begin
@@ -28,7 +28,7 @@ isfile("deps.jl") && rm("deps.jl")
         provides(Binaries, URI(libfile), libtesselate)
     else
         libname = "libtesselate.so"
-        if is_apple()
+        if Sys.isapple()
             libname = "libtesselate.dylib"
         end
         libfile = joinpath(libdir, libname)

@@ -101,10 +101,10 @@ function create_mesh(poly :: Polygon_pslg;
         try
             number = parse(Int, max_steiner_points_str)
             if number<0
-                error("Maximum number of Steiner points must be nonnegative.")
+                Base.@error("Maximum number of Steiner points must be nonnegative.")
             end
         catch
-            error("Maximum number of Steiner points must be a nonnegative integer.")
+            Base.@error("Maximum number of Steiner points must be a nonnegative integer.")
         end
 
         switches = switches * "S" * max_steiner_points_str
@@ -118,10 +118,10 @@ function create_mesh(poly :: Polygon_pslg;
         try
             number = parse(Float64, max_area_str)
             if number<=0
-                error("Area must be positive.")
+                Base.@error "Area must be positive."
             end
         catch
-            error("Area must be a positive real number.")
+            Base.@error "Area must be a positive real number."
         end
 
         switches = switches * "a" * max_area_str
@@ -136,13 +136,13 @@ function create_mesh(poly :: Polygon_pslg;
         try
             number = parse(Float64, max_angle_str)
             if number <=0
-                error("Minimum angle must be positive.")
+                Base.@error "Minimum angle must be positive."
             end
             if number >=34
-                warning("Minimum angle should not be larger than 34 degrees. For a larger angle TRIANGLE might not converge.")
+                Base.@warn "Minimum angle should not be larger than 34 degrees. For a larger angle TRIANGLE might not converge."
             end
         catch
-            error("Area must be a positive real number and should not be larger than 34 degrees.")
+            Base.@error "Area must be a positive real number and should not be larger than 34 degrees."
         end
         switches = switches * "q" * max_angle_str
     else
@@ -156,15 +156,19 @@ function create_mesh(poly :: Polygon_pslg;
     # This enables to use aditional switches and should be used with care
     switches = switches * add_switches
 
-    contains(switches, "z") ? error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
+    if occursin("z",switches) 
+        Base.@error("Triangle switches must not contain `z`. Zero based indexing is not allowed.")
+    end
 
     mesh_in = Mesh_ptr_C(poly)
 
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
 
-    ccall((:tesselate_pslg, "libtesselate"), 
-                        Void,
+    lib_ptr = Libdl.dlopen(libtesselate)
+    tesselate_pslg_ptr = Libdl.dlsym(lib_ptr, :tesselate_pslg)
+    ccall(tesselate_pslg_ptr,
+                        Cvoid,
                         (Ref{Mesh_ptr_C}, 
                             Ref{Mesh_ptr_C},
                             Ref{Mesh_ptr_C},
@@ -172,6 +176,7 @@ function create_mesh(poly :: Polygon_pslg;
                         Ref(mesh_in),
                         Ref(mesh_buffer), Ref(vor_buffer),
                         switches)
+    Libdl.dlclose(lib_ptr)
 
     mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
 
@@ -189,15 +194,19 @@ for Triangle. Use only if you know what you are doing.
 function create_mesh(poly :: Polygon_pslg, switches :: String;
                                 info_str :: String = "Triangular mesh of polygon (PSLG)")
     
-    contains(switches, "z") ? error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
+    if occursin("z", switches)
+        error("Triangle switches must not contain `z`. Zero based indexing is not allowed.")
+    end
 
     mesh_in = Mesh_ptr_C(poly)
 
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
 
-    ccall((:tesselate_pslg, "libtesselate"), 
-                        Void,
+    lib_ptr = Libdl.dlopen(libtesselate)
+    tesselate_pslg_ptr = Libdl.dlsym(lib_ptr, :tesselate_pslg)
+    ccall(tesselate_pslg_ptr,
+                        Cvoid,
                         (Ref{Mesh_ptr_C}, 
                             Ref{Mesh_ptr_C},
                             Ref{Mesh_ptr_C},
@@ -205,6 +214,7 @@ function create_mesh(poly :: Polygon_pslg, switches :: String;
                         Ref(mesh_in),
                         Ref(mesh_buffer), Ref(vor_buffer),
                         switches)
+    Libdl.dlclose(lib_ptr)
 
     mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
 
@@ -224,8 +234,8 @@ end
 Creates a triangulation of the convex hull of a point cloud.
 
 # Keyword arguments
-- `point_marker :: Array{Int,2} = Array{Int,2}(0,size(point,1))`: Points can have a marker.
-- `point_attribute :: Array{Float64,2} = Array{Float64,2}(0,size(point,1))`: Points can be 
+- `point_marker :: Array{Int,2} = Array{Int,2}(undef,0,size(point,1))`: Points can have a marker.
+- `point_attribute :: Array{Float64,2} = Array{Float64,2}(undef,0,size(point,1))`: Points can be 
                                                                             given a number
                                                                             of attributes.
 - `info_str :: String = "Triangular mesh of convex hull of point cloud."`: Some mesh info on the mesh
@@ -256,8 +266,8 @@ Creates a triangulation of the convex hull of a point cloud.
 
 """
 function create_mesh(point :: Array{Float64,2}; 
-                            point_marker :: Array{Int,2} = Array{Int,2}(0,size(point,1)),
-                            point_attribute :: Array{Float64,2} = Array{Float64,2}(0,size(point,1)),
+                            point_marker :: Array{Int,2} = Array{Int,2}(undef,0,size(point,1)),
+                            point_attribute :: Array{Float64,2} = Array{Float64,2}(undef,0,size(point,1)),
                             info_str :: String = "Triangular mesh of convex hull of point cloud.",
                             verbose :: Bool = false,
                             check_triangulation :: Bool = false,
@@ -318,10 +328,10 @@ function create_mesh(point :: Array{Float64,2};
         try
             number = parse(Int, max_steiner_points_str)
             if number<0
-                error("Maximum number of Steiner points must be nonnegative.")
+                Base.@error("Maximum number of Steiner points must be nonnegative.")
             end
         catch
-            error("Maximum number of Steiner points must be a nonnegative integer.")
+            Base.@error("Maximum number of Steiner points must be a nonnegative integer.")
         end
 
         switches = switches * "S" * max_steiner_points_str
@@ -335,10 +345,10 @@ function create_mesh(point :: Array{Float64,2};
         try
             number = parse(Float64, max_area_str)
             if number<=0
-                error("Area must be positive.")
+                Base.@error("Area must be positive.")
             end
         catch
-            error("Area must be a positive real number.")
+            Base.@error("Area must be a positive real number.")
         end
 
         switches = switches * "a" * max_area_str
@@ -353,13 +363,13 @@ function create_mesh(point :: Array{Float64,2};
         try
             number = parse(Float64, max_angle_str)
             if number <=0
-                error("Minimum angle must be positive.")
+                Base.@error("Minimum angle must be positive.")
             end
             if number >=34
-                warning("Minimum angle should not be larger than 34 degrees. For a larger angle TRIANGLE might not converge.")
+                Base.@warn("Minimum angle should not be larger than 34 degrees. For a larger angle TRIANGLE might not converge.")
             end
         catch
-            error("Area must be a positive real number and should not be larger than 34 degrees.")
+            Base.@error("Area must be a positive real number and should not be larger than 34 degrees.")
         end
         switches = switches * "q" * max_angle_str
     else
@@ -373,7 +383,7 @@ function create_mesh(point :: Array{Float64,2};
     # This enables to use aditional switches and should be used with care
     switches = switches * add_switches
   
-    contains(switches, "z") ? error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
+    occursin("z", switches) ? Base.@error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
 
 
     poly = polygon_struct_from_points(point, point_marker, point_attribute)
@@ -394,21 +404,21 @@ Options for the meshing algorithm are passed directly by command line switches
 for Triangle. Use only if you know what you are doing.
 
 # Keyword arguments
-- `point_marker :: Array{Int,2} = Array{Int,2}(0,size(point,1))`: Points can have a marker.
-- `point_attribute :: Array{Float64,2} = Array{Float64,2}(0,size(point,1))`: Points can be 
+- `point_marker :: Array{Int,2} = Array{Int,2}(undef,0,size(point,1))`: Points can have a marker.
+- `point_attribute :: Array{Float64,2} = Array{Float64,2}(undef,0,size(point,1))`: Points can be 
                                                                             given a number
                                                                             of attributes.
 - `info_str :: String = "Triangular mesh of convex hull of point cloud."`: Some mesh info on the mesh
 """
 function create_mesh(point :: Array{Float64,2}, switches :: String;
-                                    point_marker :: Array{Int,2} = Array{Int,2}(0,size(point,1)),
-                                    point_attribute :: Array{Float64,2} = Array{Float64,2}(0,size(point,1)),
+                                    point_marker :: Array{Int,2} = Array{Int,2}(undef,0,size(point,1)),
+                                    point_attribute :: Array{Float64,2} = Array{Float64,2}(undef,0,size(point,1)),
                                     info_str :: String = "Triangular mesh of convex hull of point cloud.")
   
-    contains(switches, "z") ? error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
+    occursin("z", switches) ? Base.@error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
 
-    if ~contains(switches, "c") 
-        info("Option `-c` added. Triangle switches must contain the -c option for point clouds.")
+    if ~occursin("c", switches) 
+        Base.@info "Option `-c` added. Triangle switches must contain the -c option for point clouds."
         switches = switches * "c"
     end
 

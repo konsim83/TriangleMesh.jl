@@ -4,7 +4,7 @@ Create and refine 2D unstructured triangular meshes. Interfaces
 """
 module TriangleMesh
 
-using ProgressMeter
+using ProgressMeter, Libdl, LinearAlgebra, DelimitedFiles
 
 export TriMesh, Polygon_pslg, 
 		create_mesh, refine, refine_rg, 
@@ -15,28 +15,22 @@ export TriMesh, Polygon_pslg,
 		write_mesh
 
 # ----------------------------------------
-# The library must be compiled and found by julia. (Check can be done in a nicer way though.)
-# The library must be compiled and found by julia. (Check can be done in a nicer way though.)
-# if is_linux()
-# 	ending = "so"
-# elseif is_apple()
-# 	ending = "dylib"
-# elseif is_windows()
-# 	ending = "dll"
-# else
-# 	error("OS not supported.")
-# end
-
-# if ~isfile(Pkg.dir() * "/TriangleMesh/deps/usr/lib/libtesselate." * ending)
-# 	error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
-# else
-#	push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
-# end
-if ~isfile(Pkg.dir() * "/TriangleMesh/deps/deps.jl")
-   error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
-else
-   push!(Libdl.DL_LOAD_PATH, Pkg.dir() * "/TriangleMesh/deps/usr/lib");
+# The library must be compiled and found by julia. (Check if this can be done in a nicer way.)
+if ~isfile(string(Base.@__DIR__, "/../deps/deps.jl"))
+	Base.@error("Triangle library not found. Please run `Pkg.build(\"TriangleMesh\")` first.")
 end
+
+if Sys.iswindows()
+	libsuffix = ".dll"
+elseif Sys.isapple()
+	libsuffix = ".dylib"
+elseif Sys.islinux()
+	libsuffix = ".so"
+else
+	Base.@error "Operating system not supported."
+end
+libname = string(Base.@__DIR__, "/../deps/usr/lib/libtesselate")
+libtesselate = string(libname, libsuffix)
 # ----------------------------------------
 
 # --------------------------------------

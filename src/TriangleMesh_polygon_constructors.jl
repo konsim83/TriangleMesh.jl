@@ -97,7 +97,7 @@ function polygon_regular(n_corner :: Int)
 
     # 4 points
     point = zeros(n_point,2)
-    phi = linspace(0, 2*pi, n_point+1)[1:end-1]
+    phi = range(0, stop=2*pi, length=n_point+1)[1:end-1]
     point = [cos.(phi) sin.(phi)]
     set_polygon_point!(poly, point)
 
@@ -216,7 +216,7 @@ Create a polygon from a set of points (example code). No segments or holes are s
 # Arguments
 - `point :: Array{Float64,2}`: point set (dimension n-by-2)
 - `pm :: Array{Int,2}`: each point can have a marker (dimension either n-by-0 or n-by-1)
-- `pa :: Array{Float64,2}`: each point can have a number of ``k\>=0``real attributes (dimension n-by-k)
+- `pa :: Array{Float64,2}`: each point can have a number of ``k>=0``real attributes (dimension n-by-k)
 """
 function polygon_struct_from_points(point :: Array{Float64,2},
                                     pm :: Array{Int,2},
@@ -225,7 +225,7 @@ function polygon_struct_from_points(point :: Array{Float64,2},
     # Create a Polygon_pslg struct as the input for TRIANGLE. The Polygon_pslg
     # struct then only contains points, markers and attributes.
 
-    size(point,2)!=2 ? error("Point set must have dimensions (n,2).") :
+    size(point,2)!=2 ? Base.@error("Point set must have dimensions (n,2).") :
 
     # Choose the numbers. Everything that is zero does not need to be set.
     n_point = size(point,1)

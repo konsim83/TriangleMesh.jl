@@ -1,5 +1,6 @@
 using TriangleMesh
-using Base.Test
+
+using Test, DelimitedFiles
 
 include("Test_Polygon.jl")
 
