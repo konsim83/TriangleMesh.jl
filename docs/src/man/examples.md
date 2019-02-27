@@ -14,17 +14,17 @@ We will create a polygon that describes a rhombus with a squared hole in the mid
 ```julia
 # size is number_points x 2
 node = [1.0 0.0 ; 0.0 1.0 ; -1.0 0.0 ; 0.0 -1.0 ;
-        0.25 0.25 ; -0.25 0.25 , -0.25 -0.25 ; 0.25 -0.25] 
+        0.25 0.25 ; -0.25 0.25 ; -0.25 -0.25 ; 0.25 -0.25] 
 ```
 and the segments
 ```julia
 # size is number_segments x 2
-seg = [1 2 ; 2 3 ; 3 4 ; 4 1 ; 5 6 , 6 7 , 7 8 ; 8 5] 
+seg = [1 2 ; 2 3 ; 3 4 ; 4 1 ; 5 6 ; 6 7 ; 7 8 ; 8 5] 
 ```
 We now have two boundaries - an inner and an outer. We will also give each point and each segment a marker according to the boundary
 ```julia
 # all points get marker 1
-node_marker = [ones(Int,4) ; 2*ones(Int,4)]
+node_marker = [ones(Int,4,1) ; 2*ones(Int,4,1)]
 # last segment gets a different marker
 seg_marker = [ones(Int,4) ; 2*ones(Int,4)]
 ```
@@ -141,7 +141,7 @@ Suppose an a-posteriori error estimator suggested to refine the triangles with t
 
 We use the convenience method for doing this refinement:
 ```julia
-mesh_refined = refine(mesh, ind_cell=[1;4;9], divide_into=10, keep_edges=true)
+mesh_refined = refine(mesh, ind_cell=[1;4;9], divide_cell_into=10, keep_edges=true)
 ```
 
 We could also pass Triangle's command line switches. Suppose we would like to refine the entire mesh and only keep segments (not edges). No triangle should have a larger area than 0.0001. This can be done, for example by:
@@ -179,7 +179,7 @@ function plot_TriMesh(m :: TriMesh;
     ax[:set_aspect]("equal")
     
     # Connectivity list -1 for Python
-    tri = ax[:triplot](m.point[1,:], m.point[2,:], m.cell'-1 )
+    tri = ax[:triplot](m.point[1,:], m.point[2,:], m.cell'.-1 )
     setp(tri,   linestyle = linestyle,
                 linewidth = linewidth,
                 marker = marker,

@@ -8,7 +8,7 @@
 
 ### Installation
 
-*TriangleMesh* is now officialy registered To install run
+*TriangleMesh* is now officialy registered. To install run
 ```julia
 ] add TriangleMesh
 ```
