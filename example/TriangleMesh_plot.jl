@@ -1,3 +1,6 @@
+#=
+    To run this script type 'include("path/to/this/file/TriangleMesh_plot.jl")'
+=#
 using TriangleMesh, PyPlot
 
 # -----------------------------------------------------------
@@ -27,7 +30,7 @@ function plot_TriMesh(m :: TriMesh;
     ax[:set_aspect]("equal")
     
     # Connectivity list -1 for Python
-    tri = ax[:triplot](m.point[:,1], m.point[:,2], m.cell-1 )
+    tri = ax[:triplot](m.point[:,1], m.point[:,2], m.cell.-1 )
     setp(tri,   linestyle = linestyle,
                 linewidth = linewidth,
                 marker = marker,
@@ -40,3 +43,12 @@ function plot_TriMesh(m :: TriMesh;
 end
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+
+
+# Create a mesh of an L-shaped polygon and refine some cells
+poly = polygon_unitSquareWithHole()
+mesh = create_mesh(poly, info_str="my mesh", voronoi=true, delaunay=true, set_area_max=true)
+mesh_refined = refine(mesh, ind_cell=[1;4;9], divide_cell_into=10, keep_edges=true)
+
+plot_TriMesh(mesh, linewidth=4, linestyle="--")
+plot_TriMesh(mesh_refined, color="blue")

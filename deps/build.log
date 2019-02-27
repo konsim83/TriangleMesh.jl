@@ -1,16 +1,12 @@
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/FEM
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/FEM_1D
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/FiniteDiff
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/Geometry
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/Mesh
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/Miscellaneous
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/Parameter
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/PostProcess
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/Problem
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/Quad
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/Reconstruction
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/Solver
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/TimeIntegrator
-Adding to LOAD_PATH:   /home/ksimon/Code/BasisReconstruction-2D/src/Vis
+Clearing obj and lib directory...
+Building object file   triangle.o
+Building object file   tesselate.o
+Linking object files into   libtesselate
+Clearing obj and lib directory...
+[ Info: Changing directory to /home/julia/.julia/environments/v1.1/dev/TriangleMesh/deps/src
+[ Info: Changing directory to /home/julia/.julia/environments/v1.1/dev/TriangleMesh/deps/src
+[ Info: Changing directory to /home/julia/.julia/environments/v1.1/dev/TriangleMesh/deps/src
+[ Info: Changing directory to /home/julia/.julia/environments/v1.1/dev/TriangleMesh/deps/src
+[ Info: Changing directory to /home/julia/.julia/environments/v1.1/dev/TriangleMesh/deps/src
+[ Info: Changing directory to /home/julia/.julia/environments/v1.1/dev/TriangleMesh/deps/src
+[ Info: Changing directory to /home/julia/.julia/environments/v1.1/dev/TriangleMesh/deps/src
