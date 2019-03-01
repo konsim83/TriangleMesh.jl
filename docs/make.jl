@@ -23,8 +23,6 @@ deploydocs(
 	repo   = "github.com/konsim83/TriangleMesh.jl.git",
 	target = "build",
 	branch = "gh-pages",
-	# deps   = nothing,
 	make   = nothing,
-	julia  = "1.0",
-	osname = "linux"
+	version = "v^"
 )
