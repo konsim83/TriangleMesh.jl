@@ -24,5 +24,5 @@ deploydocs(
 	target = "build",
 	branch = "gh-pages",
 	make   = nothing,
-	version = "v^"
+	versions = "v^"
 )
