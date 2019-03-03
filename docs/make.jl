@@ -23,6 +23,5 @@ deploydocs(
 	repo   = "github.com/konsim83/TriangleMesh.jl.git",
 	target = "build",
 	branch = "gh-pages",
-	make   = nothing,
-	versions = "v#.#.#"
+	make   = nothing
 )
