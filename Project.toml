@@ -1,4 +1,4 @@
 name = "TriangleMesh"
 uuid = "e5719326-7e34-5a7d-b19a-3e86f2e9acf7"
 authors = ["Konrad Simon <konrad.simon@uni-hamburg.de>"]
-version = "1.0.7"
+version = "v1.0.7"
