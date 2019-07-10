@@ -1,3 +1,6 @@
+
+image: Visual Studio 2017
+
 environment:
   matrix:
     - platform: x64
@@ -33,14 +36,6 @@ install:
         "C:\projects\julia-binary.exe")
 # Run installer silently, output to C:\projects\julia
   - C:\projects\julia-binary.exe /S /D=C:\projects\julia
-# Download and install VC++ for Python silently
-  - ps: $env:VC_SOURCE="https://download.microsoft.com/download/7/9/6/796EF2E4-801B-4FC4-AB28-B59FBF6D907B/VCForPython27.msi"
-  - ps: $env:VC_DESTINATION="C:\projects\VCForPython27.msi"
-  - ps: (new-object net.webclient).DownloadFile(
-        $env:VC_SOURCE,
-        $env:VC_DESTINATION)
-#  - msiexec.exe /i C:\projects\VCForPython27.msi /QN /L*V "C:\Temp\VC_msilog.log"        
-  - msiexec /i C:\projects\VCForPython27.msi /quiet /qn /norestart
 
 build_script:
 # Need to convert from shallow to complete for Pkg.clone to work
