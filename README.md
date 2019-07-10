@@ -20,7 +20,9 @@ to use the package. If you are having trouble please open an [issue](https://git
 
 ### TriangleMesh on Windows
 
-To build TriangleMesh you need [VC++ for Python](https://www.microsoft.com/en-us/download/details.aspx?id=44266). It is for free and easy to install.
+To build TriangleMesh you need the Visual Studio Community Edition 2017 which you can get [here](https://www.techspot.com/downloads/6278-visual-studio.html). It is for free and easy to install.
+
+You can also use a newer version of Visual Studio (and at any rate it is only important that you have the build tools installed) but then you will have to modify the environment variable in the 'compile.bat' script: 'set VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\' for example becomes 'set VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\'.
 
 [docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg
 [docs-latest-url]: https://konsim83.github.io/TriangleMesh.jl/latest
