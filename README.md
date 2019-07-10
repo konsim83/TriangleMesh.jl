@@ -24,7 +24,9 @@ To build TriangleMesh you need the Visual Studio Community Edition 2017 which yo
 
 You can also use a newer version of Visual Studio (and at any rate it is only important that you have the build tools installed) but then you will have to modify the environment variable in the 'compile.bat' script in the 'deps/src/' directory:
 > set VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\
+
 for example becomes
+
 > set VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\
 
 [docs-latest-img]: https://img.shields.io/badge/docs-latest-blue.svg
