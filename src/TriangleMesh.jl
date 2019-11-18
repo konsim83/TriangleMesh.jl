@@ -12,7 +12,7 @@ export TriMesh, Polygon_pslg,
 		polygon_regular, polygon_Lshape, polygon_struct_from_points,
 		set_polygon_point!, set_polygon_point_marker!, set_polygon_point_attribute!,
 		set_polygon_segment!, set_polygon_segment_marker!, set_polygon_hole!,
-		write_mesh
+		write_mesh,triangulate
 
 # ----------------------------------------
 # The library must be compiled and found by julia. (Check if this can be done in a nicer way.)
@@ -29,8 +29,8 @@ elseif Sys.islinux()
 else
 	Base.@error "Operating system not supported."
 end
-libname = string(Base.@__DIR__, "/../deps/usr/lib/libtesselate")
-libtesselate = string(libname, libsuffix)
+const libname = string(Base.@__DIR__, "/../deps/usr/lib/libtesselate")
+const libtesselate = string(libname, libsuffix)
 # ----------------------------------------
 
 # --------------------------------------
