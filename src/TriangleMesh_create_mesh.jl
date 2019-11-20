@@ -1,7 +1,10 @@
-#
-# "Raw" triangulation call to Triangle library
-#
-function triangulate(mesh_in, mesh_out, vor_out, switches)
+"""
+    triangulate(mesh_in :: Mesh_ptr_C, mesh_out :: Mesh_ptr_C, vor_out :: Mesh_ptr_C, switches :: String)
+
+Direct (raw) interface to triangle library. See triangle's documentation. 
+
+"""
+function triangulate(mesh_in :: Mesh_ptr_C, mesh_out :: Mesh_ptr_C, vor_out :: Mesh_ptr_C, switches :: String)
 
     # Not using dlopen/dlsym here goes along with th e
     # Julia documentation.
