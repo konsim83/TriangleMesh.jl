@@ -1,3 +1,29 @@
+#
+# "Raw" triangulation call to Triangle library
+#
+function triangulate(mesh_in, mesh_out, vor_out, switches)
+
+    # Not using dlopen/dlsym here goes along with th e
+    # Julia documentation.
+    # see htps://docs.julialang.org/en/v1/manual/calling-c-and-fortran-code/
+    # We need to ensure const-ness of the first argument tuple, though.
+
+    ccall((:tesselate_pslg,libtesselate),
+          Cvoid,
+          (Ref{Mesh_ptr_C}, 
+           Ref{Mesh_ptr_C},
+           Ref{Mesh_ptr_C},
+           Cstring),
+          Ref(mesh_in),
+          Ref(mesh_out),
+          Ref(vor_out),
+          switches)
+
+    # Using dlclose here would unload the library which may be not
+    # the desired outcome when we need repeated calls.
+end
+
+
 # -----------------------------------------------------------
 # -----------------------------------------------------------
 """
@@ -165,23 +191,12 @@ function create_mesh(poly :: Polygon_pslg;
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
 
-    lib_ptr = Libdl.dlopen(libtesselate)
-    tesselate_pslg_ptr = Libdl.dlsym(lib_ptr, :tesselate_pslg)
-    ccall(tesselate_pslg_ptr,
-                        Cvoid,
-                        (Ref{Mesh_ptr_C}, 
-                            Ref{Mesh_ptr_C},
-                            Ref{Mesh_ptr_C},
-                            Cstring),
-                        Ref(mesh_in),
-                        Ref(mesh_buffer), Ref(vor_buffer),
-                        switches)
-    Libdl.dlclose(lib_ptr)
-
+    triangulate(mesh_in, mesh_buffer, vor_buffer, switches)
     mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
 
     return mesh
 end
+
 
 
 """
@@ -203,18 +218,7 @@ function create_mesh(poly :: Polygon_pslg, switches :: String;
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
 
-    lib_ptr = Libdl.dlopen(libtesselate)
-    tesselate_pslg_ptr = Libdl.dlsym(lib_ptr, :tesselate_pslg)
-    ccall(tesselate_pslg_ptr,
-                        Cvoid,
-                        (Ref{Mesh_ptr_C}, 
-                            Ref{Mesh_ptr_C},
-                            Ref{Mesh_ptr_C},
-                            Cstring),
-                        Ref(mesh_in),
-                        Ref(mesh_buffer), Ref(vor_buffer),
-                        switches)
-    Libdl.dlclose(lib_ptr)
+    triangulate(mesh_in, mesh_buffer, vor_buffer, switches)
 
     mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
 
