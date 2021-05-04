@@ -73,7 +73,7 @@ end # end struct
 Outer constructor for TriMesh. Read the struct returned by `ccall(...)` to Triangle library.
 Wrap a Julia arrays around mesh data if their pointer is not `C_NULL`.
 """
-function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
+function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String, o2 :: Bool )
 
     mesh_info = mesh_info
 
@@ -115,8 +115,14 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String)
     n_cell==0 ? Base.@error("Number of triangles in mesh output is zero...") : 
 
     if mesh.trianglelist != C_NULL
-        cell = convert(Array{Int,2}, 
+        if o2
+            cell = convert(Array{Int,2}, 
+                        Base.unsafe_wrap(Array, mesh.trianglelist, (6, n_cell), own=take_ownership))
+        else
+            cell = convert(Array{Int,2}, 
                         Base.unsafe_wrap(Array, mesh.trianglelist, (3, n_cell), own=take_ownership))
+        end
+    
         if minimum(cell)==0
             cell .+= 1
         end

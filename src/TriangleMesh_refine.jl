@@ -217,7 +217,7 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
                         switches)
     Libdl.dlclose(lib_ptr)
 
-    mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
+    mesh = TriMesh(mesh_buffer, vor_buffer, info_str, false)
 
     return mesh
 end
@@ -340,7 +340,7 @@ function refine(m :: TriMesh, switches :: String;
                         switches)
     Libdl.dlclose(lib_ptr)
 
-    mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
+    mesh = TriMesh(mesh_buffer, vor_buffer, info_str, false)
 
     return mesh
 end

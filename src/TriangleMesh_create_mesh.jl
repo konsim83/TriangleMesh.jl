@@ -79,6 +79,7 @@ function create_mesh(poly :: Polygon_pslg;
                                 set_max_steiner_points :: Bool = false,
                                 set_area_max :: Bool = false,
                                 set_angle_min :: Bool = false,
+                                second_order_triangles :: Bool = false,
                                 add_switches :: String = "")
     
     switches = "p"
@@ -109,6 +110,10 @@ function create_mesh(poly :: Polygon_pslg;
 
     if output_cell_neighbors
         switches = switches * "n"
+    end
+
+    if second_order_triangles
+        switches = switches * "o2"
     end
 
     # -------    
@@ -195,7 +200,7 @@ function create_mesh(poly :: Polygon_pslg;
     vor_buffer = Mesh_ptr_C()
 
     triangulate(mesh_in, mesh_buffer, vor_buffer, switches)
-    mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
+    mesh = TriMesh(mesh_buffer, vor_buffer, info_str, second_order_triangles)
 
     return mesh
 end
@@ -223,7 +228,13 @@ function create_mesh(poly :: Polygon_pslg, switches :: String;
 
     triangulate(mesh_in, mesh_buffer, vor_buffer, switches)
 
-    mesh = TriMesh(mesh_buffer, vor_buffer, info_str)
+    o2 = false
+    if occursin("o2", switches)
+        println("Should include o2")
+        o2 = true
+    end
+
+    mesh = TriMesh(mesh_buffer, vor_buffer, info_str, o2)
 
     return mesh
 end
