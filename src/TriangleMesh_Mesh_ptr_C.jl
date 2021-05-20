@@ -81,8 +81,12 @@ function Mesh_ptr_C(p :: Polygon_pslg)
     end
 
     
-    numberofregions = Cint(0)
-    regionlist = convert(Ptr{Cdouble}, C_NULL)
+    numberofregions = Cint(p.n_region)
+    if numberofregions==0
+        regionlist = convert(Ptr{Cdouble}, C_NULL)
+    else
+        regionlist = pointer(p.region)
+    end
 
     
     numberofholes = Cint(p.n_hole)
@@ -134,7 +138,8 @@ end
                     n_cell :: Cint, cell :: Array{Cint,2}, cell_area_constraint :: Array{Float64,1},
                     n_edge :: Cint, edge :: Array{Cint,2}, edge_marker :: Array{Cint,1},
                     n_segment :: Cint, segment :: Array{Cint,2}, segment_marker :: Array{Cint,1},
-                    n_hole :: Cint, hole :: Array{Float64,2})
+                    n_hole :: Cint, hole :: Array{Float64,2},
+                    n_region :: Cint, region :: Array{Float64,2})
 
 Constructor for `Mesh_ptr_C` from mesh data. Only for internal use.
 """
@@ -144,7 +149,8 @@ function Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
                     n_cell :: Cint, cell :: Array{Cint,2}, cell_area_constraint :: Array{Float64,1},
                     n_edge :: Cint, edge :: Array{Cint,2}, edge_marker :: Array{Cint,1},
                     n_segment :: Cint, segment :: Array{Cint,2}, segment_marker :: Array{Cint,1},
-                    n_hole :: Cint, hole :: Array{Float64,2})
+                    n_hole :: Cint, hole :: Array{Float64,2},
+                    n_region :: Cint, region :: Array{Float64,2})
 
     numberofpoints = Cint(n_point)
     pointlist = pointer(point)
@@ -182,8 +188,12 @@ function Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
     end
 
     
-    numberofregions = Cint(0)
-    regionlist = convert(Ptr{Cdouble}, C_NULL)
+    numberofregions = Cint(n_region)
+    if numberofregions==0
+        regionlist = convert(Ptr{Cdouble}, C_NULL)
+    else
+        regionlist = pointer(region)
+    end
 
     
     numberofholes = Cint(n_hole)

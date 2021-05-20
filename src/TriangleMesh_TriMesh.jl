@@ -58,6 +58,10 @@ struct TriMesh
     n_hole :: Int
     hole :: Array{Float64, 2}
 
+    n_region :: Int
+    region :: Array{Float64, 2}
+    triangle_attribute :: Array{Float64,1}
+
     voronoi :: VoronoiDiagram
     
 end # end struct
@@ -108,7 +112,6 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String, o2 
     else
         point_attribute = Array{Float64,2}(undef,0,n_point)
     end
-
     
     # Triangles
     n_cell = Int(mesh.numberoftriangles)
@@ -128,6 +131,13 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String, o2 
         end
     else
        Base.@error("Cells could not be read.") 
+    end
+
+    if mesh.triangleattributelist != C_NULL
+        triangle_attribute = convert(Array{Float64,1}, 
+                                Base.unsafe_wrap(Array, mesh.triangleattributelist, n_cell, own=take_ownership))
+    else
+        triangle_attribute = Array{Float64,1}(undef,0)
     end
 
     if mesh.neighborlist != C_NULL
@@ -196,6 +206,18 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String, o2 
     else
         n_hole = 0
         hole = Array{Float64,2}(undef,2, 0)
+    end
+
+    # regions
+    if mesh.regionlist != C_NULL
+        n_region = Int(mesh.numberofregions)
+        region = convert(Array{Float64,2},
+                        Base.unsafe_wrap(Array, mesh.regionlist, (2, n_region), own=take_ownership))
+        println("At least one region was defined: ", n_region)
+    else
+        println("No region was defined")
+        n_region = 0
+        region = Array{Float64,2}(undef,2, 0)
     end
     
     # ----------------------------------------
@@ -267,6 +289,7 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String, o2 
                     n_segment, segment,
                     n_segment_marker, segment_marker,
                     n_hole, hole,
+                    n_region, region, triangle_attribute,
                     voronoi)
 
     # clean C
