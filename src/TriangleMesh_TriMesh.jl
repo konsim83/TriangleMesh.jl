@@ -213,9 +213,7 @@ function TriMesh(mesh :: Mesh_ptr_C, vor :: Mesh_ptr_C, mesh_info :: String, o2 
         n_region = Int(mesh.numberofregions)
         region = convert(Array{Float64,2},
                         Base.unsafe_wrap(Array, mesh.regionlist, (2, n_region), own=take_ownership))
-        println("At least one region was defined: ", n_region)
     else
-        println("No region was defined")
         n_region = 0
         region = Array{Float64,2}(undef,2, 0)
     end
