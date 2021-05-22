@@ -151,7 +151,7 @@ function Mesh_ptr_C(p :: Polygon_pslg)
                         edgemarkerlist,
                         normlist,
                         numberofedges)
-
+    
     return mesh_C
 end
 
@@ -164,7 +164,7 @@ end
                     n_edge :: Cint, edge :: Array{Cint,2}, edge_marker :: Array{Cint,1},
                     n_segment :: Cint, segment :: Array{Cint,2}, segment_marker :: Array{Cint,1},
                     n_hole :: Cint, hole :: Array{Float64,2},
-                    n_region :: Cint, region :: Array{Float64,2})
+                    n_region :: Cint, region :: Array{Float64,2}, triangle_attribute :: Array{Float64,2}, n_triangle_attribute :: Cint )
 
 Constructor for `Mesh_ptr_C` from mesh data. Only for internal use.
 """
@@ -175,7 +175,7 @@ function Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
                     n_edge :: Cint, edge :: Array{Cint,2}, edge_marker :: Array{Cint,1},
                     n_segment :: Cint, segment :: Array{Cint,2}, segment_marker :: Array{Cint,1},
                     n_hole :: Cint, hole :: Array{Float64,2},
-                    n_region :: Cint, region :: Array{Float64,2}, triangle_attribute :: Array{Float64,1} )
+                    n_region :: Cint, region :: Array{Float64,2}, triangle_attribute :: Array{Float64,2}, n_triangle_attribute :: Cint )
 
     numberofpoints = Cint(n_point)
     pointlist = pointer(point)
@@ -203,18 +203,15 @@ function Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
     neighborlist = convert(Ptr{Cint}, C_NULL)
 
     if n_region>0
-        println("Should be full 1")
         numberoftriangleattributes = Cint(n_cell)
     else
-        println("Should be empty 1")
         numberoftriangleattributes = Cint(0)
     end
 
+    numberoftriangleattributes = Cint(n_triangle_attribute)
     if numberoftriangleattributes>0 
-        println("Should be full 2")
         triangleattributelist = pointer(triangle_attribute)
     else
-        println("Should be empty 2")
         triangleattributelist = convert(Ptr{Cdouble}, C_NULL)
     end
 
@@ -300,3 +297,6 @@ function Mesh_ptr_C()
 end
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+
+# ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Int32,2}, ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Int32,2}, ::Array{Float64,1}, ::Int32, ::Array{Int32,2}, ::Array{Int32,1}, ::Int32, ::Array{Int32,2}, ::Array{Int32,1}, ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Float64,2}, ::Array{Float64,2}, ::Int32)
+# ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Int32,2}, ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Int32,2}, ::Array{Float64,1}, ::Int32, ::Array{Int32,2}, ::Array{Int32,1}, ::Int32, ::Array{Int32,2}, ::Array{Int32,1}, ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Float64,2}, !Matched::Array{Float64,1}, ::Int32

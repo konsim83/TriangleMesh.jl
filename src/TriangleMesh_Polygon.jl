@@ -24,6 +24,8 @@ struct Polygon_pslg
 
     n_region :: Cint # number of regions
     region :: Array{Cdouble,2}
+
+    n_triangle_attribute :: Cint
     
 end
 
@@ -35,7 +37,7 @@ Outer constructor that only reserves space for points, markers, attributes, hole
 Input data is converted to hold C-data structures (Cint and Cdouble arrays) for internal use.
 """
 function Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :: Int,
-                        n_segment :: Int, n_hole :: Int, n_region :: Int)
+                        n_segment :: Int, n_hole :: Int, n_region :: Int, n_triangle_attribute :: Int)
     
     n_point<1 ? Base.@error("Number of polygon points must be positive.") :
     n_point = n_point
@@ -59,13 +61,15 @@ function Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :
     # Set segment marker to 1 by default.
     segment_marker = ones(Cint,n_segment)
 
-    n_hole<0 ? Base.@error("Number of point attributes must be a nonnegative integer.") :
+
+    n_hole<0 ? Base.@error("Number of holes must be a nonnegative integer.") :
     n_hole = n_hole
     hole = Array{Cdouble,2}(undef, 2, n_hole)
 
-    n_region<0 ? Base.@error("Number of point attributes must be a nonnegative integer.") :
+
+    n_region<0 ? Base.@error("Number of regions must be a nonnegative integer.") :
     n_region = n_region
-    region = Array{Cdouble,2}(undef, 2, n_region)
+    region = Array{Cdouble,2}(undef, 4, n_region)
 
 
     # Call inner constructor
@@ -74,7 +78,7 @@ function Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :
                         n_point_attribute, point_attribute,
                         n_segment, segment, segment_marker,
                         n_hole, hole,
-                        n_region, region)
+                        n_region, region, n_triangle_attribute )
 
     return poly
 end 
@@ -197,7 +201,6 @@ function set_polygon_region!(poly :: Polygon_pslg, h :: AbstractArray{Float64,2}
 
     if length(h)>0
         size(poly.region)!=size(h') ? Base.@error("Polygon constructor: Region mismatch...") :
-
         poly.region[:,:] = convert(Array{Cdouble,2}, h)'
     end
 

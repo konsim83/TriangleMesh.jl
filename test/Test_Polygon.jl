@@ -1,7 +1,7 @@
 @testset "Polygon constructors" begin
 	
 	@testset "Polygon struct constructor" begin
-	    p = TriangleMesh.Polygon_pslg(5, 1, 2, 6, 0, 0)
+	    p = TriangleMesh.Polygon_pslg(5, 1, 2, 6, 0, 0, 0)
 	    @test size(p.point) == (2,5)
 	    @test size(p.point_marker) == (1,5)
 	    @test size(p.point_attribute) == (2,5)

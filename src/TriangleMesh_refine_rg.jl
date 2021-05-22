@@ -40,7 +40,7 @@ function refine_rg(m :: TriMesh)
     
     # Step 2: Build a polygon from the above
     poly = Polygon_pslg(size(point,2), 1, 0,
-                        size(segment,2), m.n_hole, m.n_region)
+                        size(segment,2), m.n_hole, m.n_region, m.n_triangle_attribute)
     set_polygon_point!(poly, point')
     set_polygon_point_marker!(poly, point_marker')
     set_polygon_segment!(poly, segment')
@@ -127,7 +127,7 @@ function refine_rg(m :: TriMesh, ind_red :: Array{Int,1})
     
     # Step 3: Build a polygon from the above
     poly = Polygon_pslg(size(point,2), 1, 0,
-                        size(segment,2), m.n_hole, m.n_region)
+                        size(segment,2), m.n_hole, m.n_region, m.n_triangle_attribute)
     set_polygon_point!(poly, point')
     set_polygon_point_marker!(poly, point_marker')
     set_polygon_segment!(poly, segment')

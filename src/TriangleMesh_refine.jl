@@ -193,12 +193,22 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
         hole = Array{Cdouble,2}(undef,2,n_hole)
     end
 
+
     n_region = Cint(m.n_region)
     if n_region>0
         region = convert(Array{Cdouble,2}, m.region)
     else
-        region = Array{Cdouble,2}(undef,2,n_region)
+        region = Array{Cdouble,2}(undef,4,n_region)
     end
+
+
+    n_triangle_attribute = Cint(m.n_triangle_attribute)
+    if n_triangle_attribute>0
+        triangle_attribute = convert(Array{Cdouble,2}, m.triangle_attribute)
+    else
+        triangle_attribute = Array{Cdouble,2}(undef,1,n_triangle_attribute)
+    end
+
 
     mesh_in = Mesh_ptr_C(n_point, point,
                             n_point_marker, point_marker,
@@ -207,7 +217,7 @@ function refine(m :: TriMesh ; divide_cell_into :: Int = 4,
                             n_edge, edge, edge_marker,
                             n_segment, segment, segment_marker,
                             n_hole, hole,
-                            n_region, region)
+                            n_region, region, triangle_attribute, n_triangle_attribute)
 
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
@@ -324,12 +334,22 @@ function refine(m :: TriMesh, switches :: String;
         hole = Array{Cdouble,2}(undef,2,n_hole)
     end
 
+
     n_region = Cint(m.n_region)
     if n_region>0
         region = convert(Array{Cdouble,2}, m.region)
     else
-        region = Array{Cdouble,2}(undef,2,n_region)
+        region = Array{Cdouble,2}(undef,4,n_region)
     end
+
+
+    n_triangle_attribute = Cint(m.n_triangle_attribute)
+    if n_triangle_attribute>0
+        triangle_attribute = convert(Array{Cdouble,2}, m.triangle_attribute)
+    else
+        triangle_attribute = Array{Cdouble,2}(undef,1,n_triangle_attribute)
+    end
+
 
     mesh_in = Mesh_ptr_C(n_point, point,
                             n_point_marker, point_marker,
@@ -338,7 +358,7 @@ function refine(m :: TriMesh, switches :: String;
                             n_edge, edge, edge_marker,
                             n_segment, segment, segment_marker,
                             n_hole, hole,
-                            n_region, region)
+                            n_region, region, triangle_attribute, n_triangle_attribute)
 
     mesh_buffer = Mesh_ptr_C()
     vor_buffer = Mesh_ptr_C()
