@@ -70,6 +70,31 @@ function Mesh_ptr_C(p :: Polygon_pslg)
     trianglearealist = convert(Ptr{Cdouble}, C_NULL)
     neighborlist = convert(Ptr{Cint}, C_NULL)
 
+    # numberoftriangles = Cint(p.n_cell)
+    # trianglelist = pointer(cell)
+    # trianglearealist = pointer(cell_area_constraint)
+    # numberofcorners = Cint(3)
+    # # numberoftriangleattributes = Cint(0)
+    # # triangleattributelist = convert(Ptr{Cdouble}, C_NULL)
+    # neighborlist = convert(Ptr{Cint}, C_NULL)
+
+    # if p.n_region>0
+    #     println("Should be full 1")
+    #     numberoftriangleattributes = Cint(p.n_cell)
+    # else
+    #     println("Should be empty 1")
+    #     numberoftriangleattributes = Cint(0)
+    # end
+
+    # if numberoftriangleattributes>0 
+    #     println("Should be full 2")
+    #     triangleattributelist = pointer(p.triangle_attribute)
+    # else
+    #     println("Should be empty 2")
+    #     triangleattributelist = convert(Ptr{Cdouble}, C_NULL)
+    # end
+
+
     
     numberofsegments = Cint(p.n_segment)
     if numberofsegments>0
@@ -81,8 +106,12 @@ function Mesh_ptr_C(p :: Polygon_pslg)
     end
 
     
-    numberofregions = Cint(0)
-    regionlist = convert(Ptr{Cdouble}, C_NULL)
+    numberofregions = Cint(p.n_region)
+    if numberofregions==0
+        regionlist = convert(Ptr{Cdouble}, C_NULL)
+    else
+        regionlist = pointer(p.region)
+    end
 
     
     numberofholes = Cint(p.n_hole)
@@ -122,7 +151,7 @@ function Mesh_ptr_C(p :: Polygon_pslg)
                         edgemarkerlist,
                         normlist,
                         numberofedges)
-
+    
     return mesh_C
 end
 
@@ -134,7 +163,8 @@ end
                     n_cell :: Cint, cell :: Array{Cint,2}, cell_area_constraint :: Array{Float64,1},
                     n_edge :: Cint, edge :: Array{Cint,2}, edge_marker :: Array{Cint,1},
                     n_segment :: Cint, segment :: Array{Cint,2}, segment_marker :: Array{Cint,1},
-                    n_hole :: Cint, hole :: Array{Float64,2})
+                    n_hole :: Cint, hole :: Array{Float64,2},
+                    n_region :: Cint, region :: Array{Float64,2}, triangle_attribute :: Array{Float64,2}, n_triangle_attribute :: Cint )
 
 Constructor for `Mesh_ptr_C` from mesh data. Only for internal use.
 """
@@ -144,7 +174,8 @@ function Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
                     n_cell :: Cint, cell :: Array{Cint,2}, cell_area_constraint :: Array{Float64,1},
                     n_edge :: Cint, edge :: Array{Cint,2}, edge_marker :: Array{Cint,1},
                     n_segment :: Cint, segment :: Array{Cint,2}, segment_marker :: Array{Cint,1},
-                    n_hole :: Cint, hole :: Array{Float64,2})
+                    n_hole :: Cint, hole :: Array{Float64,2},
+                    n_region :: Cint, region :: Array{Float64,2}, triangle_attribute :: Array{Float64,2}, n_triangle_attribute :: Cint )
 
     numberofpoints = Cint(n_point)
     pointlist = pointer(point)
@@ -166,10 +197,23 @@ function Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
     numberoftriangles = Cint(n_cell)
     trianglelist = pointer(cell)
     trianglearealist = pointer(cell_area_constraint)
-    numberoftriangleattributes = Cint(0)
     numberofcorners = Cint(3)
-    triangleattributelist = convert(Ptr{Cdouble}, C_NULL)
+    # numberoftriangleattributes = Cint(0)
+    # triangleattributelist = convert(Ptr{Cdouble}, C_NULL)
     neighborlist = convert(Ptr{Cint}, C_NULL)
+
+    if n_region>0
+        numberoftriangleattributes = Cint(n_cell)
+    else
+        numberoftriangleattributes = Cint(0)
+    end
+
+    numberoftriangleattributes = Cint(n_triangle_attribute)
+    if numberoftriangleattributes>0 
+        triangleattributelist = pointer(triangle_attribute)
+    else
+        triangleattributelist = convert(Ptr{Cdouble}, C_NULL)
+    end
 
 
     numberofsegments = Cint(n_segment)
@@ -182,8 +226,12 @@ function Mesh_ptr_C(n_point :: Cint, point :: Array{Float64,2},
     end
 
     
-    numberofregions = Cint(0)
-    regionlist = convert(Ptr{Cdouble}, C_NULL)
+    numberofregions = Cint(n_region)
+    if numberofregions==0
+        regionlist = convert(Ptr{Cdouble}, C_NULL)
+    else
+        regionlist = pointer(region)
+    end
 
     
     numberofholes = Cint(n_hole)
@@ -249,3 +297,6 @@ function Mesh_ptr_C()
 end
 # -----------------------------------------------------------
 # -----------------------------------------------------------
+
+# ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Int32,2}, ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Int32,2}, ::Array{Float64,1}, ::Int32, ::Array{Int32,2}, ::Array{Int32,1}, ::Int32, ::Array{Int32,2}, ::Array{Int32,1}, ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Float64,2}, ::Array{Float64,2}, ::Int32)
+# ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Int32,2}, ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Int32,2}, ::Array{Float64,1}, ::Int32, ::Array{Int32,2}, ::Array{Int32,1}, ::Int32, ::Array{Int32,2}, ::Array{Int32,1}, ::Int32, ::Array{Float64,2}, ::Int32, ::Array{Float64,2}, !Matched::Array{Float64,1}, ::Int32

@@ -21,6 +21,7 @@
 	    @test m.n_cell == 1
 	    @test m.n_edge == 3
 	    @test m.n_segment == 3
+		@test m.n_region == 0
 	end
 
 	@testset "Mesh of unit square with hole" begin
@@ -46,6 +47,7 @@
 	    @test m.n_segment > 1
 	    @test m.n_hole == 1
 	    @test m.voronoi.n_point > 1
+		@test m.n_region == 0
 	end
 
 	@testset "Mesh of unit square with hole (manual switch passing)" begin
@@ -60,6 +62,7 @@
 	    @test m.n_segment > 1
 	    @test m.n_hole == 1
 	    @test m.voronoi.n_point > 1
+		@test m.n_region == 0
 	end
 
 	@testset "Mesh of point cloud" begin
@@ -91,6 +94,7 @@
 	    @test m.n_hole == 0
 	    @test m.voronoi.n_point == 4
 	    @test m.voronoi.n_edge == 8
+		@test m.n_region == 0
 	end
 
 	@testset "Mesh of unit square with hole (manual switch passing)" begin
@@ -105,6 +109,7 @@
 	    @test m.n_segment > 1
 	    @test m.n_hole == 1
 	    @test m.voronoi.n_point >= 1
+		@test m.n_region == 0
 	end
 
 	@testset "Mesh of point cloud (manual switch passing)" begin
@@ -124,6 +129,7 @@
 	    @test m.n_segment > 1
 	    @test m.n_hole == 0
 	    @test m.voronoi.n_point >= 1
+		@test m.n_region == 0
 	end
 
 end # end "Create Mmsh"

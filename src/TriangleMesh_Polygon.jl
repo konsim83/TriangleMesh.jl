@@ -21,18 +21,23 @@ struct Polygon_pslg
 
     n_hole :: Cint # number of holes
     hole :: Array{Cdouble,2}
+
+    n_region :: Cint # number of regions
+    region :: Array{Cdouble,2}
+
+    n_triangle_attribute :: Cint
     
 end
 
 
 """
-    Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :: Int, n_segment :: Int, n_hole :: Int)
+    Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :: Int, n_segment :: Int, n_hole :: Int, n_region :: Int)
 
-Outer constructor that only reserves space for points, markers, attributes and holes.
+Outer constructor that only reserves space for points, markers, attributes, holes and regions.
 Input data is converted to hold C-data structures (Cint and Cdouble arrays) for internal use.
 """
 function Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :: Int,
-                        n_segment :: Int, n_hole :: Int)
+                        n_segment :: Int, n_hole :: Int, n_region :: Int, n_triangle_attribute :: Int)
     
     n_point<1 ? Base.@error("Number of polygon points must be positive.") :
     n_point = n_point
@@ -56,9 +61,15 @@ function Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :
     # Set segment marker to 1 by default.
     segment_marker = ones(Cint,n_segment)
 
-    n_hole<0 ? Base.@error("Number of point attributes must be a nonnegative integer.") :
+
+    n_hole<0 ? Base.@error("Number of holes must be a nonnegative integer.") :
     n_hole = n_hole
     hole = Array{Cdouble,2}(undef, 2, n_hole)
+
+
+    n_region<0 ? Base.@error("Number of regions must be a nonnegative integer.") :
+    n_region = n_region
+    region = Array{Cdouble,2}(undef, 4, n_region)
 
 
     # Call inner constructor
@@ -66,7 +77,8 @@ function Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :
                         n_point_marker, point_marker,
                         n_point_attribute, point_attribute,
                         n_segment, segment, segment_marker,
-                        n_hole, hole)
+                        n_hole, hole,
+                        n_region, region, n_triangle_attribute )
 
     return poly
 end 
@@ -172,6 +184,24 @@ function set_polygon_hole!(poly :: Polygon_pslg, h :: AbstractArray{Float64,2})
         size(poly.hole)!=size(h') ? Base.@error("Polygon constructor: Hole mismatch...") :
 
         poly.hole[:,:] = convert(Array{Cdouble,2}, h)'
+    end
+
+    return nothing
+end
+
+"""
+    set_polygon_region!(poly :: Polygon_pslg, h :: AbstractArray{Float64,2})
+
+Set `poly.region` appropriately. Input must have dimensions `n_region`-by-`2`.
+
+!!!
+    Each region must be enclosed by segments. Do not place regions on segments.
+"""
+function set_polygon_region!(poly :: Polygon_pslg, h :: AbstractArray{Float64,2})
+
+    if length(h)>0
+        size(poly.region)!=size(h') ? Base.@error("Polygon constructor: Region mismatch...") :
+        poly.region[:,:] = convert(Array{Cdouble,2}, h)'
     end
 
     return nothing

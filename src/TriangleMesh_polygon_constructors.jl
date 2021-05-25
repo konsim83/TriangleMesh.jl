@@ -13,9 +13,11 @@ function polygon_unitSimplex()
     n_point_attribute = 0 # no special point attributes
     n_segment = 3
     n_hole = 0 # no holes
+    n_region = 0
+    n_triangle_attribute = 0
 
     # Initialize a polygon and reserve memory ()
-    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole)
+    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
 
     # 4 points
     point = [0.0 0.0 ; 1.0 0.0 ; 0.0 1.0]
@@ -50,9 +52,11 @@ function polygon_unitSquare()
     n_point_attribute = 0 # no special point attributes
     n_segment = 4
     n_hole = 0 # no holes
+    n_region = 0
+    n_triangle_attribute = 0
 
     # Initialize a polygon and reserve memory
-    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole)
+    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
 
     # 4 points
     point = [0.0 0.0 ; 1.0 0.0 ; 1.0 1.0 ; 0.0 1.0]
@@ -91,9 +95,11 @@ function polygon_regular(n_corner :: Int)
     n_point_attribute = 0 # no special point attributes
     n_segment = n_point
     n_hole = 0 # no holes
+    n_region = 0;
+    n_triangle_attribute = 0
 
     # Initialize a polygon and reserve memory
-    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole)
+    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
 
     # 4 points
     point = zeros(n_point,2)
@@ -130,9 +136,11 @@ function polygon_unitSquareWithHole()
     n_point_attribute = 2 # no special point attributes
     n_segment = 8
     n_hole = 1 # no holes
+    n_region = 0
+    n_triangle_attribute = 0
 
     # Initialize a polygon and reserve memory
-    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole)
+    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
 
     # 4 points
     point = [0.0 0.0 ; 1.0 0.0 ; 1.0 1.0 ; 0.0 1.0 ; 
@@ -164,6 +172,139 @@ function polygon_unitSquareWithHole()
     return poly
 end
 
+"""
+    polygon_unitSquareWithRegion()
+
+Create a polygon of the unit square that has a squared hole in the middle (example code).
+"""
+function polygon_unitSquareWithRegion()
+
+    # Choose the numbers. Everything that is zero does not need to be set.
+    n_point = 4
+    n_point_marker = 1 # Set up one point marker
+    n_point_attribute = 0 # no special point attributes
+    n_segment = 4
+    n_hole = 0 # no holes
+    n_region = 1
+    n_triangle_attribute = 1
+
+    # Initialize a polygon and reserve memory
+    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
+
+    # 4 points
+    point = [0.0 0.0 ; 1.0 0.0 ; 1.0 1.0 ; 0.0 1.0]
+    set_polygon_point!(poly, point)
+
+    # Mark all input points with one (as boundary marker)
+    pm = ones(Int, n_point,n_point_marker)
+    set_polygon_point_marker!(poly, pm)
+
+    # Create random attributes
+    pa = rand(n_point, n_point_attribute)
+    set_polygon_point_attribute!(poly, pa)
+
+    # 4 segments, indexing starts at one
+    s = [1 2 ; 2 3 ; 3 4 ; 4 1]
+    set_polygon_segment!(poly, s)
+
+    # Mark all input segments with one (as boundary marker)
+    sm = ones(Int, n_segment)
+    set_polygon_segment_marker!(poly, sm)
+
+    # This region is marked by the point (0.5,0.5). The region is as big as the segment that encloses the point.
+    h = [0.5 0.5 0.0 0.0]
+    set_polygon_region!(poly, h)
+
+    return poly
+end
+
+"""
+    polygon_unitSquareWithEnclosedRegion()
+
+Create a polygon of the unit square that has a squared hole in the middle (example code).
+"""
+function polygon_unitSquareWithEnclosedRegion()
+
+    # # Choose the numbers. Everything that is zero does not need to be set.
+    # n_point = 8
+    # n_point_marker = 1 # Set up one point marker
+    # n_point_attribute = 1 # no special point attributes
+    # n_segment = 8
+    # n_hole = 0 # no holes
+    # n_region = 1
+    # n_triangle_attribute = 1
+
+    # # Initialize a polygon and reserve memory
+    # poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
+
+    # # 4 points
+    # point = [0.0 0.0 ; 1.0 0.0 ; 1.0 1.0 ; 0.0 1.0 ; 
+    #         0.25 0.25 ; 0.75 0.25 ; 0.75 0.75 ; 0.25 0.75]
+    # set_polygon_point!(poly, point)
+
+    # # Mark all input points with one (as boundary marker)
+    # pm = [ones(Int, 4,n_point_marker) ; 2*ones(Int, 4,n_point_marker)]
+    # set_polygon_point_marker!(poly, pm)
+
+    # # Create random attributes
+    # pa = rand(n_point, n_point_attribute)
+    # set_polygon_point_attribute!(poly, pa)
+
+    # # 4 segments, indexing starts at one
+    # s = [1 2 ; 2 3 ; 3 4 ; 4 1 ;
+    #     5 6 ; 6 7 ; 7 8 ; 8 5]
+    # set_polygon_segment!(poly, s)
+
+    # # Mark all input segments with one (as boundary marker)
+    # sm = [ones(Int, 4) ; ones(Int, 4)]
+    # set_polygon_segment_marker!(poly, sm)
+
+    # # This hole is marked by the point (0.5,0.5). The hole is as big as the
+    # # segment that encloses the point.
+    # h = [0.1 0.1]
+    # set_polygon_region!(poly, h)
+
+    # Choose the numbers. Everything that is zero does not need to be set.
+    n_point = 8
+    n_point_marker = 1 # Set up one point marker
+    n_point_attribute = 0 # no special point attributes
+    n_segment = 8
+    n_hole = 0 # no holes
+    n_region = 2
+    n_triangle_attribute = 1
+
+    # Initialize a polygon and reserve memory
+    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
+
+    # 4 points
+    point = [0.0 0.0 ; 1.0 0.0 ; 1.0 1.0 ; 0.0 1.0; 0.25 0.25 ; 0.75 0.25 ; 0.75 0.75 ; 0.25 0.75]
+    set_polygon_point!(poly, point)
+
+    # Mark all input points with one (as boundary marker)
+    pm = [ones(Int, 4,n_point_marker) ; 2*ones(Int, 4,n_point_marker)]
+    set_polygon_point_marker!(poly, pm)
+
+    # Create random attributes
+    pa = rand(n_point, n_point_attribute)
+    set_polygon_point_attribute!(poly, pa)
+
+     # 4 segments, indexing starts at one
+     s = [1 2 ; 2 3 ; 3 4 ; 4 1 ;
+     5 6 ; 6 7 ; 7 8 ; 8 5]
+    set_polygon_segment!(poly, s)
+
+    # Mark all input segments with one (as boundary marker)
+    sm = ones(Int, n_segment)
+    set_polygon_segment_marker!(poly, sm)
+
+    # This region is marked by the point (0.5,0.5). The region is as big as the segment that encloses the point.
+    h = [0.1 0.1 1.0 0.0; 0.5 0.5 2.0 0.0]
+    set_polygon_region!(poly, h)
+
+
+    return poly
+end
+
 
 """
     polygon_Lshape()
@@ -178,9 +319,11 @@ function polygon_Lshape()
     n_point_attribute = 2 # no special point attributes
     n_segment = 6
     n_hole = 0 # no holes
+    n_region = 0
+    n_triangle_attribute = 0
 
     # Initialize a polygon and reserve memory
-    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole)
+    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
 
     # 4 points
     point = [0.0 0.0 ; 1.0 0.0 ; 1.0 0.5 ; 0.5 0.5 ; 0.5 1.0 ; 0.0 1.0]
@@ -233,9 +376,11 @@ function polygon_struct_from_points(point :: Array{Float64,2},
     n_point_attribute = size(pa,2) # no special point attributes
     n_segment = 0
     n_hole = 0 # no holes
+    n_region = 0
+    n_triangle_attribute = 0
 
     # Initialize a polygon and reserve memory
-    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole)
+    poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
 
     # 4 points
     set_polygon_point!(poly, point)

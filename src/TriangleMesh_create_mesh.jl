@@ -194,10 +194,9 @@ function create_mesh(poly :: Polygon_pslg;
         Base.@error("Triangle switches must not contain `z`. Zero based indexing is not allowed.")
     end
 
-    mesh_in = Mesh_ptr_C(poly)
-
+    mesh_in     = Mesh_ptr_C(poly)
     mesh_buffer = Mesh_ptr_C()
-    vor_buffer = Mesh_ptr_C()
+    vor_buffer  = Mesh_ptr_C()
 
     triangulate(mesh_in, mesh_buffer, vor_buffer, switches)
     mesh = TriMesh(mesh_buffer, vor_buffer, info_str, second_order_triangles)
@@ -221,16 +220,14 @@ function create_mesh(poly :: Polygon_pslg, switches :: String;
         error("Triangle switches must not contain `z`. Zero based indexing is not allowed.")
     end
 
-    mesh_in = Mesh_ptr_C(poly)
-
+    mesh_in     = Mesh_ptr_C(poly)
     mesh_buffer = Mesh_ptr_C()
-    vor_buffer = Mesh_ptr_C()
+    vor_buffer  = Mesh_ptr_C()
 
     triangulate(mesh_in, mesh_buffer, vor_buffer, switches)
 
     o2 = false
     if occursin("o2", switches)
-        println("Should include o2")
         o2 = true
     end
 
