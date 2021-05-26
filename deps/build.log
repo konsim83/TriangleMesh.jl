@@ -1,0 +1,12 @@
+Clearing obj and lib directory...
+Building object file   triangle.o
+Building object file   tesselate.o
+Linking object files into   libtesselate
+Clearing obj and lib directory...
+[ Info: Changing directory to /home/ksimon/Code/Julia/TriangleMesh.jl/deps/src
+[ Info: Changing directory to /home/ksimon/Code/Julia/TriangleMesh.jl/deps/src
+[ Info: Changing directory to /home/ksimon/Code/Julia/TriangleMesh.jl/deps/src
+[ Info: Changing directory to /home/ksimon/Code/Julia/TriangleMesh.jl/deps/src
+[ Info: Changing directory to /home/ksimon/Code/Julia/TriangleMesh.jl/deps/src
+[ Info: Changing directory to /home/ksimon/Code/Julia/TriangleMesh.jl/deps/src
+[ Info: Changing directory to /home/ksimon/Code/Julia/TriangleMesh.jl/deps/src

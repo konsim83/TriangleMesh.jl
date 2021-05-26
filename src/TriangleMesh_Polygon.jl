@@ -37,7 +37,7 @@ Outer constructor that only reserves space for points, markers, attributes, hole
 Input data is converted to hold C-data structures (Cint and Cdouble arrays) for internal use.
 """
 function Polygon_pslg(n_point :: Int, n_point_marker :: Int, n_point_attribute :: Int,
-                        n_segment :: Int, n_hole :: Int, n_region :: Int, n_triangle_attribute :: Int)
+                        n_segment :: Int, n_hole :: Int, n_region :: Int = 0, n_triangle_attribute :: Int = 0)
     
     n_point<1 ? Base.@error("Number of polygon points must be positive.") :
     n_point = n_point
