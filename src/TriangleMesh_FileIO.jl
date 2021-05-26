@@ -9,8 +9,8 @@ Write mesh to disk.
 # Keyword arguments
 - `format :: String = "triangle"`: Specify mesh format. Only option for now is `"triangle"` (Triangle's native mesh format)
 """
-function write_mesh(m :: TriMesh, file_name :: String;
-									format :: String = "triangle")
+function write_mesh(m::TriMesh, file_name::String;
+									format::String="triangle")
 
 	if format == "triangle"
 		write_mesh_triangle(m, file_name)
@@ -21,7 +21,7 @@ function write_mesh(m :: TriMesh, file_name :: String;
 	return nothing
 end
 
-function write_mesh_triangle(m :: TriMesh, file_name :: String)
+function write_mesh_triangle(m::TriMesh, file_name::String)
 
 	# Write files into #PWD/meshfiles folder
 	if ~ispath(pwd() * "/meshfiles")
@@ -33,7 +33,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 	println("Writing files to   $file_name.*  .......")
 
 	# write points
-	if m.n_point>0
+	if m.n_point > 0
 		open(file_name * ".node", "w") do f
 			firstline = "# Number of nodes, dimension, attributes and markers:\n"
 			write(f, firstline)
@@ -60,7 +60,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 
 
 	# write triangles
-	if m.n_cell>0
+	if m.n_cell > 0
 		open(file_name * ".ele", "w") do f
 			firstline = "# Number of triangles, nodes per triangle (always 3) and attributes:\n"
 			write(f, firstline)
@@ -82,7 +82,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 
 
 	# write triangle neighbors
-	if length(m.cell_neighbor)>0
+	if length(m.cell_neighbor) > 0
 		open(file_name * ".neigh", "w") do f
 			firstline = "# Number of triangles, number of neigbors (always 3):\n"
 			write(f, firstline)
@@ -104,7 +104,7 @@ function write_mesh_triangle(m :: TriMesh, file_name :: String)
 
 
 	# write edges
-	if m.n_edge>0
+	if m.n_edge > 0
 		open(file_name * ".edge", "w") do f
 			firstline = "# Number of edes and boudary markers:\n"
 			write(f, firstline)

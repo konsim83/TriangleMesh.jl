@@ -24,7 +24,7 @@ function polygon_unitSimplex()
     set_polygon_point!(poly, point)
 
     # Mark all input points with one (as boundary marker)
-    pm = ones(Int, n_point,n_point_marker)
+    pm = ones(Int, n_point, n_point_marker)
     set_polygon_point_marker!(poly, pm)
 
     # 4 segments, indexing starts at one
@@ -63,7 +63,7 @@ function polygon_unitSquare()
     set_polygon_point!(poly, point)
 
     # Mark all input points with one (as boundary marker)
-    pm = ones(Int, n_point,n_point_marker)
+    pm = ones(Int, n_point, n_point_marker)
     set_polygon_point_marker!(poly, pm)
 
     # Create random attributes
@@ -87,7 +87,7 @@ end
 
 Create a polygon of a regular polyhedron with `n_corner` corners (example code).
 """
-function polygon_regular(n_corner :: Int)
+function polygon_regular(n_corner::Int)
 
     # Choose the numbers. Everything that is zero does not need to be set.
     n_point = n_corner
@@ -102,17 +102,17 @@ function polygon_regular(n_corner :: Int)
     poly = Polygon_pslg(n_point, n_point_marker, n_point_attribute, n_segment, n_hole, n_region, n_triangle_attribute)
 
     # 4 points
-    point = zeros(n_point,2)
-    phi = range(0, stop=2*pi, length=n_point+1)[1:end-1]
+    point = zeros(n_point, 2)
+    phi = range(0, stop=2 * pi, length=n_point + 1)[1:end - 1]
     point = [cos.(phi) sin.(phi)]
     set_polygon_point!(poly, point)
 
     # Mark all input points with one (as boundary marker)
-    pm = ones(Int, n_point,n_point_marker)
+    pm = ones(Int, n_point, n_point_marker)
     set_polygon_point_marker!(poly, pm)
 
     # 4 segments, indexing starts at one
-    s = [1:n_point circshift(1:n_point,-1)]
+    s = [1:n_point circshift(1:n_point, -1)]
     set_polygon_segment!(poly, s)
 
     # Mark all input segments with one (as boundary marker)
@@ -148,7 +148,7 @@ function polygon_unitSquareWithHole()
     set_polygon_point!(poly, point)
 
     # Mark all input points with one (as boundary marker)
-    pm = [ones(Int, 4,n_point_marker) ; 2*ones(Int, 4,n_point_marker)]
+    pm = [ones(Int, 4, n_point_marker) ; 2 * ones(Int, 4, n_point_marker)]
     set_polygon_point_marker!(poly, pm)
 
     # Create random attributes
@@ -196,7 +196,7 @@ function polygon_unitSquareWithRegion()
     set_polygon_point!(poly, point)
 
     # Mark all input points with one (as boundary marker)
-    pm = ones(Int, n_point,n_point_marker)
+    pm = ones(Int, n_point, n_point_marker)
     set_polygon_point_marker!(poly, pm)
 
     # Create random attributes
@@ -281,7 +281,7 @@ function polygon_unitSquareWithEnclosedRegion()
     set_polygon_point!(poly, point)
 
     # Mark all input points with one (as boundary marker)
-    pm = [ones(Int, 4,n_point_marker) ; 2*ones(Int, 4,n_point_marker)]
+    pm = [ones(Int, 4, n_point_marker) ; 2 * ones(Int, 4, n_point_marker)]
     set_polygon_point_marker!(poly, pm)
 
     # Create random attributes
@@ -289,7 +289,7 @@ function polygon_unitSquareWithEnclosedRegion()
     set_polygon_point_attribute!(poly, pa)
 
      # 4 segments, indexing starts at one
-     s = [1 2 ; 2 3 ; 3 4 ; 4 1 ;
+    s = [1 2 ; 2 3 ; 3 4 ; 4 1 ;
      5 6 ; 6 7 ; 7 8 ; 8 5]
     set_polygon_segment!(poly, s)
 
@@ -330,7 +330,7 @@ function polygon_Lshape()
     set_polygon_point!(poly, point)
 
     # Mark all input points with one (as boundary marker)
-    pm = ones(Int, n_point,n_point_marker)
+    pm = ones(Int, n_point, n_point_marker)
     set_polygon_point_marker!(poly, pm)
 
     # Create random attributes
@@ -361,19 +361,19 @@ Create a polygon from a set of points (example code). No segments or holes are s
 - `pm :: Array{Int,2}`: each point can have a marker (dimension either n-by-0 or n-by-1)
 - `pa :: Array{Float64,2}`: each point can have a number of ``k>=0``real attributes (dimension n-by-k)
 """
-function polygon_struct_from_points(point :: Array{Float64,2},
-                                    pm :: Array{Int,2},
-                                    pa :: Array{Float64,2})
+function polygon_struct_from_points(point::Array{Float64,2},
+                                    pm::Array{Int,2},
+                                    pa::Array{Float64,2})
     
     # Create a Polygon_pslg struct as the input for TRIANGLE. The Polygon_pslg
     # struct then only contains points, markers and attributes.
 
-    size(point,2)!=2 ? Base.@error("Point set must have dimensions (n,2).") :
+    size(point, 2) != 2 ? Base.@error("Point set must have dimensions (n,2).") :
 
     # Choose the numbers. Everything that is zero does not need to be set.
-    n_point = size(point,1)
-    n_point_marker = size(pm,2) # Set up one point marker
-    n_point_attribute = size(pa,2) # no special point attributes
+    n_point = size(point, 1)
+    n_point_marker = size(pm, 2) # Set up one point marker
+    n_point_attribute = size(pa, 2) # no special point attributes
     n_segment = 0
     n_hole = 0 # no holes
     n_region = 0

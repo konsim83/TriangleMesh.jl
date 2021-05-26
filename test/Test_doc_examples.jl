@@ -10,9 +10,9 @@
 		point = [1.0 0.0 ; 0.0 1.0 ; -1.0 0.0 ; 0.0 -1.0 ;
 				0.25 0.25 ; -0.25 0.25 ; -0.25 -0.25 ; 0.25 -0.25] 
 		segment = [1 2 ; 2 3 ; 3 4 ; 4 1 ; 5 6 ; 6 7 ; 7 8 ; 8 5] 
-		point_marker = [ones(Int,4,1) ; 2*ones(Int,4,1)]
-		segment_marker = [ones(Int,4) ; 2*ones(Int,4)]
-		point_attribute = rand(8,2) 
+		point_marker = [ones(Int, 4, 1) ; 2 * ones(Int, 4, 1)]
+		segment_marker = [ones(Int, 4) ; 2 * ones(Int, 4)]
+		point_attribute = rand(8, 2) 
 		hole = [0.5  0.5] 
 
 		set_polygon_point!(poly, point)

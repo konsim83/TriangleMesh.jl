@@ -5,7 +5,7 @@
 
 Refine triangular mesh by subdivision of each edge into 2. Very slow for large meshes.
 """
-function refine_rg(m :: TriMesh)
+function refine_rg(m::TriMesh)
     ####################################################
     # This needs an improvement because it is very slow.
     ####################################################
@@ -26,10 +26,10 @@ function refine_rg(m :: TriMesh)
 
         # Change one end point
         seg_tmp_2 = segment[2,i]
-        segment[2,i] = size(point,2) + 1
+        segment[2,i] = size(point, 2) + 1
         
         # Push the new segment and point
-        segment = hcat(segment, [size(point,2)+1 ; seg_tmp_2])
+        segment = hcat(segment, [size(point, 2) + 1 ; seg_tmp_2])
         point = hcat(point, p)
 
         # Mark segments and points as before.
@@ -39,8 +39,8 @@ function refine_rg(m :: TriMesh)
     end
     
     # Step 2: Build a polygon from the above
-    poly = Polygon_pslg(size(point,2), 1, 0,
-                        size(segment,2), m.n_hole, m.n_region, m.n_triangle_attribute)
+    poly = Polygon_pslg(size(point, 2), 1, 0,
+                        size(segment, 2), m.n_hole, m.n_region, m.n_triangle_attribute)
     set_polygon_point!(poly, point')
     set_polygon_point_marker!(poly, point_marker')
     set_polygon_segment!(poly, segment')
@@ -69,7 +69,7 @@ end
 
 Refine triangular mesh by subdivision of each edge into 2. Only triangles listed in `ind_red` are refined. Very slow for large meshes.
 """
-function refine_rg(m :: TriMesh, ind_red :: Array{Int,1})
+function refine_rg(m::TriMesh, ind_red::Array{Int,1})
     ####################################################
     # This needs an improvement because it is very slow.
     ####################################################
@@ -85,9 +85,9 @@ function refine_rg(m :: TriMesh, ind_red :: Array{Int,1})
             m.cell[2,i] m.cell[3,i] ; 
             m.cell[3,i] m.cell[1,i]]
         for j in 1:3
-            ind_found = findall(vec(all(m.edge.==[e[j,1] ; e[j,2]],dims=1)))
+            ind_found = findall(vec(all(m.edge .== [e[j,1] ; e[j,2]], dims=1)))
             if isempty(ind_found)
-                ind_found = findall(vec(all(m.edge.==[e[j,2] ; e[j,1]],dims=1)))
+                ind_found = findall(vec(all(m.edge .== [e[j,2] ; e[j,1]], dims=1)))
             end
             refinement_marker[ind_found] = [true]
         end
@@ -112,10 +112,10 @@ function refine_rg(m :: TriMesh, ind_red :: Array{Int,1})
 
         # Change one end point
         seg_tmp_2 = segment[2,i]
-        segment[2,i] = size(point,2)+1
+        segment[2,i] = size(point, 2) + 1
         
         # Push the new segment and point
-        segment = hcat(segment, [size(point,2)+1 ; seg_tmp_2])
+        segment = hcat(segment, [size(point, 2) + 1 ; seg_tmp_2])
         point = hcat(point, p)
 
         # Mark segments and points as before.
@@ -126,8 +126,8 @@ function refine_rg(m :: TriMesh, ind_red :: Array{Int,1})
 
     
     # Step 3: Build a polygon from the above
-    poly = Polygon_pslg(size(point,2), 1, 0,
-                        size(segment,2), m.n_hole, m.n_region, m.n_triangle_attribute)
+    poly = Polygon_pslg(size(point, 2), 1, 0,
+                        size(segment, 2), m.n_hole, m.n_region, m.n_triangle_attribute)
     set_polygon_point!(poly, point')
     set_polygon_point_marker!(poly, point_marker')
     set_polygon_segment!(poly, segment')

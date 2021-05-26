@@ -4,14 +4,14 @@
 Direct (raw) interface to triangle library. See triangle's documentation. 
 
 """
-function triangulate(mesh_in :: Mesh_ptr_C, mesh_out :: Mesh_ptr_C, vor_out :: Mesh_ptr_C, switches :: String)
+function triangulate(mesh_in::Mesh_ptr_C, mesh_out::Mesh_ptr_C, vor_out::Mesh_ptr_C, switches::String)
 
     # Not using dlopen/dlsym here goes along with th e
     # Julia documentation.
     # see htps://docs.julialang.org/en/v1/manual/calling-c-and-fortran-code/
     # We need to ensure const-ness of the first argument tuple, though.
 
-    ccall((:tesselate_pslg,libtesselate),
+    ccall((:tesselate_pslg, libtesselate),
           Cvoid,
           (Ref{Mesh_ptr_C}, 
            Ref{Mesh_ptr_C},
@@ -64,23 +64,23 @@ Creates a triangulation of a planar straight-line graph (PSLG) polygon.
                                 documentation. Only set this option if you know what you are doing.    
 
 """
-function create_mesh(poly :: Polygon_pslg;
-                                info_str :: String = "Triangular mesh of polygon (PSLG)",
-                                verbose :: Bool = false,
-                                check_triangulation :: Bool = false,
-                                voronoi :: Bool = false,
-                                delaunay :: Bool = false,
-                                mesh_convex_hull :: Bool = false,
-                                output_edges :: Bool = true,
-                                output_cell_neighbors :: Bool = true,
-                                quality_meshing :: Bool = true,
-                                prevent_steiner_points_boundary :: Bool = false,
-                                prevent_steiner_points :: Bool = false,
-                                set_max_steiner_points :: Bool = false,
-                                set_area_max :: Bool = false,
-                                set_angle_min :: Bool = false,
-                                second_order_triangles :: Bool = false,
-                                add_switches :: String = "")
+function create_mesh(poly::Polygon_pslg;
+                                info_str::String="Triangular mesh of polygon (PSLG)",
+                                verbose::Bool=false,
+                                check_triangulation::Bool=false,
+                                voronoi::Bool=false,
+                                delaunay::Bool=false,
+                                mesh_convex_hull::Bool=false,
+                                output_edges::Bool=true,
+                                output_cell_neighbors::Bool=true,
+                                quality_meshing::Bool=true,
+                                prevent_steiner_points_boundary::Bool=false,
+                                prevent_steiner_points::Bool=false,
+                                set_max_steiner_points::Bool=false,
+                                set_area_max::Bool=false,
+                                set_angle_min::Bool=false,
+                                second_order_triangles::Bool=false,
+                                add_switches::String="")
     
     switches = "p"
 
@@ -134,7 +134,7 @@ function create_mesh(poly :: Polygon_pslg;
         # Check if input makes sense
         try
             number = parse(Int, max_steiner_points_str)
-            if number<0
+            if number < 0
                 Base.@error("Maximum number of Steiner points must be nonnegative.")
             end
         catch
@@ -151,7 +151,7 @@ function create_mesh(poly :: Polygon_pslg;
         # Check if input makes sense
         try
             number = parse(Float64, max_area_str)
-            if number<=0
+            if number <= 0
                 Base.@error "Area must be positive."
             end
         catch
@@ -169,10 +169,10 @@ function create_mesh(poly :: Polygon_pslg;
         # Check if input makes sense
         try
             number = parse(Float64, max_angle_str)
-            if number <=0
+            if number <= 0
                 Base.@error "Minimum angle must be positive."
             end
-            if number >=34
+            if number >= 34
                 Base.@warn "Minimum angle should not be larger than 34 degrees. For a larger angle TRIANGLE might not converge."
             end
         catch
@@ -190,7 +190,7 @@ function create_mesh(poly :: Polygon_pslg;
     # This enables to use aditional switches and should be used with care
     switches = switches * add_switches
 
-    if occursin("z",switches) 
+    if occursin("z", switches) 
         Base.@error("Triangle switches must not contain `z`. Zero based indexing is not allowed.")
     end
 
@@ -213,8 +213,8 @@ Creates a triangulation of a planar straight-line graph (PSLG) polygon.
 Options for the meshing algorithm are passed directly by command line switches
 for Triangle. Use only if you know what you are doing.
 """
-function create_mesh(poly :: Polygon_pslg, switches :: String;
-                                info_str :: String = "Triangular mesh of polygon (PSLG)")
+function create_mesh(poly::Polygon_pslg, switches::String;
+                                info_str::String="Triangular mesh of polygon (PSLG)")
     
     if occursin("z", switches)
         error("Triangle switches must not contain `z`. Zero based indexing is not allowed.")
@@ -280,23 +280,23 @@ Creates a triangulation of the convex hull of a point cloud.
                                 documentation. Only set this option if you know what you are doing.    
 
 """
-function create_mesh(point :: Array{Float64,2}; 
-                            point_marker :: Array{Int,2} = Array{Int,2}(undef,0,size(point,1)),
-                            point_attribute :: Array{Float64,2} = Array{Float64,2}(undef,0,size(point,1)),
-                            info_str :: String = "Triangular mesh of convex hull of point cloud.",
-                            verbose :: Bool = false,
-                            check_triangulation :: Bool = false,
-                            voronoi :: Bool = false,
-                            delaunay :: Bool = false,
-                            output_edges :: Bool = true,
-                            output_cell_neighbors :: Bool = true,
-                            quality_meshing :: Bool = true,
-                            prevent_steiner_points_boundary :: Bool = false,
-                            prevent_steiner_points :: Bool = false,
-                            set_max_steiner_points :: Bool = false,
-                            set_area_max :: Bool = false,
-                            set_angle_min :: Bool = false,
-                            add_switches :: String = "")
+function create_mesh(point::Array{Float64,2}; 
+                            point_marker::Array{Int,2}=Array{Int,2}(undef, 0, size(point, 1)),
+                            point_attribute::Array{Float64,2}=Array{Float64,2}(undef, 0, size(point, 1)),
+                            info_str::String="Triangular mesh of convex hull of point cloud.",
+                            verbose::Bool=false,
+                            check_triangulation::Bool=false,
+                            voronoi::Bool=false,
+                            delaunay::Bool=false,
+                            output_edges::Bool=true,
+                            output_cell_neighbors::Bool=true,
+                            quality_meshing::Bool=true,
+                            prevent_steiner_points_boundary::Bool=false,
+                            prevent_steiner_points::Bool=false,
+                            set_max_steiner_points::Bool=false,
+                            set_area_max::Bool=false,
+                            set_angle_min::Bool=false,
+                            add_switches::String="")
     
     switches = "c"
 
@@ -342,7 +342,7 @@ function create_mesh(point :: Array{Float64,2};
         # Check if input makes sense
         try
             number = parse(Int, max_steiner_points_str)
-            if number<0
+            if number < 0
                 Base.@error("Maximum number of Steiner points must be nonnegative.")
             end
         catch
@@ -359,7 +359,7 @@ function create_mesh(point :: Array{Float64,2};
         # Check if input makes sense
         try
             number = parse(Float64, max_area_str)
-            if number<=0
+            if number <= 0
                 Base.@error("Area must be positive.")
             end
         catch
@@ -377,10 +377,10 @@ function create_mesh(point :: Array{Float64,2};
         # Check if input makes sense
         try
             number = parse(Float64, max_angle_str)
-            if number <=0
+            if number <= 0
                 Base.@error("Minimum angle must be positive.")
             end
-            if number >=34
+            if number >= 34
                 Base.@warn("Minimum angle should not be larger than 34 degrees. For a larger angle TRIANGLE might not converge.")
             end
         catch
@@ -403,7 +403,7 @@ function create_mesh(point :: Array{Float64,2};
 
     poly = polygon_struct_from_points(point, point_marker, point_attribute)
     
-    mesh = create_mesh(poly, switches, info_str = info_str)
+    mesh = create_mesh(poly, switches, info_str=info_str)
 
     return mesh
 end
@@ -425,10 +425,10 @@ for Triangle. Use only if you know what you are doing.
                                                                             of attributes.
 - `info_str :: String = "Triangular mesh of convex hull of point cloud."`: Some mesh info on the mesh
 """
-function create_mesh(point :: Array{Float64,2}, switches :: String;
-                                    point_marker :: Array{Int,2} = Array{Int,2}(undef,0,size(point,1)),
-                                    point_attribute :: Array{Float64,2} = Array{Float64,2}(undef,0,size(point,1)),
-                                    info_str :: String = "Triangular mesh of convex hull of point cloud.")
+function create_mesh(point::Array{Float64,2}, switches::String;
+                                    point_marker::Array{Int,2}=Array{Int,2}(undef, 0, size(point, 1)),
+                                    point_attribute::Array{Float64,2}=Array{Float64,2}(undef, 0, size(point, 1)),
+                                    info_str::String="Triangular mesh of convex hull of point cloud.")
   
     occursin("z", switches) ? Base.@error("Triangle switches must not contain `z`. Zero based indexing is not allowed.") :
 
@@ -439,7 +439,7 @@ function create_mesh(point :: Array{Float64,2}, switches :: String;
 
     poly = polygon_struct_from_points(point, point_marker, point_attribute)
     
-    mesh = create_mesh(poly, switches, info_str = info_str)
+    mesh = create_mesh(poly, switches, info_str=info_str)
 
     return mesh
 end

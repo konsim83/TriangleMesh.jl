@@ -59,9 +59,9 @@ include("TriangleMesh_FileIO.jl")
 # input function, reads as string
 function input(prompt::String="")
    
-   print(prompt)
+    print(prompt)
    
-   return chomp(readline())
+    return chomp(readline())
 end
 # --------------------------------------
 
